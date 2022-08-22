@@ -4,7 +4,8 @@ from os.path import dirname, join
 from setuptools import find_packages, setup
 from src import opex_dashboard
 
-description_file = join(dirname(__file__), "README.md")
+def read(fname):
+    return open(join(dirname(__file__), fname)).read()
 
 setup(
     name=opex_dashboard.__title__,
@@ -17,7 +18,7 @@ setup(
     packages=find_packages(where='src'),
     package_dir={'': 'src'},
     description=opex_dashboard.__description__,
-    long_description=open(description_file).read(),
+    long_description=read('README.md'),
     long_description_content_type="text/markdown",
     keywords="openapi3, swagger, python",
     classifiers=[
