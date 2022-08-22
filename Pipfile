@@ -6,11 +6,12 @@ name = "pypi"
 [packages]
 
 [dev-packages]
-mypy = "*"
+mypy = ">=0.971"
+wheel = ">=0.37.1"
 
 [scripts]
 lint = "mypy ./src"
+build = "python setup.py sdist bdist_wheel"
 
 [requires]
 python_version = "3.9"
-
