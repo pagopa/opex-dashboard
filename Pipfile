@@ -4,6 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+prance = ">=0.21.8.0"
 
 [dev-packages]
 mypy = ">=0.971"
