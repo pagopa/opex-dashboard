@@ -17,6 +17,7 @@ def test_resolve_valid_spec():
     THEN a dict representation of the spec is available
     """
     resolver = OA3Resolver(OA3_FILEPATH)
+
     assert isinstance(resolver.resolve(), dict)
 
 def test_resolve_malformed_spec():
