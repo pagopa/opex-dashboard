@@ -5,14 +5,17 @@ name = "pypi"
 
 [packages]
 prance = ">=0.21.8.0"
+openapi-spec-validator = ">=0.4.0"
 
 [dev-packages]
 mypy = ">=0.971"
 wheel = ">=0.37.1"
+pytest = ">=7.1.2"
 
 [scripts]
 lint = "mypy ./src"
 build = "python setup.py sdist bdist_wheel"
+test = "python -m pytest -q"
 
 [requires]
 python_version = "3.9"
