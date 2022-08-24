@@ -2,7 +2,7 @@ import prance
 
 from .error import ParseError
 
-PARSER_BACKEND = 'openapi-spec-validator'
+PARSER_BACKEND = "openapi-spec-validator"
 
 class OA3Resolver:
     _resolver: prance.ResolvingParser

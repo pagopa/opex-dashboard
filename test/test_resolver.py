@@ -3,9 +3,9 @@ import pytest
 from src.opex_dashboard.resolver import OA3Resolver
 from src.opex_dashboard.error import ParseError
 
-OA3_FILEPATH = './test/data/io-backend.yaml'
-MALFORMED_OA3_FILEPATH = './test/data/io-backend-malformed.yaml'
-INVALID_OA3_FILEPATH = './test/data/io-backend-invalid.yaml'
+OA3_FILEPATH = "./test/data/io-backend.yaml"
+MALFORMED_OA3_FILEPATH = "./test/data/io-backend-malformed.yaml"
+INVALID_OA3_FILEPATH = "./test/data/io-backend-invalid.yaml"
 
 MALFORMED_ERROR_MESSAGE = "OA3 parsing error"
 INVALID_ERROR_MESSAGE = "OA3 validation error"
