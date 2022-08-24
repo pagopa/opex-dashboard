@@ -1,0 +1,1212 @@
+{
+  "properties": {
+    "lenses": {
+      "0": {
+        "order": 0,
+        "parts": {
+          "0": {
+            "position": {
+              "x": 0,
+              "y": 0,
+              "colSpan": 6,
+              "rowSpan": 4
+            },
+            "metadata": {
+              "inputs": [{
+                  "name": "resourceTypeMode",
+                  "isOptional": true
+                },
+                {
+                  "name": "ComponentId",
+                  "isOptional": true
+                },
+                {
+                  "name": "Scope",
+                  "value": {
+                    "resourceIds": [
+                      "/subscriptions/ec285037-c673-4f58-b594-d7c480da4e8b/resourceGroups/io-p-rg-external/providers/Microsoft.Network/applicationGateways/io-p-appgateway"
+                    ]
+                  },
+                  "isOptional": true
+                },
+                {
+                  "name": "PartId",
+                  "value": "860bd459-116a-4cb4-9015-eb9346614033",
+                  "isOptional": true
+                },
+                {
+                  "name": "Version",
+                  "value": "2.0",
+                  "isOptional": true
+                },
+                {
+                  "name": "TimeRange",
+                  "value": "PT4H",
+                  "isOptional": true
+                },
+                {
+                  "name": "DashboardId",
+                  "isOptional": true
+                },
+                {
+                  "name": "DraftRequestParameters",
+                  "value": {
+                    "scope": "hierarchy"
+                  },
+                  "isOptional": true
+                },
+                {
+                  "name": "Query",
+                  "value": "// Failed requests per hour \n// Count of requests to which Application Gateway responded with an error. \n// To create an alert for this query, click '+ New alert rule'\nlet api_urls = datatable (name: string) [ \"/api/v1/profile\" ];\nlet api_hosts = datatable (name: string) [ \"app-backend.io.italia.it\" , \"api-app.io.pagopa.it\" ];\nlet api_httpStatus = datatable (name: int) [ 200 , 304 ];\nAzureDiagnostics\n| where host_s in (api_hosts)\n| where requestUri_s in (api_urls)\n| where httpStatus_d in (api_httpStatus)\n| summarize n_success = toreal(count()) by bin(TimeGenerated, 5m)\n| join kind=inner (\nAzureDiagnostics\n| where host_s in (api_hosts)\n| where requestUri_s in (api_urls)\n| summarize n_total = toreal(count()) by bin(TimeGenerated, 5m))\non TimeGenerated\n| project TimeGenerated, availability=n_success/n_total, watermark=0.99\n| render timechart\n\n",
+                  "isOptional": true
+                },
+                {
+                  "name": "ControlType",
+                  "value": "FrameControlChart",
+                  "isOptional": true
+                },
+                {
+                  "name": "SpecificChart",
+                  "value": "Line",
+                  "isOptional": true
+                },
+                {
+                  "name": "PartTitle",
+                  "value": "Analytics",
+                  "isOptional": true
+                },
+                {
+                  "name": "PartSubTitle",
+                  "value": "io-p-appgateway",
+                  "isOptional": true
+                },
+                {
+                  "name": "Dimensions",
+                  "value": {
+                    "xAxis": {
+                      "name": "TimeGenerated",
+                      "type": "datetime"
+                    },
+                    "yAxis": [{
+                        "name": "availability",
+                        "type": "real"
+                      },
+                      {
+                        "name": "watermark",
+                        "type": "real"
+                      }
+                    ],
+                    "splitBy": [],
+                    "aggregation": "Sum"
+                  },
+                  "isOptional": true
+                },
+                {
+                  "name": "LegendOptions",
+                  "value": {
+                    "isEnabled": true,
+                    "position": "Bottom"
+                  },
+                  "isOptional": true
+                },
+                {
+                  "name": "IsQueryContainTimeRange",
+                  "value": false,
+                  "isOptional": true
+                }
+              ],
+              "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart",
+              "settings": {
+                "content": {
+                  "Query": "// Failed requests per hour \n// Count of requests to which Application Gateway responded with an error. \n// To create an alert for this query, click '+ New alert rule'\nlet api_url = \"/api/v1/profile\";\nlet api_hosts = datatable (name: string) [ \"app-backend.io.italia.it\" , \"api-app.io.pagopa.it\" ];\nlet api_httpStatus = datatable (name: int) [ 200 , 304 ];\nAzureDiagnostics\n| where originalHost_s in (api_hosts)\n| where requestUri_s startswith api_url\n| where httpStatus_d in (api_httpStatus)\n| summarize n_success = toreal(count()) by bin(TimeGenerated, 5m)\n| join kind=inner (\nAzureDiagnostics\n| where originalHost_s in (api_hosts)\n| where requestUri_s startswith api_url\n| summarize n_total = toreal(count()) by bin(TimeGenerated, 5m))\non TimeGenerated\n| project TimeGenerated, availability=n_success/n_total, watermark=0.99\n| render timechart\n\n",
+                  "PartTitle": "APIs Profile Availability (5min)"
+                }
+              }
+            }
+          },
+          "1": {
+            "position": {
+              "x": 6,
+              "y": 0,
+              "colSpan": 6,
+              "rowSpan": 4
+            },
+            "metadata": {
+              "inputs": [{
+                  "name": "resourceTypeMode",
+                  "isOptional": true
+                },
+                {
+                  "name": "ComponentId",
+                  "isOptional": true
+                },
+                {
+                  "name": "Scope",
+                  "value": {
+                    "resourceIds": [
+                      "/subscriptions/ec285037-c673-4f58-b594-d7c480da4e8b/resourceGroups/io-p-rg-external/providers/Microsoft.Network/applicationGateways/io-p-appgateway"
+                    ]
+                  },
+                  "isOptional": true
+                },
+                {
+                  "name": "PartId",
+                  "value": "88a171b7-2b0c-4f2e-ab10-9e1b08856371",
+                  "isOptional": true
+                },
+                {
+                  "name": "Version",
+                  "value": "2.0",
+                  "isOptional": true
+                },
+                {
+                  "name": "TimeRange",
+                  "value": "PT4H",
+                  "isOptional": true
+                },
+                {
+                  "name": "DashboardId",
+                  "isOptional": true
+                },
+                {
+                  "name": "DraftRequestParameters",
+                  "value": {
+                    "scope": "hierarchy"
+                  },
+                  "isOptional": true
+                },
+                {
+                  "name": "Query",
+                  "value": "AzureDiagnostics\n| where host_s == \"app-backend.io.italia.it\" or host_s == \"api-app.io.pagopa.it\"\n| where requestUri_s == \"/api/v1/profile\"\n| summarize count() by tostring(httpStatus_d)\n| render piechart\n\n",
+                  "isOptional": true
+                },
+                {
+                  "name": "ControlType",
+                  "value": "FrameControlChart",
+                  "isOptional": true
+                },
+                {
+                  "name": "SpecificChart",
+                  "value": "Pie",
+                  "isOptional": true
+                },
+                {
+                  "name": "PartTitle",
+                  "value": "Analytics",
+                  "isOptional": true
+                },
+                {
+                  "name": "PartSubTitle",
+                  "value": "io-p-appgateway",
+                  "isOptional": true
+                },
+                {
+                  "name": "Dimensions",
+                  "value": {
+                    "xAxis": {
+                      "name": "httpStatus_d",
+                      "type": "string"
+                    },
+                    "yAxis": [{
+                      "name": "count_",
+                      "type": "long"
+                    }],
+                    "splitBy": [],
+                    "aggregation": "Sum"
+                  },
+                  "isOptional": true
+                },
+                {
+                  "name": "LegendOptions",
+                  "value": {
+                    "isEnabled": true,
+                    "position": "Bottom"
+                  },
+                  "isOptional": true
+                },
+                {
+                  "name": "IsQueryContainTimeRange",
+                  "value": false,
+                  "isOptional": true
+                }
+              ],
+              "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart",
+              "settings": {
+                "content": {
+                  "Query": "// Failed requests per hour \n// Count of requests to which Application Gateway responded with an error. \n// To create an alert for this query, click '+ New alert rule'\nlet api_url = \"/api/v1/profile\";\nlet api_hosts = datatable (name: string) [ \"app-backend.io.italia.it\" , \"api-app.io.pagopa.it\" ];\nlet api_httpStatus = datatable (name: int) [ 200 , 304 ];\nlet success=AzureDiagnostics\n| where originalHost_s in (api_hosts)\n| where requestUri_s startswith api_url\n| where httpStatus_d in (api_httpStatus)\n| summarize count() by HTTPStatus=\" Success\", bin(TimeGenerated, 5m);\nlet fail=AzureDiagnostics\n| where originalHost_s in (api_hosts)\n| where requestUri_s startswith api_url\n| where httpStatus_d !in (api_httpStatus)\n| extend HTTPStatus = case(\nhttpStatus_d between (200 .. 299), \"2XX\",\nhttpStatus_d between (300 .. 399), \"3XX\",\nhttpStatus_d between (400 .. 499), \"4XX\",\n\"5XX\"\n)\n| summarize count() by HTTPStatus, bin(TimeGenerated, 5m);\nunion success, fail\n| render areachart\n\n",
+                  "SpecificChart": "StackedArea",
+                  "PartTitle": "APIs Profile Response Codes (5min)",
+                  "Dimensions": {
+                    "xAxis": {
+                      "name": "TimeGenerated",
+                      "type": "datetime"
+                    },
+                    "yAxis": [{
+                      "name": "count_",
+                      "type": "long"
+                    }],
+                    "splitBy": [{
+                      "name": "HTTPStatus",
+                      "type": "string"
+                    }],
+                    "aggregation": "Sum"
+                  }
+                }
+              }
+            }
+          },
+          "2": {
+            "position": {
+              "x": 12,
+              "y": 0,
+              "colSpan": 6,
+              "rowSpan": 4
+            },
+            "metadata": {
+              "inputs": [{
+                  "name": "resourceTypeMode",
+                  "isOptional": true
+                },
+                {
+                  "name": "ComponentId",
+                  "isOptional": true
+                },
+                {
+                  "name": "Scope",
+                  "value": {
+                    "resourceIds": [
+                      "/subscriptions/ec285037-c673-4f58-b594-d7c480da4e8b/resourceGroups/io-p-rg-external/providers/Microsoft.Network/applicationGateways/io-p-appgateway"
+                    ]
+                  },
+                  "isOptional": true
+                },
+                {
+                  "name": "PartId",
+                  "value": "14c64205-1472-4fae-9091-0a097b0011b5",
+                  "isOptional": true
+                },
+                {
+                  "name": "Version",
+                  "value": "2.0",
+                  "isOptional": true
+                },
+                {
+                  "name": "TimeRange",
+                  "value": "PT4H",
+                  "isOptional": true
+                },
+                {
+                  "name": "DashboardId",
+                  "isOptional": true
+                },
+                {
+                  "name": "DraftRequestParameters",
+                  "value": {
+                    "scope": "hierarchy"
+                  },
+                  "isOptional": true
+                },
+                {
+                  "name": "Query",
+                  "value": "AzureDiagnostics\n| where requestUri_s startswith \"/api/v1/profiles\"\n| summarize percentiles(timeTaken_d, 95) by bin(TimeGenerated, 5m)\n| render columnchart with (xtitle = \"time\", ytitle= \"response time 95(s)\")\n",
+                  "isOptional": true
+                },
+                {
+                  "name": "ControlType",
+                  "value": "FrameControlChart",
+                  "isOptional": true
+                },
+                {
+                  "name": "SpecificChart",
+                  "value": "StackedColumn",
+                  "isOptional": true
+                },
+                {
+                  "name": "PartTitle",
+                  "value": "Analytics",
+                  "isOptional": true
+                },
+                {
+                  "name": "PartSubTitle",
+                  "value": "io-p-appgateway",
+                  "isOptional": true
+                },
+                {
+                  "name": "Dimensions",
+                  "value": {
+                    "xAxis": {
+                      "name": "TimeGenerated",
+                      "type": "datetime"
+                    },
+                    "yAxis": [{
+                      "name": "percentile_timeTaken_d_95",
+                      "type": "real"
+                    }],
+                    "splitBy": [],
+                    "aggregation": "Sum"
+                  },
+                  "isOptional": true
+                },
+                {
+                  "name": "LegendOptions",
+                  "value": {
+                    "isEnabled": true,
+                    "position": "Bottom"
+                  },
+                  "isOptional": true
+                },
+                {
+                  "name": "IsQueryContainTimeRange",
+                  "value": false,
+                  "isOptional": true
+                }
+              ],
+              "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart",
+              "settings": {
+                "content": {
+                  "Query": "AzureDiagnostics\n| where originalHost_s == \"app-backend.io.italia.it\" or originalHost_s == \"api-app.io.pagopa.it\"\n| where requestUri_s startswith \"/api/v1/profile\"\n| summarize percentiles(timeTaken_d, 95) by bin(TimeGenerated, 5m), watermark=1\n| render timechart with (xtitle = \"time\", ytitle= \"response time(s)\")\n\n",
+                  "SpecificChart": "Line",
+                  "PartTitle": "APIs Profile Percentile Response Time (5min)",
+                  "Dimensions": {
+                    "xAxis": {
+                      "name": "TimeGenerated",
+                      "type": "datetime"
+                    },
+                    "yAxis": [{
+                        "name": "watermark",
+                        "type": "long"
+                      },
+                      {
+                        "name": "percentile_timeTaken_d_95",
+                        "type": "real"
+                      }
+                    ],
+                    "splitBy": [],
+                    "aggregation": "Sum"
+                  }
+                }
+              }
+            }
+          },
+          "3": {
+            "position": {
+              "x": 0,
+              "y": 4,
+              "colSpan": 6,
+              "rowSpan": 4
+            },
+            "metadata": {
+              "inputs": [{
+                  "name": "resourceTypeMode",
+                  "isOptional": true
+                },
+                {
+                  "name": "ComponentId",
+                  "isOptional": true
+                },
+                {
+                  "name": "Scope",
+                  "value": {
+                    "resourceIds": [
+                      "/subscriptions/ec285037-c673-4f58-b594-d7c480da4e8b/resourceGroups/io-p-rg-external/providers/Microsoft.Network/applicationGateways/io-p-appgateway"
+                    ]
+                  },
+                  "isOptional": true
+                },
+                {
+                  "name": "PartId",
+                  "value": "1ed6e08a-e995-43d5-a132-62ce3e40911c",
+                  "isOptional": true
+                },
+                {
+                  "name": "Version",
+                  "value": "2.0",
+                  "isOptional": true
+                },
+                {
+                  "name": "TimeRange",
+                  "value": "PT4H",
+                  "isOptional": true
+                },
+                {
+                  "name": "DashboardId",
+                  "isOptional": true
+                },
+                {
+                  "name": "DraftRequestParameters",
+                  "value": {
+                    "scope": "hierarchy"
+                  },
+                  "isOptional": true
+                },
+                {
+                  "name": "Query",
+                  "value": "// Failed requests per hour \n// Count of requests to which Application Gateway responded with an error. \n// To create an alert for this query, click '+ New alert rule'\nlet api_url = \"/api/v1/messages\";\nlet api_hosts = datatable (name: string) [ \"app-backend.io.italia.it\" , \"api-app.io.pagopa.it\" ];\nlet api_httpStatus = datatable (name: int) [ 200 , 304 ];\nAzureDiagnostics\n| where host_s in (api_hosts)\n| where requestUri_s startswith api_url\n| where httpStatus_d in (api_httpStatus)\n| summarize n_success = toreal(count()) by bin(TimeGenerated, 5m)\n| join kind=inner (\nAzureDiagnostics\n| where host_s in (api_hosts)\n| where requestUri_s startswith api_url\n| summarize n_total = toreal(count()) by bin(TimeGenerated, 5m))\non TimeGenerated\n| project TimeGenerated, availability=n_success/n_total, watermark=0.99\n| render timechart\n\n",
+                  "isOptional": true
+                },
+                {
+                  "name": "ControlType",
+                  "value": "FrameControlChart",
+                  "isOptional": true
+                },
+                {
+                  "name": "SpecificChart",
+                  "value": "Line",
+                  "isOptional": true
+                },
+                {
+                  "name": "PartTitle",
+                  "value": "Analytics",
+                  "isOptional": true
+                },
+                {
+                  "name": "PartSubTitle",
+                  "value": "io-p-appgateway",
+                  "isOptional": true
+                },
+                {
+                  "name": "Dimensions",
+                  "value": {
+                    "xAxis": {
+                      "name": "TimeGenerated",
+                      "type": "datetime"
+                    },
+                    "yAxis": [{
+                        "name": "availability",
+                        "type": "real"
+                      },
+                      {
+                        "name": "watermark",
+                        "type": "real"
+                      }
+                    ],
+                    "splitBy": [],
+                    "aggregation": "Sum"
+                  },
+                  "isOptional": true
+                },
+                {
+                  "name": "LegendOptions",
+                  "value": {
+                    "isEnabled": true,
+                    "position": "Bottom"
+                  },
+                  "isOptional": true
+                },
+                {
+                  "name": "IsQueryContainTimeRange",
+                  "value": false,
+                  "isOptional": true
+                }
+              ],
+              "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart",
+              "settings": {
+                "content": {
+                  "Query": "// Failed requests per hour \n// Count of requests to which Application Gateway responded with an error. \n// To create an alert for this query, click '+ New alert rule'\nlet api_url = \"/api/v1/messages\";\nlet api_hosts = datatable (name: string) [ \"app-backend.io.italia.it\" , \"api-app.io.pagopa.it\" ];\nlet api_httpStatus = datatable (name: int) [ 200 , 304 ];\nAzureDiagnostics\n| where originalHost_s in (api_hosts)\n| where requestUri_s startswith api_url\n| where httpStatus_d in (api_httpStatus)\n| summarize n_success = toreal(count()) by bin(TimeGenerated, 5m)\n| join kind=inner (\nAzureDiagnostics\n| where originalHost_s in (api_hosts)\n| where requestUri_s startswith api_url\n| summarize n_total = toreal(count()) by bin(TimeGenerated, 5m))\non TimeGenerated\n| project TimeGenerated, availability=n_success/n_total, watermark=0.99\n| render timechart\n\n",
+                  "PartTitle": "APIs Message Availability (5min)"
+                }
+              }
+            }
+          },
+          "4": {
+            "position": {
+              "x": 6,
+              "y": 4,
+              "colSpan": 6,
+              "rowSpan": 4
+            },
+            "metadata": {
+              "inputs": [{
+                  "name": "resourceTypeMode",
+                  "isOptional": true
+                },
+                {
+                  "name": "ComponentId",
+                  "isOptional": true
+                },
+                {
+                  "name": "Scope",
+                  "value": {
+                    "resourceIds": [
+                      "/subscriptions/ec285037-c673-4f58-b594-d7c480da4e8b/resourceGroups/io-p-rg-external/providers/Microsoft.Network/applicationGateways/io-p-appgateway"
+                    ]
+                  },
+                  "isOptional": true
+                },
+                {
+                  "name": "PartId",
+                  "value": "9d9911c8-30b7-4416-be10-44917f4146a0",
+                  "isOptional": true
+                },
+                {
+                  "name": "Version",
+                  "value": "2.0",
+                  "isOptional": true
+                },
+                {
+                  "name": "TimeRange",
+                  "value": "PT4H",
+                  "isOptional": true
+                },
+                {
+                  "name": "DashboardId",
+                  "isOptional": true
+                },
+                {
+                  "name": "DraftRequestParameters",
+                  "value": {
+                    "scope": "hierarchy"
+                  },
+                  "isOptional": true
+                },
+                {
+                  "name": "Query",
+                  "value": "AzureDiagnostics\n| where host_s == \"app-backend.io.italia.it\" or host_s == \"api-app.io.pagopa.it\"\n| where requestUri_s == \"/api/v1/messages\"\n| summarize count() by tostring(httpStatus_d)\n| render piechart\n\n",
+                  "isOptional": true
+                },
+                {
+                  "name": "ControlType",
+                  "value": "FrameControlChart",
+                  "isOptional": true
+                },
+                {
+                  "name": "SpecificChart",
+                  "value": "Pie",
+                  "isOptional": true
+                },
+                {
+                  "name": "PartTitle",
+                  "value": "Analytics",
+                  "isOptional": true
+                },
+                {
+                  "name": "PartSubTitle",
+                  "value": "io-p-appgateway",
+                  "isOptional": true
+                },
+                {
+                  "name": "Dimensions",
+                  "value": {
+                    "xAxis": {
+                      "name": "httpStatus_d",
+                      "type": "string"
+                    },
+                    "yAxis": [{
+                      "name": "count_",
+                      "type": "long"
+                    }],
+                    "splitBy": [],
+                    "aggregation": "Sum"
+                  },
+                  "isOptional": true
+                },
+                {
+                  "name": "LegendOptions",
+                  "value": {
+                    "isEnabled": true,
+                    "position": "Bottom"
+                  },
+                  "isOptional": true
+                },
+                {
+                  "name": "IsQueryContainTimeRange",
+                  "value": false,
+                  "isOptional": true
+                }
+              ],
+              "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart",
+              "settings": {
+                "content": {
+                  "Query": "// Failed requests per hour \n// Count of requests to which Application Gateway responded with an error. \n// To create an alert for this query, click '+ New alert rule'\nlet api_url = \"/api/v1/messages\";\nlet api_hosts = datatable (name: string) [ \"app-backend.io.italia.it\" , \"api-app.io.pagopa.it\" ];\nlet api_httpStatus = datatable (name: int) [ 200 , 304 ];\nlet success=AzureDiagnostics\n| where originalHost_s in (api_hosts)\n| where requestUri_s startswith api_url\n| where httpStatus_d in (api_httpStatus)\n| summarize count() by HTTPStatus=\" Success\", bin(TimeGenerated, 5m);\nlet fail=AzureDiagnostics\n| where originalHost_s in (api_hosts)\n| where requestUri_s startswith api_url\n| where httpStatus_d !in (api_httpStatus)\n| extend HTTPStatus = case(\nhttpStatus_d between (200 .. 299), \"2XX\",\nhttpStatus_d between (300 .. 399), \"3XX\",\nhttpStatus_d between (400 .. 499), \"4XX\",\n\"5XX\"\n)\n| summarize count() by HTTPStatus, bin(TimeGenerated, 5m);\nunion success, fail\n| render areachart\n\n",
+                  "SpecificChart": "StackedArea",
+                  "PartTitle": "APIs Message Response Codes (5min)",
+                  "Dimensions": {
+                    "xAxis": {
+                      "name": "TimeGenerated",
+                      "type": "datetime"
+                    },
+                    "yAxis": [{
+                      "name": "count_",
+                      "type": "long"
+                    }],
+                    "splitBy": [{
+                      "name": "HTTPStatus",
+                      "type": "string"
+                    }],
+                    "aggregation": "Sum"
+                  }
+                }
+              }
+            }
+          },
+          "5": {
+            "position": {
+              "x": 12,
+              "y": 4,
+              "colSpan": 6,
+              "rowSpan": 4
+            },
+            "metadata": {
+              "inputs": [{
+                  "name": "resourceTypeMode",
+                  "isOptional": true
+                },
+                {
+                  "name": "ComponentId",
+                  "isOptional": true
+                },
+                {
+                  "name": "Scope",
+                  "value": {
+                    "resourceIds": [
+                      "/subscriptions/ec285037-c673-4f58-b594-d7c480da4e8b/resourceGroups/io-p-rg-external/providers/Microsoft.Network/applicationGateways/io-p-appgateway"
+                    ]
+                  },
+                  "isOptional": true
+                },
+                {
+                  "name": "PartId",
+                  "value": "080d3dbc-8e13-45fd-b9fa-a24867d1f0dc",
+                  "isOptional": true
+                },
+                {
+                  "name": "Version",
+                  "value": "2.0",
+                  "isOptional": true
+                },
+                {
+                  "name": "TimeRange",
+                  "value": "PT4H",
+                  "isOptional": true
+                },
+                {
+                  "name": "DashboardId",
+                  "isOptional": true
+                },
+                {
+                  "name": "DraftRequestParameters",
+                  "value": {
+                    "scope": "hierarchy"
+                  },
+                  "isOptional": true
+                },
+                {
+                  "name": "Query",
+                  "value": "AzureDiagnostics\n| where requestUri_s startswith \"/api/v1/messages\"\n| summarize percentiles(timeTaken_d, 95) by bin(TimeGenerated, 5m)\n| render columnchart with (xtitle = \"time\", ytitle= \"response time 95(s)\")\n",
+                  "isOptional": true
+                },
+                {
+                  "name": "ControlType",
+                  "value": "FrameControlChart",
+                  "isOptional": true
+                },
+                {
+                  "name": "SpecificChart",
+                  "value": "StackedColumn",
+                  "isOptional": true
+                },
+                {
+                  "name": "PartTitle",
+                  "value": "Analytics",
+                  "isOptional": true
+                },
+                {
+                  "name": "PartSubTitle",
+                  "value": "io-p-appgateway",
+                  "isOptional": true
+                },
+                {
+                  "name": "Dimensions",
+                  "value": {
+                    "xAxis": {
+                      "name": "TimeGenerated",
+                      "type": "datetime"
+                    },
+                    "yAxis": [{
+                      "name": "percentile_timeTaken_d_95",
+                      "type": "real"
+                    }],
+                    "splitBy": [],
+                    "aggregation": "Sum"
+                  },
+                  "isOptional": true
+                },
+                {
+                  "name": "LegendOptions",
+                  "value": {
+                    "isEnabled": true,
+                    "position": "Bottom"
+                  },
+                  "isOptional": true
+                },
+                {
+                  "name": "IsQueryContainTimeRange",
+                  "value": false,
+                  "isOptional": true
+                }
+              ],
+              "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart",
+              "settings": {
+                "content": {
+                  "Query": "AzureDiagnostics\n| where originalHost_s == \"app-backend.io.italia.it\" or host_s == \"api-app.io.pagopa.it\"\n| where requestUri_s startswith \"/api/v1/messages\"\n| summarize percentiles(timeTaken_d, 95) by bin(TimeGenerated, 5m), watermark=1\n| render timechart with (xtitle = \"time\", ytitle= \"response time(s)\")\n\n",
+                  "SpecificChart": "Line",
+                  "PartTitle": "APIs Message Percentile Response Time (5min)",
+                  "Dimensions": {
+                    "xAxis": {
+                      "name": "TimeGenerated",
+                      "type": "datetime"
+                    },
+                    "yAxis": [{
+                        "name": "watermark",
+                        "type": "long"
+                      },
+                      {
+                        "name": "percentile_timeTaken_d_95",
+                        "type": "real"
+                      }
+                    ],
+                    "splitBy": [],
+                    "aggregation": "Sum"
+                  }
+                }
+              }
+            }
+          },
+          "6": {
+            "position": {
+              "x": 0,
+              "y": 8,
+              "colSpan": 6,
+              "rowSpan": 4
+            },
+            "metadata": {
+              "inputs": [{
+                  "name": "resourceTypeMode",
+                  "isOptional": true
+                },
+                {
+                  "name": "ComponentId",
+                  "isOptional": true
+                },
+                {
+                  "name": "Scope",
+                  "value": {
+                    "resourceIds": [
+                      "/subscriptions/ec285037-c673-4f58-b594-d7c480da4e8b/resourceGroups/io-p-rg-external/providers/Microsoft.Network/applicationGateways/io-p-appgateway"
+                    ]
+                  },
+                  "isOptional": true
+                },
+                {
+                  "name": "PartId",
+                  "value": "15969440-6ddf-4699-a56a-cf8da1536bf8",
+                  "isOptional": true
+                },
+                {
+                  "name": "Version",
+                  "value": "2.0",
+                  "isOptional": true
+                },
+                {
+                  "name": "TimeRange",
+                  "value": "PT4H",
+                  "isOptional": true
+                },
+                {
+                  "name": "DashboardId",
+                  "isOptional": true
+                },
+                {
+                  "name": "DraftRequestParameters",
+                  "value": {
+                    "scope": "hierarchy"
+                  },
+                  "isOptional": true
+                },
+                {
+                  "name": "Query",
+                  "value": "// Failed requests per hour \n// Count of requests to which Application Gateway responded with an error. \n// To create an alert for this query, click '+ New alert rule'\nlet api_url = \"/api/v1/services\";\nlet api_hosts = datatable (name: string) [ \"app-backend.io.italia.it\" , \"api-app.io.pagopa.it\" ];\nlet api_httpStatus = datatable (name: int) [ 200 , 304 ];\nAzureDiagnostics\n| where host_s in (api_hosts)\n| where requestUri_s startswith api_url\n| where httpStatus_d in (api_httpStatus)\n| summarize n_success = toreal(count()) by bin(TimeGenerated, 5m)\n| join kind=inner (\nAzureDiagnostics\n| where host_s in (api_hosts)\n| where requestUri_s startswith api_url\n| summarize n_total = toreal(count()) by bin(TimeGenerated, 5m))\non TimeGenerated\n| project TimeGenerated, availability=n_success/n_total, watermark=0.99\n| render timechart\n\n",
+                  "isOptional": true
+                },
+                {
+                  "name": "ControlType",
+                  "value": "FrameControlChart",
+                  "isOptional": true
+                },
+                {
+                  "name": "SpecificChart",
+                  "value": "Line",
+                  "isOptional": true
+                },
+                {
+                  "name": "PartTitle",
+                  "value": "Analytics",
+                  "isOptional": true
+                },
+                {
+                  "name": "PartSubTitle",
+                  "value": "io-p-appgateway",
+                  "isOptional": true
+                },
+                {
+                  "name": "Dimensions",
+                  "value": {
+                    "xAxis": {
+                      "name": "TimeGenerated",
+                      "type": "datetime"
+                    },
+                    "yAxis": [{
+                        "name": "availability",
+                        "type": "real"
+                      },
+                      {
+                        "name": "watermark",
+                        "type": "real"
+                      }
+                    ],
+                    "splitBy": [],
+                    "aggregation": "Sum"
+                  },
+                  "isOptional": true
+                },
+                {
+                  "name": "LegendOptions",
+                  "value": {
+                    "isEnabled": true,
+                    "position": "Bottom"
+                  },
+                  "isOptional": true
+                },
+                {
+                  "name": "IsQueryContainTimeRange",
+                  "value": false,
+                  "isOptional": true
+                }
+              ],
+              "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart",
+              "settings": {
+                "content": {
+                  "Query": "// Failed requests per hour \n// Count of requests to which Application Gateway responded with an error. \n// To create an alert for this query, click '+ New alert rule'\nlet api_url = \"/api/v1/services\";\nlet api_hosts = datatable (name: string) [ \"app-backend.io.italia.it\" , \"api-app.io.pagopa.it\" ];\nlet api_httpStatus = datatable (name: int) [ 200 , 304 ];\nAzureDiagnostics\n| where originalHost_s in (api_hosts)\n| where requestUri_s startswith api_url\n| where httpStatus_d in (api_httpStatus)\n| summarize n_success = toreal(count()) by bin(TimeGenerated, 5m)\n| join kind=inner (\nAzureDiagnostics\n| where originalHost_s in (api_hosts)\n| where requestUri_s startswith api_url\n| summarize n_total = toreal(count()) by bin(TimeGenerated, 5m))\non TimeGenerated\n| project TimeGenerated, availability=n_success/n_total, watermark=0.99\n| render timechart\n\n",
+                  "PartTitle": "APIs Services Availability (5min)"
+                }
+              }
+            }
+          },
+          "7": {
+            "position": {
+              "x": 6,
+              "y": 8,
+              "colSpan": 6,
+              "rowSpan": 4
+            },
+            "metadata": {
+              "inputs": [{
+                  "name": "resourceTypeMode",
+                  "isOptional": true
+                },
+                {
+                  "name": "ComponentId",
+                  "isOptional": true
+                },
+                {
+                  "name": "Scope",
+                  "value": {
+                    "resourceIds": [
+                      "/subscriptions/ec285037-c673-4f58-b594-d7c480da4e8b/resourceGroups/io-p-rg-external/providers/Microsoft.Network/applicationGateways/io-p-appgateway"
+                    ]
+                  },
+                  "isOptional": true
+                },
+                {
+                  "name": "PartId",
+                  "value": "147990c0-105d-4177-8e00-54b4b6f458ce",
+                  "isOptional": true
+                },
+                {
+                  "name": "Version",
+                  "value": "2.0",
+                  "isOptional": true
+                },
+                {
+                  "name": "TimeRange",
+                  "value": "PT4H",
+                  "isOptional": true
+                },
+                {
+                  "name": "DashboardId",
+                  "isOptional": true
+                },
+                {
+                  "name": "DraftRequestParameters",
+                  "value": {
+                    "scope": "hierarchy"
+                  },
+                  "isOptional": true
+                },
+                {
+                  "name": "Query",
+                  "value": "AzureDiagnostics\n| where host_s == \"app-backend.io.italia.it\" or host_s == \"api-app.io.pagopa.it\"\n| where requestUri_s == \"/api/v1/services\"\n| summarize count() by tostring(httpStatus_d)\n| render piechart\n\n",
+                  "isOptional": true
+                },
+                {
+                  "name": "ControlType",
+                  "value": "FrameControlChart",
+                  "isOptional": true
+                },
+                {
+                  "name": "SpecificChart",
+                  "value": "Pie",
+                  "isOptional": true
+                },
+                {
+                  "name": "PartTitle",
+                  "value": "Analytics",
+                  "isOptional": true
+                },
+                {
+                  "name": "PartSubTitle",
+                  "value": "io-p-appgateway",
+                  "isOptional": true
+                },
+                {
+                  "name": "Dimensions",
+                  "value": {
+                    "xAxis": {
+                      "name": "httpStatus_d",
+                      "type": "string"
+                    },
+                    "yAxis": [{
+                      "name": "count_",
+                      "type": "long"
+                    }],
+                    "splitBy": [],
+                    "aggregation": "Sum"
+                  },
+                  "isOptional": true
+                },
+                {
+                  "name": "LegendOptions",
+                  "value": {
+                    "isEnabled": true,
+                    "position": "Bottom"
+                  },
+                  "isOptional": true
+                },
+                {
+                  "name": "IsQueryContainTimeRange",
+                  "value": false,
+                  "isOptional": true
+                }
+              ],
+              "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart",
+              "settings": {
+                "content": {
+                  "Query": "// Failed requests per hour \n// Count of requests to which Application Gateway responded with an error. \n// To create an alert for this query, click '+ New alert rule'\nlet api_url = \"/api/v1/services\";\nlet api_hosts = datatable (name: string) [ \"app-backend.io.italia.it\" , \"api-app.io.pagopa.it\" ];\nlet api_httpStatus = datatable (name: int) [ 200 , 304 ];\nlet success=AzureDiagnostics\n| where originalHost_s in (api_hosts)\n| where requestUri_s startswith api_url\n| where httpStatus_d in (api_httpStatus)\n| summarize count() by HTTPStatus=\" Success\", bin(TimeGenerated, 5m);\nlet fail=AzureDiagnostics\n| where originalHost_s in (api_hosts)\n| where requestUri_s startswith api_url\n| where httpStatus_d !in (api_httpStatus)\n| extend HTTPStatus = case(\nhttpStatus_d between (200 .. 299), \"2XX\",\nhttpStatus_d between (300 .. 399), \"3XX\",\nhttpStatus_d between (400 .. 499), \"4XX\",\n\"5XX\"\n)\n| summarize count() by HTTPStatus, bin(TimeGenerated, 5m);\nunion success, fail\n| render areachart\n\n",
+                  "SpecificChart": "StackedArea",
+                  "PartTitle": "APIs Services Response Codes (5min)",
+                  "Dimensions": {
+                    "xAxis": {
+                      "name": "TimeGenerated",
+                      "type": "datetime"
+                    },
+                    "yAxis": [{
+                      "name": "count_",
+                      "type": "long"
+                    }],
+                    "splitBy": [{
+                      "name": "HTTPStatus",
+                      "type": "string"
+                    }],
+                    "aggregation": "Sum"
+                  }
+                }
+              }
+            }
+          },
+          "8": {
+            "position": {
+              "x": 12,
+              "y": 8,
+              "colSpan": 6,
+              "rowSpan": 4
+            },
+            "metadata": {
+              "inputs": [{
+                  "name": "resourceTypeMode",
+                  "isOptional": true
+                },
+                {
+                  "name": "ComponentId",
+                  "isOptional": true
+                },
+                {
+                  "name": "Scope",
+                  "value": {
+                    "resourceIds": [
+                      "/subscriptions/ec285037-c673-4f58-b594-d7c480da4e8b/resourceGroups/io-p-rg-external/providers/Microsoft.Network/applicationGateways/io-p-appgateway"
+                    ]
+                  },
+                  "isOptional": true
+                },
+                {
+                  "name": "PartId",
+                  "value": "2841d175-0777-409b-b804-fc58c7360cc8",
+                  "isOptional": true
+                },
+                {
+                  "name": "Version",
+                  "value": "2.0",
+                  "isOptional": true
+                },
+                {
+                  "name": "TimeRange",
+                  "value": "PT4H",
+                  "isOptional": true
+                },
+                {
+                  "name": "DashboardId",
+                  "isOptional": true
+                },
+                {
+                  "name": "DraftRequestParameters",
+                  "value": {
+                    "scope": "hierarchy"
+                  },
+                  "isOptional": true
+                },
+                {
+                  "name": "Query",
+                  "value": "AzureDiagnostics\n| where requestUri_s == \"/api/v1/services\"\n| summarize percentiles(timeTaken_d, 95) by bin(TimeGenerated, 5m)\n| render columnchart with (xtitle = \"time\", ytitle= \"response time 95(s)\")\n",
+                  "isOptional": true
+                },
+                {
+                  "name": "ControlType",
+                  "value": "FrameControlChart",
+                  "isOptional": true
+                },
+                {
+                  "name": "SpecificChart",
+                  "value": "StackedColumn",
+                  "isOptional": true
+                },
+                {
+                  "name": "PartTitle",
+                  "value": "Analytics",
+                  "isOptional": true
+                },
+                {
+                  "name": "PartSubTitle",
+                  "value": "io-p-appgateway",
+                  "isOptional": true
+                },
+                {
+                  "name": "Dimensions",
+                  "value": {
+                    "xAxis": {
+                      "name": "TimeGenerated",
+                      "type": "datetime"
+                    },
+                    "yAxis": [{
+                      "name": "percentile_timeTaken_d_95",
+                      "type": "real"
+                    }],
+                    "splitBy": [],
+                    "aggregation": "Sum"
+                  },
+                  "isOptional": true
+                },
+                {
+                  "name": "LegendOptions",
+                  "value": {
+                    "isEnabled": true,
+                    "position": "Bottom"
+                  },
+                  "isOptional": true
+                },
+                {
+                  "name": "IsQueryContainTimeRange",
+                  "value": false,
+                  "isOptional": true
+                }
+              ],
+              "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart",
+              "settings": {
+                "content": {
+                  "Query": "AzureDiagnostics\n| where originalHost_s == \"app-backend.io.italia.it\" or host_s == \"api-app.io.pagopa.it\"\n| where requestUri_s == \"/api/v1/services\"\n| summarize percentiles(timeTaken_d, 95) by bin(TimeGenerated, 5m), watermark=1\n| render timechart with (xtitle = \"time\", ytitle= \"response time(s)\")\n\n",
+                  "SpecificChart": "Line",
+                  "PartTitle": "APIs Services Percentile Response Time (5min)",
+                  "Dimensions": {
+                    "xAxis": {
+                      "name": "TimeGenerated",
+                      "type": "datetime"
+                    },
+                    "yAxis": [{
+                        "name": "watermark",
+                        "type": "long"
+                      },
+                      {
+                        "name": "percentile_timeTaken_d_95",
+                        "type": "real"
+                      }
+                    ],
+                    "splitBy": [],
+                    "aggregation": "Sum"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "metadata": {
+      "model": {
+        "timeRange": {
+          "value": {
+            "relative": {
+              "duration": 24,
+              "timeUnit": 1
+            }
+          },
+          "type": "MsPortalFx.Composition.Configuration.ValueTypes.TimeRange"
+        },
+        "filterLocale": {
+          "value": "en-us"
+        },
+        "filters": {
+          "value": {
+            "MsPortalFx_TimeRange": {
+              "model": {
+                "format": "local",
+                "granularity": "auto",
+                "relative": "48h"
+              },
+              "displayCache": {
+                "name": "Local Time",
+                "value": "Past 48 hours"
+              },
+              "filteredPartIds": [
+                "StartboardPart-LogsDashboardPart-9badbd78-7607-4131-8fa1-8b85191432ed",
+                "StartboardPart-LogsDashboardPart-9badbd78-7607-4131-8fa1-8b85191432ef",
+                "StartboardPart-LogsDashboardPart-9badbd78-7607-4131-8fa1-8b85191432f1",
+                "StartboardPart-LogsDashboardPart-9badbd78-7607-4131-8fa1-8b85191432f3",
+                "StartboardPart-LogsDashboardPart-9badbd78-7607-4131-8fa1-8b85191432f5",
+                "StartboardPart-LogsDashboardPart-9badbd78-7607-4131-8fa1-8b85191432f7",
+                "StartboardPart-LogsDashboardPart-9badbd78-7607-4131-8fa1-8b85191432f9",
+                "StartboardPart-LogsDashboardPart-9badbd78-7607-4131-8fa1-8b85191432fb",
+                "StartboardPart-LogsDashboardPart-9badbd78-7607-4131-8fa1-8b85191432fd"
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  "name": "PROD-IO/IO App Availability",
+  "type": "Microsoft.Portal/dashboards",
+  "location": "INSERT LOCATION",
+  "tags": {
+    "hidden-title": "PROD-IO/IO App Availability"
+  },
+  "apiVersion": "2015-08-01-preview"
+}
