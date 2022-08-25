@@ -54,7 +54,7 @@ def test_check_existing_placeholder():
     """
     builder = Builder(TEMPLATE_FILEPATH)
 
-    assert builder.hasplaceholder("debug")
+    assert builder.has_placeholder("debug")
 
 def test_check_inexisting_placeholder():
     """
@@ -64,7 +64,7 @@ def test_check_inexisting_placeholder():
     """
     builder = Builder(TEMPLATE_FILEPATH)
 
-    assert not builder.hasplaceholder("empty")
+    assert not builder.has_placeholder("empty")
 
 def test_apply_existing_placeholder():
     """
@@ -106,5 +106,5 @@ def test_case_sensitive_placeholder():
         builder = Builder(TEMPLATE_FILEPATH)
         builder.apply("DEBUG", DEBUG_VALUE)
 
-    assert not builder.hasplaceholder("DEBUG")
+    assert not builder.has_placeholder("DEBUG")
     assert str(e.value).startswith(f"{PLACEHOLDER_ERROR_MESSAGE}: DEBUG", 0)

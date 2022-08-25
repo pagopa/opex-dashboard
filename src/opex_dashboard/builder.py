@@ -19,12 +19,12 @@ class Builder:
         Raises:
             PlaceholderError: If given placeholder missed
         """
-        if not self.hasplaceholder(placeholder):
+        if not self.has_placeholder(placeholder):
             raise PlaceholderError(f"Missing placeholder error: {placeholder}")
 
         self._template = self._template.replace(f"${{{placeholder}}}", value)
 
-    def hasplaceholder(self, placeholder: str) -> bool:
+    def has_placeholder(self, placeholder: str) -> bool:
         """Check existance of specifice placeholder inside the template
 
         Returns:
