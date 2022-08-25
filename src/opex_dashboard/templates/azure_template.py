@@ -4,18 +4,6 @@ from ..builder import Builder
 
 TEMPLATE_BASE_PATH = "./src/opex_dashboard/templates/azure_template"
 
-# TODO this should be an initial setting
-GRAPH_COLSPAN = 6
-GRAPH_ROWSPAN = 4
-GRAPH_SCOPES = ["azure/resource/id"]
-GRAPH_TIME_RANGE = "PT4H"
-GRAPH_TITLE = "APIs Profile Availability (5min)"
-GRAPH_SUBTITLE = "io-d-appgateway"
-GRAPH_X_LABEL = "TimeGenerated"
-GRAPH_Y_LABEL = "Availability"
-GRAPH_SPLIT_BY = []
-GRAPH_AGGREGATION = "Sum"
-
 class AZTemplate:
     _template: Builder
 
@@ -76,31 +64,54 @@ class AZTemplate:
 
     def render(self, hosts: list, endpoints: list) -> str:
         parts = {}
-        for y, endpoint in enumerate(endpoints):
-            queries = [
-                self.availability(hosts, endpoint),
-                self.response_codes(hosts, endpoint),
-                self.response_time(hosts, endpoint)
-            ]
+        for i, endpoint in enumerate(endpoints):
+            parts[i] = self.render_part({
+                "x": "0",
+                "y": str(i * 4),
+                "colspan": "6",
+                "rowspan": "4",
+                "scopes": [],
+                "range": "PT4H",
+                "subtitle": "ip-p-appgateway",
+                "title": "APIs Profile Availability (5min)",
+                "x_label": "TimeGenerated",
+                "y_label": "Availability",
+                "split_by": [],
+                "aggregation": "Sum",
+                "query": self.availability(hosts, endpoint),
+            })
 
-            properties = {
-                "y": str(y * GRAPH_ROWSPAN),
-                "colspan": str(GRAPH_COLSPAN),
-                "rowspan": str(GRAPH_ROWSPAN),
-                "scopes": GRAPH_SCOPES,
-                "range": GRAPH_TIME_RANGE,
-                "subtitle": GRAPH_SUBTITLE,
-                "title": GRAPH_TITLE,
-                "x_label": GRAPH_X_LABEL,
-                "y_label": GRAPH_Y_LABEL,
-                "split_by": GRAPH_SPLIT_BY,
-                "aggregation": GRAPH_AGGREGATION,
-            }
+            parts[i] = self.render_part({
+                "x": "6",
+                "y": str(i * 4),
+                "colspan": "6",
+                "rowspan": "4",
+                "scopes": [],
+                "range": "PT4H",
+                "subtitle": "ip-p-appgateway",
+                "title": "APIs Message Response Codes (5min)",
+                "x_label": "HttpStatus",
+                "y_label": "Count",
+                "split_by": [],
+                "aggregation": "Sum",
+                "query": self.response_codes(hosts, endpoint),
+            })
 
-            for x, query in enumerate(queries):
-                properties["x"] = str(x * GRAPH_COLSPAN)
-                properties["query"] = query
-                parts[y] = self.render_part(properties)
+            parts[i] = self.render_part({
+                "x": "12",
+                "y": str(i * 4),
+                "colspan": "6",
+                "rowspan": "4",
+                "scopes": [],
+                "range": "PT4H",
+                "subtitle": "ip-p-appgateway",
+                "title": "APIs Message Response Codes (5min)",
+                "x_label": "HttpStatus",
+                "y_label": "Count",
+                "split_by": [],
+                "aggregation": "Sum",
+                "query": self.response_time(hosts, endpoint),
+            })
 
         self._template.apply("parts", json.dumps(parts))
 
