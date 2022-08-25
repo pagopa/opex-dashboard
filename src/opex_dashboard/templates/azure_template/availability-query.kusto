@@ -1,0 +1,16 @@
+let api_url = "${endpoint}";
+let api_hosts = datatable (name: string) [ ${hosts} ];
+let api_httpStatus = datatable (name: int) [ 200 , 304 ];
+AzureDiagnostics
+| where originalHost_s in (api_hosts)
+| where requestUri_s startswith api_url
+| where httpStatus_d in (api_httpStatus)
+| summarize n_success = toreal(count()) by bin(TimeGenerated, 5m)
+| join kind=inner (
+AzureDiagnostics
+| where originalHost_s in (api_hosts)
+| where requestUri_s startswith api_url
+| summarize n_total = toreal(count()) by bin(TimeGenerated, 5m))
+on TimeGenerated
+| project TimeGenerated, availability=n_success/n_total, watermark=0.99
+| render timechart

@@ -1,0 +1,5 @@
+AzureDiagnostics
+| where ${hosts}
+| where requestUri_s startswith "${endpoint}"
+| summarize percentiles(timeTaken_d, 95) by bin(TimeGenerated, 5m), watermark=1
+| render timechart with (xtitle = "time", ytitle= "response time(s)")
