@@ -2,11 +2,7 @@ import json
 
 from ..builder import Builder
 
-AZ_TEMPLATE_PATH = "./src/opex_dashboard/templates/azure_template/template.json"
-AZ_PART_TEMPLATE_PATH = "./src/opex_dashboard/templates/azure_template/template_part.json"
-AVAILABILITY_TEMPLATE_PATH = "./src/opex_dashboard/templates/azure_template/availability-query.kusto"
-CODES_TEMPLATE_PATH = "./src/opex_dashboard/templates/azure_template/response-codes-query.kusto"
-TIME_TEMPLATE_PATH = "./src/opex_dashboard/templates/azure_template/response-time-query.kusto"
+TEMPLATE_BASE_PATH = "./src/opex_dashboard/templates/azure_template"
 
 # TODO this should be an initial setting
 GRAPH_COLSPAN = 6
@@ -24,14 +20,14 @@ class AZTemplate:
     _template: Builder
 
     def __init__(self, name: str, location: str) -> None:
-        self._template = Builder(AZ_TEMPLATE_PATH)
+        self._template = Builder(f"{TEMPLATE_BASE_PATH}/template.json")
         self._template.apply("name", name)
         self._template.apply("location", location)
 
     def availability(self, hosts: list, endpoint: str, raw: bool = True) -> str:
         normalized_hosts = [f"\"{host}\"" for host in hosts]
 
-        builder = Builder(AVAILABILITY_TEMPLATE_PATH)
+        builder = Builder(f"{TEMPLATE_BASE_PATH}/availability-query.kusto")
         builder.apply("hosts", ", ".join(normalized_hosts))
         builder.apply("endpoint", endpoint)
 
@@ -44,7 +40,7 @@ class AZTemplate:
     def response_codes(self, hosts: list, endpoint: str, raw: bool = True) -> str:
         normalized_hosts = [f"\"{host}\"" for host in hosts]
 
-        builder = Builder(CODES_TEMPLATE_PATH)
+        builder = Builder(f"{TEMPLATE_BASE_PATH}/response-codes-query.kusto")
         builder.apply("hosts", ", ".join(normalized_hosts))
         builder.apply("endpoint", endpoint)
 
@@ -57,7 +53,7 @@ class AZTemplate:
     def response_time(self, hosts: list, endpoint: str, raw: bool = True) -> str:
         where_clause = [f"originalHost_s == \"{host}\"" for host in hosts]
 
-        builder = Builder(TIME_TEMPLATE_PATH)
+        builder = Builder(f"{TEMPLATE_BASE_PATH}/response-time-query.kusto")
         builder.apply("hosts", " or ".join(where_clause))
         builder.apply("endpoint", endpoint)
 
@@ -68,7 +64,7 @@ class AZTemplate:
         return query
 
     def render_part(self, properties: dict) -> str:
-        builder = Builder(AZ_PART_TEMPLATE_PATH)
+        builder = Builder(f"{TEMPLATE_BASE_PATH}/template-part.json")
 
         for key in properties:
             value = properties[key]
