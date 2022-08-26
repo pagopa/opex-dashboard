@@ -6,7 +6,7 @@ name = "pypi"
 [packages]
 prance = ">=0.21.8.0"
 openapi-spec-validator = ">=0.4.0"
-django = "*"
+django = ">=4.1"
 
 [dev-packages]
 mypy = ">=0.971"
