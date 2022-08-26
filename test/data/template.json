@@ -1,8 +1,8 @@
 {
   "widget": {
-    "debug": "${debug}",
+    "debug": "{{ debug }}",
     "window": {
-      "title": "${window_title}",
+      "title": "{{ window.title }}",
       "name": "main_window",
       "width": 500,
       "height": 500
@@ -10,8 +10,8 @@
     "image": {
       "src": "Images/Sun.png",
       "name": "sun1",
-      "hOffset": ${image_offset},
-      "vOffset": ${image_offset},
+      "hOffset": {{ image.offset }},
+      "vOffset": {{ image.offset }},
       "alignment": "center"
     },
     "text": {

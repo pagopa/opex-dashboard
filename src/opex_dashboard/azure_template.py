@@ -1,25 +1,25 @@
 import json
 
-from .builder import Builder
+from .template import Template
 
 TEMPLATE_BASE_PATH = "./src/opex_dashboard/templates"
 
 class AZTemplate:
-    _template: Builder
+    _template: Template
 
     def __init__(self, name: str, location: str) -> None:
-        self._template = Builder(f"{TEMPLATE_BASE_PATH}/template.json")
+        self._template = Template(f"{TEMPLATE_BASE_PATH}/template.json")
         self._template.apply("name", name)
         self._template.apply("location", location)
 
     def availability(self, hosts: list, endpoint: str, raw: bool = True) -> str:
         normalized_hosts = [f"\"{host}\"" for host in hosts]
 
-        builder = Builder(f"{TEMPLATE_BASE_PATH}/availability-query.kusto")
-        builder.apply("hosts", ", ".join(normalized_hosts))
-        builder.apply("endpoint", endpoint)
+        template = Template(f"{TEMPLATE_BASE_PATH}/availability-query.kusto")
+        template.apply("hosts", ", ".join(normalized_hosts))
+        template.apply("endpoint", endpoint)
 
-        query = builder.render()
+        query = template.render()
         if raw:
             query = repr(query).replace("\"","\\\"").replace("'", "")
 
@@ -28,11 +28,11 @@ class AZTemplate:
     def response_codes(self, hosts: list, endpoint: str, raw: bool = True) -> str:
         normalized_hosts = [f"\"{host}\"" for host in hosts]
 
-        builder = Builder(f"{TEMPLATE_BASE_PATH}/response-codes-query.kusto")
-        builder.apply("hosts", ", ".join(normalized_hosts))
-        builder.apply("endpoint", endpoint)
+        template = Template(f"{TEMPLATE_BASE_PATH}/response-codes-query.kusto")
+        template.apply("hosts", ", ".join(normalized_hosts))
+        template.apply("endpoint", endpoint)
 
-        query = builder.render()
+        query = template.render()
         if raw:
             query = repr(query).replace("\"","\\\"").replace("'", "")
 
@@ -41,26 +41,26 @@ class AZTemplate:
     def response_time(self, hosts: list, endpoint: str, raw: bool = True) -> str:
         where_clause = [f"originalHost_s == \"{host}\"" for host in hosts]
 
-        builder = Builder(f"{TEMPLATE_BASE_PATH}/response-time-query.kusto")
-        builder.apply("hosts", " or ".join(where_clause))
-        builder.apply("endpoint", endpoint)
+        template = Template(f"{TEMPLATE_BASE_PATH}/response-time-query.kusto")
+        template.apply("hosts", " or ".join(where_clause))
+        template.apply("endpoint", endpoint)
 
-        query = builder.render()
+        query = template.render()
         if raw:
             query = repr(query).replace("\"","\\\"").replace("'", "")
 
         return query
 
     def render_part(self, properties: dict) -> str:
-        builder = Builder(f"{TEMPLATE_BASE_PATH}/template-part.json")
+        template = Template(f"{TEMPLATE_BASE_PATH}/template-part.json")
 
         for key in properties:
             value = properties[key]
             if isinstance(value, list):
                 value = ", ".join([f"\"{v}\"" for v in value])
-            builder.apply(key, value)
+            template.apply(key, value)
 
-        return builder.render()
+        return template.render()
 
     def render(self, hosts: list, endpoints: list) -> str:
         parts = {}

@@ -1,4 +1,4 @@
-class ParseError(Exception):
+class FileError(Exception):
     """
     Throw when a parsing error occurs
     """
@@ -7,6 +7,23 @@ class ParseError(Exception):
 class RenderError(Exception):
     """
     Throw when it is impossible to render a template
+    """
+    pass
+
+
+
+
+
+
+
+
+
+
+
+
+class ParseError(Exception):
+    """
+    Throw when a parsing error occurs
     """
     pass
 
