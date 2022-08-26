@@ -4,8 +4,8 @@ This is a cli to generate PagoPA's Operational Excellence dashboards from open a
 
 ## Todo
 
-- [ ] Refactor `test_resolver.py` as `test_template.py`
 - [ ] Add logging
+- [ ] Checkout pytest warnings
 
 - [ ] Why metadata.inputs query is different from metadata.settings query?
 - [ ] Can I change axis labels?
