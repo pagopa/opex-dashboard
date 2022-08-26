@@ -1,6 +1,6 @@
 import json
 
-from src.opex_dashboard.templates.azure_template import AZTemplate
+from src.opex_dashboard.azure_template import AZTemplate
 
 AVAILABILITY_QUERY_PATH = "./test/data/availability-query.kusto"
 RESPONSE_CODES_QUERY_PATH = "./test/data/response-codes-query.kusto"

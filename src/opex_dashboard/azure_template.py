@@ -1,8 +1,8 @@
 import json
 
-from ..builder import Builder
+from .builder import Builder
 
-TEMPLATE_BASE_PATH = "./src/opex_dashboard/templates/azure_template"
+TEMPLATE_BASE_PATH = "./src/opex_dashboard/templates"
 
 class AZTemplate:
     _template: Builder
@@ -72,7 +72,7 @@ class AZTemplate:
                 "rowspan": "4",
                 "scopes": [],
                 "range": "PT4H",
-                "subtitle": "ip-p-appgateway",
+                "subtitle": endpoint,
                 "title": "APIs Profile Availability (5min)",
                 "x_label": "TimeGenerated",
                 "y_label": "Availability",
@@ -88,7 +88,7 @@ class AZTemplate:
                 "rowspan": "4",
                 "scopes": [],
                 "range": "PT4H",
-                "subtitle": "ip-p-appgateway",
+                "subtitle": endpoint,
                 "title": "APIs Message Response Codes (5min)",
                 "x_label": "HttpStatus",
                 "y_label": "Count",
@@ -104,7 +104,7 @@ class AZTemplate:
                 "rowspan": "4",
                 "scopes": [],
                 "range": "PT4H",
-                "subtitle": "ip-p-appgateway",
+                "subtitle": endpoint,
                 "title": "APIs Message Response Codes (5min)",
                 "x_label": "HttpStatus",
                 "y_label": "Count",
