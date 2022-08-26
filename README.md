@@ -4,7 +4,6 @@ This is a cli to generate PagoPA's Operational Excellence dashboards from open a
 
 ## Todo
 
-- [ ] Test all custom tags and filters
 - [ ] Refactor `test_resolver.py` as `test_template.py`
 - [ ] Add logging
 
