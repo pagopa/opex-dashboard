@@ -1,6 +1,7 @@
 from os.path import dirname, join
 from django.template import Engine, Template, Context
 from django.template.exceptions import TemplateDoesNotExist
+
 from .error import FileError
 
 TEMPLATES_DIRS = [join(dirname(__file__), "templates")]
