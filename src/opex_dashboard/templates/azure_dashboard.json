@@ -57,7 +57,7 @@
                 },
                 {
                   "name": "Query",
-                  "value": "// Failed requests per hour \n// Count of requests to which Application Gateway responded with an error. \n// To create an alert for this query, click '+ New alert rule'\nlet api_urls = datatable (name: string) [ \"/api/v1/profile\" ];\nlet api_hosts = datatable (name: string) [ \"app-backend.io.italia.it\" , \"api-app.io.pagopa.it\" ];\nlet api_httpStatus = datatable (name: int) [ 200 , 304 ];\nAzureDiagnostics\n| where host_s in (api_hosts)\n| where requestUri_s in (api_urls)\n| where httpStatus_d in (api_httpStatus)\n| summarize n_success = toreal(count()) by bin(TimeGenerated, 5m)\n| join kind=inner (\nAzureDiagnostics\n| where host_s in (api_hosts)\n| where requestUri_s in (api_urls)\n| summarize n_total = toreal(count()) by bin(TimeGenerated, 5m))\non TimeGenerated\n| project TimeGenerated, availability=n_success/n_total, watermark=0.99\n| render timechart\n\n",
+                  "value": {% filter stringify %}{% include "queries/availability.kusto" %}{% endfilter %},
                   "isOptional": true
                 },
                 {
@@ -119,7 +119,7 @@
               "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart",
               "settings": {
                 "content": {
-                  "Query": "// Failed requests per hour \n// Count of requests to which Application Gateway responded with an error. \n// To create an alert for this query, click '+ New alert rule'\nlet api_url = \"/api/v1/profile\";\nlet api_hosts = datatable (name: string) [ \"app-backend.io.italia.it\" , \"api-app.io.pagopa.it\" ];\nlet api_httpStatus = datatable (name: int) [ 200 , 304 ];\nAzureDiagnostics\n| where originalHost_s in (api_hosts)\n| where requestUri_s startswith api_url\n| where httpStatus_d in (api_httpStatus)\n| summarize n_success = toreal(count()) by bin(TimeGenerated, 5m)\n| join kind=inner (\nAzureDiagnostics\n| where originalHost_s in (api_hosts)\n| where requestUri_s startswith api_url\n| summarize n_total = toreal(count()) by bin(TimeGenerated, 5m))\non TimeGenerated\n| project TimeGenerated, availability=n_success/n_total, watermark=0.99\n| render timechart\n\n",
+                  "Query": {% filter stringify %}{% include "queries/availability.kusto" %}{% endfilter %},
                   "PartTitle": "APIs Profile Availability (5min)"
                 }
               }
@@ -176,7 +176,7 @@
                 },
                 {
                   "name": "Query",
-                  "value": "AzureDiagnostics\n| where host_s == \"app-backend.io.italia.it\" or host_s == \"api-app.io.pagopa.it\"\n| where requestUri_s == \"/api/v1/profile\"\n| summarize count() by tostring(httpStatus_d)\n| render piechart\n\n",
+                  "value": {% filter stringify %}{% include "queries/response_codes.kusto" %}{% endfilter %},
                   "isOptional": true
                 },
                 {
@@ -234,7 +234,7 @@
               "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart",
               "settings": {
                 "content": {
-                  "Query": "// Failed requests per hour \n// Count of requests to which Application Gateway responded with an error. \n// To create an alert for this query, click '+ New alert rule'\nlet api_url = \"/api/v1/profile\";\nlet api_hosts = datatable (name: string) [ \"app-backend.io.italia.it\" , \"api-app.io.pagopa.it\" ];\nlet api_httpStatus = datatable (name: int) [ 200 , 304 ];\nlet success=AzureDiagnostics\n| where originalHost_s in (api_hosts)\n| where requestUri_s startswith api_url\n| where httpStatus_d in (api_httpStatus)\n| summarize count() by HTTPStatus=\" Success\", bin(TimeGenerated, 5m);\nlet fail=AzureDiagnostics\n| where originalHost_s in (api_hosts)\n| where requestUri_s startswith api_url\n| where httpStatus_d !in (api_httpStatus)\n| extend HTTPStatus = case(\nhttpStatus_d between (200 .. 299), \"2XX\",\nhttpStatus_d between (300 .. 399), \"3XX\",\nhttpStatus_d between (400 .. 499), \"4XX\",\n\"5XX\"\n)\n| summarize count() by HTTPStatus, bin(TimeGenerated, 5m);\nunion success, fail\n| render areachart\n\n",
+                  "Query": {% filter stringify %}{% include "queries/response_codes.kusto" %}{% endfilter %},
                   "SpecificChart": "StackedArea",
                   "PartTitle": "APIs Profile Response Codes (5min)",
                   "Dimensions": {
@@ -311,7 +311,7 @@
                 },
                 {
                   "name": "Query",
-                  "value": "AzureDiagnostics\n| where requestUri_s startswith \"/api/v1/profiles\"\n| summarize percentiles(timeTaken_d, 95) by bin(TimeGenerated, 5m)\n| render columnchart with (xtitle = \"time\", ytitle= \"response time 95(s)\")\n",
+                  "value": {% filter stringify %}{% include "queries/response_time.kusto" %}{% endfilter %},
                   "isOptional": true
                 },
                 {
@@ -369,7 +369,7 @@
               "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart",
               "settings": {
                 "content": {
-                  "Query": "AzureDiagnostics\n| where originalHost_s == \"app-backend.io.italia.it\" or originalHost_s == \"api-app.io.pagopa.it\"\n| where requestUri_s startswith \"/api/v1/profile\"\n| summarize percentiles(timeTaken_d, 95) by bin(TimeGenerated, 5m), watermark=1\n| render timechart with (xtitle = \"time\", ytitle= \"response time(s)\")\n\n",
+                  "Query": {% filter stringify %}{% include "queries/response_time.kusto" %}{% endfilter %},
                   "SpecificChart": "Line",
                   "PartTitle": "APIs Profile Percentile Response Time (5min)",
                   "Dimensions": {
