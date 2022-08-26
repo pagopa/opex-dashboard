@@ -1,8 +1,11 @@
 import prance
 
+from typing import Dict, Any
+
 from .error import ParseError
 
 PARSER_BACKEND = "openapi-spec-validator"
+
 
 class OA3Resolver:
     _resolver: prance.ResolvingParser
@@ -15,11 +18,11 @@ class OA3Resolver:
             strict=False
         )
 
-    def resolve(self) -> dict:
+    def resolve(self) -> Dict[str, Any]:
         """Resolve OpenAPI specification with Prance's ResolvingParser
 
         Returns:
-            dict: Parsed spec as a dictionary
+            Dict: Parsed spec as a dictionary
 
         Raises:
             ParseError: If some validation or parsing error occurred

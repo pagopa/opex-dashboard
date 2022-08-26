@@ -4,6 +4,7 @@ class FileError(Exception):
     """
     pass
 
+
 class ParseError(Exception):
     """
     Throw when a parsing error occurs

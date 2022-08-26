@@ -12,9 +12,11 @@ django = ">=4.1"
 mypy = ">=0.971"
 wheel = ">=0.37.1"
 pytest = ">=7.1.2"
+flake8 = "*"
 
 [scripts]
-lint = "mypy ./src"
+lint = "flake8 ./src"
+check = "mypy ./src"
 build = "python setup.py sdist bdist_wheel"
 test = "python -m pytest -q"
 

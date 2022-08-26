@@ -1,4 +1,4 @@
-from src.opex_dashboard.tags.stringify import stringify
+from opex_dashboard.tags.stringify import stringify
 
 def test_stringify():
     """

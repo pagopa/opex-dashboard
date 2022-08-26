@@ -1,22 +1,24 @@
 from os.path import dirname, join
-from django.template import Engine, Template, Context
+from django.template import Engine, Template as DTemplate, Context
 from django.template.exceptions import TemplateDoesNotExist
+from typing import Dict, Any
 
 from .error import FileError
 
 TEMPLATES_DIRS = [join(dirname(__file__), "templates")]
 
+
 class Template:
     engine = Engine(
         TEMPLATES_DIRS,
-        autoescape = False,
-        libraries = {
+        autoescape=False,
+        libraries={
             'stringify': 'opex_dashboard.tags.stringify',
             'mul': 'opex_dashboard.tags.mul',
         }
     )
 
-    _template: Template
+    _template: DTemplate
 
     def __init__(self, template_file: str) -> None:
         """Create a Template object
@@ -26,15 +28,14 @@ class Template:
         """
         try:
             self._template = self.engine.get_template(template_file)
-        except TemplateDoesNotExist as e:
+        except TemplateDoesNotExist:
             raise FileError(f"Template file missing error: {template_file}")
 
-    def render(self, tags: dict) -> str:
+    def render(self, tags: Dict[str, Any]) -> str:
         """Elaborate the template and return its representation
 
         Returns:
             str: The template with given tags applied
         """
-        context = Context(tags, autoescape = False, use_l10n = False, use_tz = False)
+        context = Context(tags, autoescape=False, use_l10n=False, use_tz=False)
         return self._template.render(context)
-

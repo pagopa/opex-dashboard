@@ -29,7 +29,8 @@ setup(
         "Topic :: Software Development :: Libraries",
     ],
     install_requires=[
-        # "prance>=0.20.2",
-        # "openapi-spec-validator>=0.2.9",
+        "prance>=0.21.8.0",
+        "openapi-spec-validator>=0.4.0",
+        "django>=4.1",
     ],
 )

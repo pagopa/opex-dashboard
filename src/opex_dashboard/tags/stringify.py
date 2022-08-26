@@ -1,8 +1,9 @@
 import re
 
-from django import template
+from django.template import Library
 
-register = template.Library()
+register = Library()
+
 
 @register.filter
 def stringify(value: object) -> str:

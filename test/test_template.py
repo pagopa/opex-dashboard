@@ -2,8 +2,9 @@ import json
 import pytest
 
 from os.path import dirname, join
-from src.opex_dashboard.template import Template
-from src.opex_dashboard.error import FileError
+
+from opex_dashboard.template import Template
+from opex_dashboard.error import FileError
 
 Template.engine.dirs = [join(dirname(__file__), "data")]
 

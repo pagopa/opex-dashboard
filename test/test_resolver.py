@@ -1,8 +1,9 @@
 import pytest
 
 from os.path import dirname, join
-from src.opex_dashboard.resolver import OA3Resolver
-from src.opex_dashboard.error import ParseError
+
+from opex_dashboard.resolver import OA3Resolver
+from opex_dashboard.error import ParseError
 
 DATA_BASE_PATH = join(dirname(__file__), "data")
 

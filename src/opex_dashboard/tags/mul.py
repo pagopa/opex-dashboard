@@ -1,6 +1,7 @@
-from django import template
+from django.template import Library
 
-register = template.Library()
+register = Library()
+
 
 @register.filter
 def mul(value: int, factor: int) -> int:
@@ -9,5 +10,4 @@ def mul(value: int, factor: int) -> int:
     Returns:
         int -> The prodict object
     """
-    return value * factor;
-
+    return value * factor
