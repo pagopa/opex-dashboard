@@ -7,7 +7,14 @@ from .error import FileError
 TEMPLATES_DIRS = [join(dirname(__file__), "templates")]
 
 class Template:
-    engine = Engine(TEMPLATES_DIRS, autoescape = False)
+    engine = Engine(
+        TEMPLATES_DIRS,
+        autoescape = False,
+        libraries = {
+            'stringify': 'opex_dashboard.tags.stringify',
+            'mul': 'opex_dashboard.tags.mul',
+        }
+    )
 
     _template: Template
 
