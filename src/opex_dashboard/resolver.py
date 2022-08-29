@@ -11,6 +11,8 @@ class OA3Resolver:
     _resolver: prance.ResolvingParser
 
     def __init__(self, path: str) -> None:
+        """Create an OA3Resolver object
+        """
         self._resolver = prance.ResolvingParser(
             path,
             backend=PARSER_BACKEND,
