@@ -2,6 +2,7 @@ import json
 
 from opex_dashboard.builder_factory import BuilderFactory
 
+
 def test_produce_a_template_without_base_properties():
     """
     GIVEN a base builder
@@ -10,8 +11,8 @@ def test_produce_a_template_without_base_properties():
     """
     values = {
         "debug": "off",
-        "window": { "title": "My Window" },
-        "image": { "offset": 200 }
+        "window": {"title": "My Window"},
+        "image": {"offset": 200}
     }
 
     builder = BuilderFactory.create_builder("base", template_name="template.json")
@@ -22,6 +23,7 @@ def test_produce_a_template_without_base_properties():
     assert template_dict["widget"]["image"]["hOffset"] == values["image"]["offset"]
     assert template_dict["widget"]["image"]["vOffset"] == values["image"]["offset"]
 
+
 def test_produce_a_template_with_base_properties():
     """
     GIVEN a base builder
@@ -30,8 +32,8 @@ def test_produce_a_template_with_base_properties():
     """
     values = {
         "debug": "off",
-        "window": { "title": "My Window" },
-        "image": { "offset": 200 }
+        "window": {"title": "My Window"},
+        "image": {"offset": 200}
     }
 
     builder = BuilderFactory.create_builder("base", template_name="template.json", base_properties=values)
@@ -42,6 +44,7 @@ def test_produce_a_template_with_base_properties():
     assert template_dict["widget"]["image"]["hOffset"] == values["image"]["offset"]
     assert template_dict["widget"]["image"]["vOffset"] == values["image"]["offset"]
 
+
 def test_produce_a_template_overwriting_base_properties():
     """
     GIVEN a base builder
@@ -50,11 +53,11 @@ def test_produce_a_template_overwriting_base_properties():
     """
     values = {
         "debug": "off",
-        "window": { "title": "My Window" },
-        "image": { "offset": 200 }
+        "window": {"title": "My Window"},
+        "image": {"offset": 200}
     }
 
-    base_values = values | { "debug": "on" }
+    base_values = values | {"debug": "on"}
 
     builder = BuilderFactory.create_builder("base", template_name="template.json", base_properties=base_values)
     template_dict = json.loads(builder.produce(values))

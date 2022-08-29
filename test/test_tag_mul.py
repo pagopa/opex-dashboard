@@ -1,5 +1,6 @@
 from opex_dashboard.tags.mul import mul
 
+
 def test_multiplication():
     """
     GIVEN a value and a factor

@@ -11,8 +11,8 @@ class AzDashboardBuilder(Builder):
         self._oa3_spec = resolver.resolve()  # TODO base_properties from resolver?
         super().__init__(
             template="azure_dashboard.json",
-            base_properties={
-                "name": "PROD-IO/IO App Availability", # TODO temp
+            base_properties={  # TODO temp
+                "name": "PROD-IO/IO App Availability",
                 "location": "West Europe",
                 "resource_ids": [
                     ("/subscriptions/uuid/"
@@ -31,4 +31,5 @@ class AzDashboardBuilder(Builder):
 
         base_path = self._oa3_spec["basePath"]
         self._properties["endpoints"] = [f"{base_path}/{endpoint[1:]}" for endpoint in self._oa3_spec["paths"].keys()]
+
         return super().produce(values)

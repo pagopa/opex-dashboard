@@ -1,5 +1,6 @@
 from opex_dashboard.tags.stringify import stringify
 
+
 def test_stringify():
     """
     GIVEN an object
@@ -8,5 +9,5 @@ def test_stringify():
     """
     assert stringify("a string") == '"a string"'
     assert stringify("a string with\nnewline") == '"a string with\\nnewline"'
-    assert stringify([ "a", "list", "of", "string" ]) == '["a", "list", "of", "string"]'
-    assert stringify({ "foo": "bar", "hello": "world" }) == '{"foo": "bar", "hello": "world"}'
+    assert stringify(["a", "list", "of", "string"]) == '["a", "list", "of", "string"]'
+    assert stringify({"foo": "bar", "hello": "world"}) == '{"foo": "bar", "hello": "world"}'

@@ -7,6 +7,7 @@ from opex_dashboard.error import ParseError
 
 DATA_BASE_PATH = join(dirname(__file__), "data")
 
+
 def test_resolve_valid_spec():
     """
     GIVEN a valid OA3 spec
@@ -16,6 +17,7 @@ def test_resolve_valid_spec():
     resolver = OA3Resolver(f"{DATA_BASE_PATH}/io_backend.yaml")
 
     assert isinstance(resolver.resolve(), dict)
+
 
 def test_resolve_malformed_spec():
     """
@@ -28,6 +30,7 @@ def test_resolve_malformed_spec():
         resolver.resolve()
 
     assert str(e.value).startswith("OA3 parsing error: ", 0)
+
 
 def test_resolve_invalid_spec():
     """
