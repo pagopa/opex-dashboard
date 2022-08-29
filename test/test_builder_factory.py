@@ -6,7 +6,7 @@ from os.path import dirname, join
 from opex_dashboard.template import Template
 from opex_dashboard.builder_factory import BuilderFactory
 from opex_dashboard.builders.base import Builder
-from opex_dashboard.builders.azure_builder import AzureBuilder
+from opex_dashboard.builders.azure_builder import AzDashboardBuilder
 from opex_dashboard.resolver import OA3Resolver
 from opex_dashboard.error import InvalidBuilderError
 
@@ -37,12 +37,12 @@ def test_create_an_azure_dashboard_builder():
     """
     GIVEN an azure dashboard builder type and a resolver
     WHEN the builder is created
-    THEN it retruns an instance of AzureBuilder
+    THEN it retruns an instance of AzDashboardBuilder
     """
     resolver = OA3Resolver(f"{DATA_BASE_PATH}/io-backend.yaml")
     builder = BuilderFactory.create_builder("azure-dashboard", resolver=resolver)
 
-    assert isinstance(builder, AzureBuilder)
+    assert isinstance(builder, AzDashboardBuilder)
 
 def test_create_an_azure_dashboard_builder_without_a_resolver():
     """

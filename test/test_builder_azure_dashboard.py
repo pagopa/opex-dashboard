@@ -4,7 +4,7 @@ from os.path import dirname, join
 
 from opex_dashboard.resolver import OA3Resolver
 from opex_dashboard.builder_factory import BuilderFactory
-from opex_dashboard.builders.azure_builder import AzureBuilder
+from opex_dashboard.builders.azure_builder import AzDashboardBuilder
 
 DATA_BASE_PATH = join(dirname(__file__), "data")
 
