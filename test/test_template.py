@@ -1,12 +1,9 @@
 import json
 import pytest
 
-from os.path import dirname, join
-
 from opex_dashboard.template import Template
 from opex_dashboard.error import FileError
 
-Template.engine.dirs = [join(dirname(__file__), "data")]
 
 def test_render_existing_template():
     """
