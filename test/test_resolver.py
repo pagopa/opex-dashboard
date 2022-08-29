@@ -13,7 +13,7 @@ def test_resolve_valid_spec():
     WHEN a resolver is created
     THEN a dict representation of the spec is available
     """
-    resolver = OA3Resolver(f"{DATA_BASE_PATH}/io-backend.yaml")
+    resolver = OA3Resolver(f"{DATA_BASE_PATH}/io_backend.yaml")
 
     assert isinstance(resolver.resolve(), dict)
 
@@ -24,7 +24,7 @@ def test_resolve_malformed_spec():
     THEN an exception is throwed
     """
     with pytest.raises(ParseError) as e:
-        resolver = OA3Resolver(f"{DATA_BASE_PATH}/io-backend-malformed.yaml")
+        resolver = OA3Resolver(f"{DATA_BASE_PATH}/io_backend_malformed.yaml")
         resolver.resolve()
 
     assert str(e.value).startswith("OA3 parsing error: ", 0)
@@ -36,7 +36,7 @@ def test_resolve_invalid_spec():
     THEN an exception is throwed
     """
     with pytest.raises(ParseError) as e:
-        resolver = OA3Resolver(f"{DATA_BASE_PATH}/io-backend-invalid.yaml")
+        resolver = OA3Resolver(f"{DATA_BASE_PATH}/io_backend_invalid.yaml")
         resolver.resolve()
 
     assert str(e.value).startswith("OA3 validation error: ", 0)

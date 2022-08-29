@@ -39,7 +39,7 @@ def test_create_an_azure_dashboard_builder():
     WHEN the builder is created
     THEN it retruns an instance of AzDashboardBuilder
     """
-    resolver = OA3Resolver(f"{DATA_BASE_PATH}/io-backend.yaml")
+    resolver = OA3Resolver(f"{DATA_BASE_PATH}/io_backend.yaml")
     builder = BuilderFactory.create_builder("azure-dashboard", resolver=resolver)
 
     assert isinstance(builder, AzDashboardBuilder)

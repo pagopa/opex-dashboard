@@ -1,5 +1,0 @@
-AzureDiagnostics
-| where originalHost_s == "app-backend.io.italia.it" or originalHost_s == "api-app.io.pagopa.it"
-| where requestUri_s startswith "/api/v1/services/1"
-| summarize percentiles(timeTaken_d, 95) by bin(TimeGenerated, 5m), watermark=1
-| render timechart with (xtitle = "time", ytitle= "response time(s)")

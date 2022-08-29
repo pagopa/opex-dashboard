@@ -6,7 +6,6 @@ This is a cli to generate PagoPA's Operational Excellence dashboards from open a
 
 - [ ] Add logging
 - [ ] Checkout pytest warnings
-- [ ] Rename files with snakecase
 - [ ] Change AzureBuilder base properties
 
 - [ ] Why metadata.inputs query is different from metadata.settings query?

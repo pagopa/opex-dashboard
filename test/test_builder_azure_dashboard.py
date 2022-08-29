@@ -15,7 +15,7 @@ def test_produce_a_template():
     WHEN the builder produces the template
     THEN the template is rendered and properties applied
     """
-    resolver = OA3Resolver(f"{DATA_BASE_PATH}/io-backend.yaml")
+    resolver = OA3Resolver(f"{DATA_BASE_PATH}/io_backend.yaml")
     builder = BuilderFactory.create_builder("azure-dashboard", resolver=resolver)
     template_dict = json.loads(builder.produce())
 
