@@ -1,5 +1,3 @@
-import re
-
 from typing import Dict, List, Any
 
 from opex_dashboard.builders.base import Builder
