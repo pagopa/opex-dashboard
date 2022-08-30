@@ -72,7 +72,7 @@
                 },
                 {
                   "name": "PartTitle",
-                  "value": "Analytics",
+                  "value": "Availability (5min)"
                   "isOptional": true
                 },
                 {
@@ -120,7 +120,7 @@
               "settings": {
                 "content": {
                   "Query": {% filter stringify %}{% include "queries/availability.kusto" %}{% endfilter %},
-                  "PartTitle": "APIs Profile Availability (5min)"
+                  "PartTitle": "Availability (5min)"
                 }
               }
             }
@@ -191,7 +191,7 @@
                 },
                 {
                   "name": "PartTitle",
-                  "value": "Analytics",
+                  "value": "Response Codes (5min)",
                   "isOptional": true
                 },
                 {
@@ -236,7 +236,7 @@
                 "content": {
                   "Query": {% filter stringify %}{% include "queries/response_codes.kusto" %}{% endfilter %},
                   "SpecificChart": "StackedArea",
-                  "PartTitle": "APIs Profile Response Codes (5min)",
+                  "PartTitle": "Response Codes (5min)",
                   "Dimensions": {
                     "xAxis": {
                       "name": "TimeGenerated",
@@ -326,7 +326,7 @@
                 },
                 {
                   "name": "PartTitle",
-                  "value": "Analytics",
+                  "value": "Percentile Response Time (5min)",
                   "isOptional": true
                 },
                 {
@@ -371,7 +371,7 @@
                 "content": {
                   "Query": {% filter stringify %}{% include "queries/response_time.kusto" %}{% endfilter %},
                   "SpecificChart": "Line",
-                  "PartTitle": "APIs Profile Percentile Response Time (5min)",
+                  "PartTitle": "Percentile Response Time (5min)",
                   "Dimensions": {
                     "xAxis": {
                       "name": "TimeGenerated",
