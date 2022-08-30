@@ -18,8 +18,9 @@ flake8 = ">=5.0.4"
 [scripts]
 lint = "flake8 ./src ./test"
 check = "mypy ./src"
-build = "python setup.py sdist bdist_wheel"
 test = "python -m pytest -q"
+cli = "python ./src/opex_dashboard/cli.py"
+build = "python ./setup.py sdist bdist_wheel"
 
 [requires]
 python_version = "3.9"

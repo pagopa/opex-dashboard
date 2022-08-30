@@ -7,8 +7,10 @@ from opex_dashboard.error import InvalidBuilderError
 
 def setup_required(ctx: click.Context, params: click.Option, value: str) -> str:
     if value == "azure-dashboard":
-        option = next(o for o in ctx.command.params if o.name == 'oa3_spec')
-        option.required = True
+        for option in ctx.command.params:
+            if option.name.startswith("az_"):
+                option.required = True
+
     return value
 
 
@@ -22,25 +24,51 @@ def setup_required(ctx: click.Context, params: click.Option, value: str) -> str:
               type=str,
               default=None,
               help="Save the output into a file.")
-@click.option('--oa3-spec',
+@click.option('--az-oa3-spec',
               type=str,
               required=False,
               default=None,
-              help="OA3 spec file")
-def generate(template_name: str, oa3_spec: str, output_file: str) -> None:
-    """Something
+              help="OA3 spec file to generate the Azure Dashboard form.")
+@click.option('--az-name',
+              type=str,
+              required=False,
+              default=None,
+              help="Name of the Azure Dashboard.")
+@click.option('--az-location',
+              type=str,
+              required=False,
+              default=None,
+              help="Azure location.")
+@click.option('--az-resource',
+              type=str,
+              required=False,
+              default=None,
+              multiple=True,
+              help="Resource id of the gateway.")
+def generate(
+    template_name: str,
+    az_oa3_spec: str,
+    az_name: str,
+    az_location: str,
+    az_resource: tuple,  # TODO improve name like az_resources
+    output_file: str) -> None:
+    """Description
     """
-    if oa3_spec.startswith("http"):
-        print("download")  # TODO
+    properties = {
+        "resolver": OA3Resolver(az_oa3_spec),
+        "name": az_name,
+        "location": az_location,
+        "resources": list(az_resource),
+    }
+
+    builder = create_builder(template=template_name, **properties)
+    if not builder:
+        raise InvalidBuilderError(f"Invalid builder error: unknown builder {template_name}")
+    result = builder.produce()
+
+    if output_file:
+        file = open(output_file, "w")
+        file.write(result)
+        file.close()
     else:
-        resolver = OA3Resolver(oa3_spec)  # TODO use dict as kwargs
-        builder = create_builder(template=template_name, resolver=resolver)
-        if not builder:
-            raise InvalidBuilderError(f"Invalid builder error: unknown builder {template_name}")
-        result = builder.produce()
-        if output_file:
-            file = open(output_file, "w")
-            file.write(result)
-            file.close()
-        else:
-            print(result)
+        print(result)
