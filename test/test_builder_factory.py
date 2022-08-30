@@ -60,35 +60,173 @@ def test_create_a_basic_builder_with_invalid_base_properties():
 
 def test_create_an_azure_dashboard_builder():
     """
-    GIVEN an azure dashboard builder type and a resolver
+    GIVEN an azure dashboard builder type, a resolver, a name, a location, and a list of resources
     WHEN the builder is created
     THEN it retruns an instance of AzDashboardBuilder
     """
     resolver = OA3Resolver(f"{DATA_BASE_PATH}/io_backend.yaml")
-    builder = BuilderFactory.create_builder("azure-dashboard", resolver=resolver)
+    builder = BuilderFactory.create_builder(
+            "azure-dashboard",
+            resolver=resolver,
+            name="PROD-IO/IO App Availability",
+            location="West Europe",
+            resources=[("/subscriptions/uuid/"
+                         "resourceGroups/io-p-rg-external/providers/Microsoft.Network"
+                         "/applicationGateways/io-p-appgateway")]
+            )
 
     assert isinstance(builder, AzDashboardBuilder)
 
 
 def test_create_an_azure_dashboard_builder_without_a_resolver():
     """
-    GIVEN an azure dashboard builder type
+    GIVEN an azure dashboard builder type, a name, a location, and a list of resources
     WHEN the builder is created
     THEN it throws an exception
     """
     with pytest.raises(InvalidBuilderError) as e:
-        BuilderFactory.create_builder("azure-dashboard")
+        BuilderFactory.create_builder(
+            "azure-dashboard",
+            name="PROD-IO/IO App Availability",
+            location="West Europe",
+            resources=[("/subscriptions/uuid/"
+                         "resourceGroups/io-p-rg-external/providers/Microsoft.Network"
+                         "/applicationGateways/io-p-appgateway")]
+            )
 
     assert str(e.value) == "Invalid builder error: 'resolver' is mandatory with azure-dashboard"
 
 
 def test_create_an_azure_dashboard_builder_with_an_invalid_resolver():
     """
-    GIVEN an azure dashboard builder type and a dict
+    GIVEN an azure dashboard builder type, a name, a location, a list of resources, and a dict
     WHEN the builder is created with the dict as resolver
     THEN it throws an exception
     """
     with pytest.raises(InvalidBuilderError) as e:
-        BuilderFactory.create_builder("azure-dashboard", resolver={"foo": "bar"})
+        BuilderFactory.create_builder(
+            "azure-dashboard",
+            resolver={"foo": "bar"},
+            name="PROD-IO/IO App Availability",
+            location="West Europe",
+            resources=[("/subscriptions/uuid/"
+                         "resourceGroups/io-p-rg-external/providers/Microsoft.Network"
+                         "/applicationGateways/io-p-appgateway")]
+            )
 
     assert str(e.value) == "Invalid builder error: 'resolver' must be an OA3Resolver"
+
+
+def test_create_an_azure_dashboard_builder_without_a_name():
+    """
+    GIVEN an azure dashboard builder type, a resolver, a location, and a list of resources
+    WHEN the builder is created
+    THEN it throws an exception
+    """
+    with pytest.raises(InvalidBuilderError) as e:
+        resolver = OA3Resolver(f"{DATA_BASE_PATH}/io_backend.yaml")
+        BuilderFactory.create_builder(
+            "azure-dashboard",
+            resolver= resolver,
+            location="West Europe",
+            resources=[("/subscriptions/uuid/"
+                         "resourceGroups/io-p-rg-external/providers/Microsoft.Network"
+                         "/applicationGateways/io-p-appgateway")]
+            )
+
+    assert str(e.value) == "Invalid builder error: 'name' is mandatory with azure-dashboard"
+
+
+def test_create_an_azure_dashboard_builder_with_an_invalid_name():
+    """
+    GIVEN an azure dashboard builder type, a resolver, a location, a list of resources, and a dict
+    WHEN the builder is created with the dict as resolver
+    THEN it throws an exception
+    """
+    with pytest.raises(InvalidBuilderError) as e:
+        resolver = OA3Resolver(f"{DATA_BASE_PATH}/io_backend.yaml")
+        BuilderFactory.create_builder(
+            "azure-dashboard",
+            resolver=resolver,
+            name={"foo": "bar"},
+            location="West Europe",
+            resources=[("/subscriptions/uuid/"
+                         "resourceGroups/io-p-rg-external/providers/Microsoft.Network"
+                         "/applicationGateways/io-p-appgateway")]
+            )
+
+
+def test_create_an_azure_dashboard_builder_without_a_location():
+    """
+    GIVEN an azure dashboard builder type, a resolver, a name, and a list of resources
+    WHEN the builder is created
+    THEN it throws an exception
+    """
+    with pytest.raises(InvalidBuilderError) as e:
+        resolver = OA3Resolver(f"{DATA_BASE_PATH}/io_backend.yaml")
+        BuilderFactory.create_builder(
+            "azure-dashboard",
+            resolver= resolver,
+            name="PROD-IO/IO App Availability",
+            resources=[("/subscriptions/uuid/"
+                         "resourceGroups/io-p-rg-external/providers/Microsoft.Network"
+                         "/applicationGateways/io-p-appgateway")]
+            )
+
+    assert str(e.value) == "Invalid builder error: 'location' is mandatory with azure-dashboard"
+
+
+def test_create_an_azure_dashboard_builder_with_an_invalid_location():
+    """
+    GIVEN an azure dashboard builder type, a resolver, a name, a list of resources, and a dict
+    WHEN the builder is created with the dict as resolver
+    THEN it throws an exception
+    """
+    with pytest.raises(InvalidBuilderError) as e:
+        resolver = OA3Resolver(f"{DATA_BASE_PATH}/io_backend.yaml")
+        BuilderFactory.create_builder(
+            "azure-dashboard",
+            resolver=resolver,
+            name="PROD-IO/IO App Availability",
+            location={"foo": "bar"},
+            resources=[("/subscriptions/uuid/"
+                         "resourceGroups/io-p-rg-external/providers/Microsoft.Network"
+                         "/applicationGateways/io-p-appgateway")]
+            )
+
+
+def test_create_an_azure_dashboard_builder_without_a_list_of_resources():
+    """
+    GIVEN an azure dashboard builder type, a resolver, a name, and a location
+    WHEN the builder is created
+    THEN it throws an exception
+    """
+    with pytest.raises(InvalidBuilderError) as e:
+        resolver = OA3Resolver(f"{DATA_BASE_PATH}/io_backend.yaml")
+        BuilderFactory.create_builder(
+            "azure-dashboard",
+            resolver= resolver,
+            name="PROD-IO/IO App Availability",
+            location="West Europe"
+            )
+
+    assert str(e.value) == "Invalid builder error: 'resources' is mandatory with azure-dashboard"
+
+
+def test_create_an_azure_dashboard_builder_with_an_invalid_list_of_resources():
+    """
+    GIVEN an azure dashboard builder type, a resolver, a name, a list of resources, and a dict
+    WHEN the builder is created with the dict as resolver
+    THEN it throws an exception
+    """
+    with pytest.raises(InvalidBuilderError) as e:
+        resolver = OA3Resolver(f"{DATA_BASE_PATH}/io_backend.yaml")
+        BuilderFactory.create_builder(
+            "azure-dashboard",
+            resolver=resolver,
+            name="PROD-IO/IO App Availability",
+            location="West Europe",
+            resources={"foo": "bar"}
+            )
+
+    assert str(e.value) == "Invalid builder error: 'resources' must be a list"

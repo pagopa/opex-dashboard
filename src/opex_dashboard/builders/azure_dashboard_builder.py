@@ -7,18 +7,14 @@ from opex_dashboard.resolver import OA3Resolver
 class AzDashboardBuilder(Builder):
     _oa3_spec: Dict[str, Any]
 
-    def __init__(self, resolver: OA3Resolver) -> None:
+    def __init__(self, resolver: OA3Resolver, name, location, resources) -> None:
         self._oa3_spec = resolver.resolve()  # TODO base_properties from resolver?
         super().__init__(
             template="azure_dashboard.json",
-            base_properties={  # TODO temp
-                "name": "PROD-IO/IO App Availability",
-                "location": "West Europe",
-                "resource_ids": [
-                    ("/subscriptions/uuid/"
-                        "resourceGroups/io-p-rg-external/providers/Microsoft.Network"
-                        "/applicationGateways/io-p-appgateway")
-                ],
+            base_properties={
+                "name": name,
+                "location": location,
+                "resource_ids": resources,
             }
         )
 

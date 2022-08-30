@@ -22,7 +22,16 @@ def test_produce_the_template():
     THEN the template is rendered and properties applied
     """
     resolver = OA3Resolver(f"{DATA_BASE_PATH}/io_backend.yaml")
-    builder = BuilderFactory.create_builder("azure-dashboard", resolver=resolver)
+    builder = BuilderFactory.create_builder(
+            "azure-dashboard",
+            resolver=resolver,
+            name="PROD-IO/IO App Availability",
+            location="West Europe",
+            resources=[("/subscriptions/uuid/"
+                         "resourceGroups/io-p-rg-external/providers/Microsoft.Network"
+                         "/applicationGateways/io-p-appgateway")]
+            )
+
 
     spec_dict = resolver.resolve()
     template_dict = json.loads(builder.produce())

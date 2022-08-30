@@ -13,7 +13,13 @@ class BuilderFactory:
             if template == "azure-dashboard":
                 if not isinstance(args["resolver"], OA3Resolver):
                     raise TypeError("'resolver' must be an OA3Resolver")
-                return AzDashboardBuilder(args["resolver"])
+                if not isinstance(args["name"], str):
+                    raise TypeError("'name' must be a string")
+                if not isinstance(args["location"], str):
+                    raise TypeError("'location' must be a string")
+                if not isinstance(args["resources"], list):
+                    raise TypeError("'resources' must be a list")
+                return AzDashboardBuilder(args["resolver"], args["name"], args["location"], args["resources"])
             elif template == "base":
                 base_properties = args.get("base_properties", {})
                 if not isinstance(args["template_name"], str):
