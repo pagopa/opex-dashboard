@@ -72,7 +72,7 @@
                 },
                 {
                   "name": "PartTitle",
-                  "value": "Availability (5min)"
+                  "value": "Availability (5min)",
                   "isOptional": true
                 },
                 {

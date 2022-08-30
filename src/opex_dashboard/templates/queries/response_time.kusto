@@ -1,5 +1,6 @@
+{% load uri_to_regex %}
 AzureDiagnostics
 | where {% for h in hosts %}originalHost_s == "{{ h }}"{% if hosts|length > forloop.counter %} or {% endif %}{% endfor %}
-| where requestUri_s startswith "{{ endpoint }}"
+| where requestUri_s matches regex "{{ endpoint|uri_to_regex }}"
 | summarize percentiles(timeTaken_d, 95) by bin(TimeGenerated, 5m), watermark=1
 | render timechart with (xtitle = "time", ytitle= "response time(s)")

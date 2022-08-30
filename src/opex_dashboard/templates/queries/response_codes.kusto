@@ -1,15 +1,15 @@
-{% load stringify %}
-let api_url = "{{ endpoint }}";
+{% load stringify uri_to_regex %}
+let api_url = "{{ endpoint|uri_to_regex }}";
 let api_hosts = datatable (name: string) {{ hosts|stringify }};
 let api_httpStatus = datatable (name: int) [ 200 , 304 ];
 let success=AzureDiagnostics
 | where originalHost_s in (api_hosts)
-| where requestUri_s startswith api_url
+| where requestUri_s matches regex api_url
 | where httpStatus_d in (api_httpStatus)
 | summarize count() by HTTPStatus=" Success", bin(TimeGenerated, 5m);
 let fail=AzureDiagnostics
 | where originalHost_s in (api_hosts)
-| where requestUri_s startswith api_url
+| where requestUri_s matches regex api_url
 | where httpStatus_d !in (api_httpStatus)
 | extend HTTPStatus = case(
 httpStatus_d between (200 .. 299), "2XX",

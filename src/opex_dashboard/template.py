@@ -13,8 +13,9 @@ class Template:
         TEMPLATES_DIRS,
         autoescape=False,
         libraries={
-            'stringify': 'opex_dashboard.tags.stringify',
             'mul': 'opex_dashboard.tags.mul',
+            'stringify': 'opex_dashboard.tags.stringify',
+            'uri_to_regex': 'opex_dashboard.tags.uri_to_regex',
         }
     )
 

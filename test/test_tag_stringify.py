@@ -4,7 +4,7 @@ from opex_dashboard.tags.stringify import stringify
 def test_stringify():
     """
     GIVEN an object
-    WHEN it is given to stringy filter
+    WHEN it is given to stringify filter
     THEN the filter returns the repr of the object inside a double quotes
     """
     assert stringify("a string") == '"a string"'
