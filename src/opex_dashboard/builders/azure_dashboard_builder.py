@@ -8,6 +8,8 @@ class AzDashboardBuilder(Builder):
     _oa3_spec: Dict[str, Any]
 
     def __init__(self, resolver: OA3Resolver, name: str, location: str, resources: List[str]) -> None:
+        """Create an AzDashbordBuilder object
+        """
         self._oa3_spec = resolver.resolve()  # TODO base_properties from resolver?
         super().__init__(
             template="azure_dashboard.json",
@@ -19,6 +21,11 @@ class AzDashboardBuilder(Builder):
         )
 
     def produce(self, values: Dict[str, Any] = {}) -> str:
+        """Render the template by merging base properties, given values, and information extracted form OA3 spec
+
+        Returns:
+            str: The rendered template to create an Azure Dashboard json
+        """
         if "servers" in self._oa3_spec:
             hosts = [h["url"] for h in self._oa3_spec["servers"]]
         else:
