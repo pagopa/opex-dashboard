@@ -1,5 +1,6 @@
 from typing import Any, Optional
 
+from opex_dashboard.util import normalize_params
 from opex_dashboard.resolver import OA3Resolver
 from opex_dashboard.error import InvalidBuilderError
 from opex_dashboard.builders.base import Builder
@@ -7,26 +8,23 @@ from opex_dashboard.builders.azure_dashboard_builder import AzDashboardBuilder
 
 
 class BuilderFactory:
-    @classmethod
+    @classmethod  # TODO remove from the class
     def create_builder(self, template: str, **args: Optional[Any]) -> Optional[Builder]:
         try:
             if template == "azure-dashboard":
-                if not isinstance(args["resolver"], OA3Resolver):
-                    raise TypeError("'resolver' must be an OA3Resolver")
-                if not isinstance(args["name"], str):
-                    raise TypeError("'name' must be a string")
-                if not isinstance(args["location"], str):
-                    raise TypeError("'location' must be a string")
-                if not isinstance(args["resources"], list):
-                    raise TypeError("'resources' must be a list")
-                return AzDashboardBuilder(args["resolver"], args["name"], args["location"], args["resources"])
+                inputs = normalize_params(args, {
+                    "resolver": OA3Resolver,
+                    "name": str,
+                    "location": str,
+                    "resources": list,
+                    })
+                return AzDashboardBuilder(inputs["resolver"], inputs["name"], inputs["location"], inputs["resources"])
             elif template == "base":
-                base_properties = args.get("base_properties", {})
-                if not isinstance(args["template_name"], str):
-                    raise TypeError("'template_name' must be a string")
-                if not isinstance(base_properties, dict):
-                    raise TypeError("'base_properties' must be a dict")
-                return Builder(args["template_name"], base_properties)
+                inputs = normalize_params({"base_properties": {}} | args, {
+                    "template_name": str,
+                    "base_properties": dict,
+                    })
+                return Builder(inputs["template_name"], inputs["base_properties"])
             else:
                 return None
                 # raise InvalidBuilderError(f"Invalid builder error: unknown {template}")

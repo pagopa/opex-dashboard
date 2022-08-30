@@ -1,4 +1,4 @@
-from typing import Dict, Any
+from typing import Dict, List, Any
 
 from opex_dashboard.builders.base import Builder
 from opex_dashboard.resolver import OA3Resolver
@@ -7,7 +7,7 @@ from opex_dashboard.resolver import OA3Resolver
 class AzDashboardBuilder(Builder):
     _oa3_spec: Dict[str, Any]
 
-    def __init__(self, resolver: OA3Resolver, name, location, resources) -> None:
+    def __init__(self, resolver: OA3Resolver, name: str, location: str, resources: List[str]) -> None:
         self._oa3_spec = resolver.resolve()  # TODO base_properties from resolver?
         super().__init__(
             template="azure_dashboard.json",

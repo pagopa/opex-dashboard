@@ -8,6 +8,8 @@ from opex_dashboard.builder_factory import BuilderFactory
 
 DATA_BASE_PATH = join(dirname(__file__), "data")
 NUMBER_OF_GRAPH_FOR_EACH_ENDPOINT = 3
+NAME = "PROD-IO/IO App Availability"
+LOCATION = "West Europe"
 RESOURCE_ID = ("/subscriptions/uuid/"
                "resourceGroups/io-p-rg-external/providers/Microsoft.Network"
                "/applicationGateways/io-p-appgateway")
@@ -25,19 +27,16 @@ def test_produce_the_template():
     builder = BuilderFactory.create_builder(
             "azure-dashboard",
             resolver=resolver,
-            name="PROD-IO/IO App Availability",
-            location="West Europe",
-            resources=[("/subscriptions/uuid/"
-                         "resourceGroups/io-p-rg-external/providers/Microsoft.Network"
-                         "/applicationGateways/io-p-appgateway")]
+            name=NAME,
+            location=LOCATION,
+            resources=[RESOURCE_ID]
             )
-
 
     spec_dict = resolver.resolve()
     template_dict = json.loads(builder.produce())
 
-    assert template_dict["name"] == "PROD-IO/IO App Availability"
-    assert template_dict["location"] == "West Europe"
+    assert template_dict["name"] == NAME
+    assert template_dict["location"] == LOCATION
 
     parts = template_dict["properties"]["lenses"]["0"]["parts"]
     paths = [spec_dict["basePath"] + path for path in list(spec_dict["paths"].keys())]

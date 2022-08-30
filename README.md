@@ -6,9 +6,9 @@ This is a cli to generate PagoPA's Operational Excellence dashboards from open a
 
 - [ ] Add logging
 - [ ] Checkout pytest warnings
-- [ ] Change AzureBuilder base properties
 - [ ] Dockerize
 - [ ] Write README
+- [ ] Are there any parts that need to be migrate in util?
 
 - [ ] Check mypy ignore\_missing\_imports = True
 

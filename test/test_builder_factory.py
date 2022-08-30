@@ -43,7 +43,7 @@ def test_create_a_basic_builder_with_an_invalid_template_name():
     with pytest.raises(InvalidBuilderError) as e:
         BuilderFactory.create_builder("base", template_name={"foo": "bar"})
 
-    assert str(e.value) == "Invalid builder error: 'template_name' must be a string"
+    assert str(e.value) == f"Invalid builder error: 'template_name' must be a {str}"
 
 
 def test_create_a_basic_builder_with_invalid_base_properties():
@@ -55,7 +55,7 @@ def test_create_a_basic_builder_with_invalid_base_properties():
     with pytest.raises(InvalidBuilderError) as e:
         BuilderFactory.create_builder("base", template_name="template.json", base_properties="foobar")
 
-    assert str(e.value) == "Invalid builder error: 'base_properties' must be a dict"
+    assert str(e.value) == f"Invalid builder error: 'base_properties' must be a {dict}"
 
 
 def test_create_an_azure_dashboard_builder():
@@ -71,8 +71,8 @@ def test_create_an_azure_dashboard_builder():
             name="PROD-IO/IO App Availability",
             location="West Europe",
             resources=[("/subscriptions/uuid/"
-                         "resourceGroups/io-p-rg-external/providers/Microsoft.Network"
-                         "/applicationGateways/io-p-appgateway")]
+                        "resourceGroups/io-p-rg-external/providers/Microsoft.Network"
+                        "/applicationGateways/io-p-appgateway")]
             )
 
     assert isinstance(builder, AzDashboardBuilder)
@@ -90,8 +90,8 @@ def test_create_an_azure_dashboard_builder_without_a_resolver():
             name="PROD-IO/IO App Availability",
             location="West Europe",
             resources=[("/subscriptions/uuid/"
-                         "resourceGroups/io-p-rg-external/providers/Microsoft.Network"
-                         "/applicationGateways/io-p-appgateway")]
+                        "resourceGroups/io-p-rg-external/providers/Microsoft.Network"
+                        "/applicationGateways/io-p-appgateway")]
             )
 
     assert str(e.value) == "Invalid builder error: 'resolver' is mandatory with azure-dashboard"
@@ -110,11 +110,11 @@ def test_create_an_azure_dashboard_builder_with_an_invalid_resolver():
             name="PROD-IO/IO App Availability",
             location="West Europe",
             resources=[("/subscriptions/uuid/"
-                         "resourceGroups/io-p-rg-external/providers/Microsoft.Network"
-                         "/applicationGateways/io-p-appgateway")]
+                        "resourceGroups/io-p-rg-external/providers/Microsoft.Network"
+                        "/applicationGateways/io-p-appgateway")]
             )
 
-    assert str(e.value) == "Invalid builder error: 'resolver' must be an OA3Resolver"
+    assert str(e.value) == f"Invalid builder error: 'resolver' must be a {OA3Resolver}"
 
 
 def test_create_an_azure_dashboard_builder_without_a_name():
@@ -127,11 +127,11 @@ def test_create_an_azure_dashboard_builder_without_a_name():
         resolver = OA3Resolver(f"{DATA_BASE_PATH}/io_backend.yaml")
         BuilderFactory.create_builder(
             "azure-dashboard",
-            resolver= resolver,
+            resolver=resolver,
             location="West Europe",
             resources=[("/subscriptions/uuid/"
-                         "resourceGroups/io-p-rg-external/providers/Microsoft.Network"
-                         "/applicationGateways/io-p-appgateway")]
+                        "resourceGroups/io-p-rg-external/providers/Microsoft.Network"
+                        "/applicationGateways/io-p-appgateway")]
             )
 
     assert str(e.value) == "Invalid builder error: 'name' is mandatory with azure-dashboard"
@@ -151,9 +151,11 @@ def test_create_an_azure_dashboard_builder_with_an_invalid_name():
             name={"foo": "bar"},
             location="West Europe",
             resources=[("/subscriptions/uuid/"
-                         "resourceGroups/io-p-rg-external/providers/Microsoft.Network"
-                         "/applicationGateways/io-p-appgateway")]
+                        "resourceGroups/io-p-rg-external/providers/Microsoft.Network"
+                        "/applicationGateways/io-p-appgateway")]
             )
+
+    assert str(e.value) == f"Invalid builder error: 'name' must be a {str}"
 
 
 def test_create_an_azure_dashboard_builder_without_a_location():
@@ -166,11 +168,11 @@ def test_create_an_azure_dashboard_builder_without_a_location():
         resolver = OA3Resolver(f"{DATA_BASE_PATH}/io_backend.yaml")
         BuilderFactory.create_builder(
             "azure-dashboard",
-            resolver= resolver,
+            resolver=resolver,
             name="PROD-IO/IO App Availability",
             resources=[("/subscriptions/uuid/"
-                         "resourceGroups/io-p-rg-external/providers/Microsoft.Network"
-                         "/applicationGateways/io-p-appgateway")]
+                        "resourceGroups/io-p-rg-external/providers/Microsoft.Network"
+                        "/applicationGateways/io-p-appgateway")]
             )
 
     assert str(e.value) == "Invalid builder error: 'location' is mandatory with azure-dashboard"
@@ -190,9 +192,11 @@ def test_create_an_azure_dashboard_builder_with_an_invalid_location():
             name="PROD-IO/IO App Availability",
             location={"foo": "bar"},
             resources=[("/subscriptions/uuid/"
-                         "resourceGroups/io-p-rg-external/providers/Microsoft.Network"
-                         "/applicationGateways/io-p-appgateway")]
+                        "resourceGroups/io-p-rg-external/providers/Microsoft.Network"
+                        "/applicationGateways/io-p-appgateway")]
             )
+
+    assert str(e.value) == f"Invalid builder error: 'location' must be a {str}"
 
 
 def test_create_an_azure_dashboard_builder_without_a_list_of_resources():
@@ -205,7 +209,7 @@ def test_create_an_azure_dashboard_builder_without_a_list_of_resources():
         resolver = OA3Resolver(f"{DATA_BASE_PATH}/io_backend.yaml")
         BuilderFactory.create_builder(
             "azure-dashboard",
-            resolver= resolver,
+            resolver=resolver,
             name="PROD-IO/IO App Availability",
             location="West Europe"
             )
@@ -229,4 +233,4 @@ def test_create_an_azure_dashboard_builder_with_an_invalid_list_of_resources():
             resources={"foo": "bar"}
             )
 
-    assert str(e.value) == "Invalid builder error: 'resources' must be a list"
+    assert str(e.value) == f"Invalid builder error: 'resources' must be a {list}"
