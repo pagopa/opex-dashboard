@@ -41,26 +41,25 @@ def setup_required(ctx: click.Context, params: click.Option, value: str) -> str:
               required=False,
               default=None,
               help="Azure location.")
-@click.option("--az-resource",
+@click.option("--az-resource", "az_resources",
               type=str,
               required=False,
               default=None,
               multiple=True,
               help="Resource id of the gateway.")
-def generate(
-    template_name: str,
-    az_oa3_spec: str,
-    az_name: str,
-    az_location: str,
-    az_resource: Tuple[str],
-    output_file: str) -> None:
+def generate(template_name: str,
+             az_oa3_spec: str,
+             az_name: str,
+             az_location: str,
+             az_resources: Tuple[str],
+             output_file: str) -> None:
     """Description
     """
     properties = {
         "resolver": OA3Resolver(az_oa3_spec),
         "name": az_name,
         "location": az_location,
-        "resources": list(az_resource),
+        "resources": list(az_resources),
     }
 
     builder = create_builder(template=template_name, **properties)
