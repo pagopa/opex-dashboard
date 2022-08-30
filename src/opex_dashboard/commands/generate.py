@@ -1,7 +1,7 @@
 import click
 
 from opex_dashboard.resolver import OA3Resolver
-from opex_dashboard.builder_factory import BuilderFactory
+from opex_dashboard.builder_factory import create_builder
 from opex_dashboard.error import InvalidBuilderError
 
 
@@ -33,8 +33,8 @@ def generate(template_name: str, oa3_spec: str, output_file: str) -> None:
     if oa3_spec.startswith("http"):
         print("download")  # TODO
     else:
-        resolver = OA3Resolver(oa3_spec)
-        builder = BuilderFactory.create_builder(template=template_name, resolver=resolver)
+        resolver = OA3Resolver(oa3_spec)  # TODO use dict as kwargs
+        builder = create_builder(template=template_name, resolver=resolver)
         if not builder:
             raise InvalidBuilderError(f"Invalid builder error: unknown builder {template_name}")
         result = builder.produce()

@@ -4,7 +4,7 @@ from os.path import dirname, join
 
 from opex_dashboard.resolver import OA3Resolver
 from opex_dashboard.template import Template
-from opex_dashboard.builder_factory import BuilderFactory
+from opex_dashboard.builder_factory import create_builder
 
 DATA_BASE_PATH = join(dirname(__file__), "data")
 NUMBER_OF_GRAPH_FOR_EACH_ENDPOINT = 3
@@ -24,7 +24,7 @@ def test_produce_the_template():
     THEN the template is rendered and properties applied
     """
     resolver = OA3Resolver(f"{DATA_BASE_PATH}/io_backend.yaml")
-    builder = BuilderFactory.create_builder(
+    builder = create_builder(
             "azure-dashboard",
             resolver=resolver,
             name=NAME,

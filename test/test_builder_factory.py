@@ -2,7 +2,7 @@ import pytest
 
 from os.path import dirname, join
 
-from opex_dashboard.builder_factory import BuilderFactory
+from opex_dashboard.builder_factory import create_builder
 from opex_dashboard.builders.base import Builder
 from opex_dashboard.builders.azure_dashboard_builder import AzDashboardBuilder
 from opex_dashboard.resolver import OA3Resolver
@@ -17,7 +17,7 @@ def test_create_a_basic_builder():
     WHEN the builder is created
     THEN it retruns an instance of Builder
     """
-    builder = BuilderFactory.create_builder("base", template_name="template.json")
+    builder = create_builder("base", template_name="template.json")
 
     assert isinstance(builder, Builder)
 
@@ -29,7 +29,7 @@ def test_create_a_basic_builder_without_a_template():
     THEN it throws an exception
     """
     with pytest.raises(InvalidBuilderError) as e:
-        BuilderFactory.create_builder("base")
+        create_builder("base")
 
     assert str(e.value) == "Invalid builder error: 'template_name' is mandatory with base"
 
@@ -41,7 +41,7 @@ def test_create_a_basic_builder_with_an_invalid_template_name():
     THEN it throws an exception
     """
     with pytest.raises(InvalidBuilderError) as e:
-        BuilderFactory.create_builder("base", template_name={"foo": "bar"})
+        create_builder("base", template_name={"foo": "bar"})
 
     assert str(e.value) == f"Invalid builder error: 'template_name' must be a {str}"
 
@@ -53,7 +53,7 @@ def test_create_a_basic_builder_with_invalid_base_properties():
     THEN it throws an exception
     """
     with pytest.raises(InvalidBuilderError) as e:
-        BuilderFactory.create_builder("base", template_name="template.json", base_properties="foobar")
+        create_builder("base", template_name="template.json", base_properties="foobar")
 
     assert str(e.value) == f"Invalid builder error: 'base_properties' must be a {dict}"
 
@@ -65,7 +65,7 @@ def test_create_an_azure_dashboard_builder():
     THEN it retruns an instance of AzDashboardBuilder
     """
     resolver = OA3Resolver(f"{DATA_BASE_PATH}/io_backend.yaml")
-    builder = BuilderFactory.create_builder(
+    builder = create_builder(
             "azure-dashboard",
             resolver=resolver,
             name="PROD-IO/IO App Availability",
@@ -85,7 +85,7 @@ def test_create_an_azure_dashboard_builder_without_a_resolver():
     THEN it throws an exception
     """
     with pytest.raises(InvalidBuilderError) as e:
-        BuilderFactory.create_builder(
+        create_builder(
             "azure-dashboard",
             name="PROD-IO/IO App Availability",
             location="West Europe",
@@ -104,7 +104,7 @@ def test_create_an_azure_dashboard_builder_with_an_invalid_resolver():
     THEN it throws an exception
     """
     with pytest.raises(InvalidBuilderError) as e:
-        BuilderFactory.create_builder(
+        create_builder(
             "azure-dashboard",
             resolver={"foo": "bar"},
             name="PROD-IO/IO App Availability",
@@ -125,7 +125,7 @@ def test_create_an_azure_dashboard_builder_without_a_name():
     """
     with pytest.raises(InvalidBuilderError) as e:
         resolver = OA3Resolver(f"{DATA_BASE_PATH}/io_backend.yaml")
-        BuilderFactory.create_builder(
+        create_builder(
             "azure-dashboard",
             resolver=resolver,
             location="West Europe",
@@ -145,7 +145,7 @@ def test_create_an_azure_dashboard_builder_with_an_invalid_name():
     """
     with pytest.raises(InvalidBuilderError) as e:
         resolver = OA3Resolver(f"{DATA_BASE_PATH}/io_backend.yaml")
-        BuilderFactory.create_builder(
+        create_builder(
             "azure-dashboard",
             resolver=resolver,
             name={"foo": "bar"},
@@ -166,7 +166,7 @@ def test_create_an_azure_dashboard_builder_without_a_location():
     """
     with pytest.raises(InvalidBuilderError) as e:
         resolver = OA3Resolver(f"{DATA_BASE_PATH}/io_backend.yaml")
-        BuilderFactory.create_builder(
+        create_builder(
             "azure-dashboard",
             resolver=resolver,
             name="PROD-IO/IO App Availability",
@@ -186,7 +186,7 @@ def test_create_an_azure_dashboard_builder_with_an_invalid_location():
     """
     with pytest.raises(InvalidBuilderError) as e:
         resolver = OA3Resolver(f"{DATA_BASE_PATH}/io_backend.yaml")
-        BuilderFactory.create_builder(
+        create_builder(
             "azure-dashboard",
             resolver=resolver,
             name="PROD-IO/IO App Availability",
@@ -207,7 +207,7 @@ def test_create_an_azure_dashboard_builder_without_a_list_of_resources():
     """
     with pytest.raises(InvalidBuilderError) as e:
         resolver = OA3Resolver(f"{DATA_BASE_PATH}/io_backend.yaml")
-        BuilderFactory.create_builder(
+        create_builder(
             "azure-dashboard",
             resolver=resolver,
             name="PROD-IO/IO App Availability",
@@ -225,7 +225,7 @@ def test_create_an_azure_dashboard_builder_with_an_invalid_list_of_resources():
     """
     with pytest.raises(InvalidBuilderError) as e:
         resolver = OA3Resolver(f"{DATA_BASE_PATH}/io_backend.yaml")
-        BuilderFactory.create_builder(
+        create_builder(
             "azure-dashboard",
             resolver=resolver,
             name="PROD-IO/IO App Availability",
