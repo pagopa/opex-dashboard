@@ -4,7 +4,7 @@ from os.path import dirname, join
 
 from opex_dashboard.builder_factory import BuilderFactory
 from opex_dashboard.builders.base import Builder
-from opex_dashboard.builders.azure_builder import AzDashboardBuilder
+from opex_dashboard.builders.azure_dashboard_builder import AzDashboardBuilder
 from opex_dashboard.resolver import OA3Resolver
 from opex_dashboard.error import InvalidBuilderError
 
