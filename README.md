@@ -1,18 +1,3 @@
 # OpEx Dashboard
 
 This is a cli to generate PagoPA's Operational Excellence dashboards from open api specs
-
-## Todo
-
-- [ ] Add logging
-- [ ] Checkout pytest warnings
-- [ ] Dockerize
-- [ ] Write README
-- [ ] Are there any parts that need to be migrate in util?
-
-- [ ] Check mypy ignore\_missing\_imports = True
-
-- [ ] Why metadata.inputs query is different from metadata.settings query?
-- [ ] Can I change axis labels?
-- [ ] In PartSubTitle I used endpoint instead of "io-p-appgateway"
-- [ ] What to do for the path parameters?
