@@ -1,4 +1,4 @@
-from src.opex_dashboard.tags.uri_to_regex import uri_to_regex
+from opex_dashboard.tags.uri_to_regex import uri_to_regex
 
 PATH = "/api/v1/services"
 

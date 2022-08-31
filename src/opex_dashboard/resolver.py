@@ -2,7 +2,7 @@ import prance
 
 from typing import Dict, Any
 
-from .error import ParseError
+from opex_dashboard.error import ParseError
 
 PARSER_BACKEND = "openapi-spec-validator"
 

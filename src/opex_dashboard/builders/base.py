@@ -1,6 +1,6 @@
 from typing import Dict, Any
 
-from ..template import Template
+from opex_dashboard.template import Template
 
 
 class Builder:

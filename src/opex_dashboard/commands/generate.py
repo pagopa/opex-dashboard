@@ -2,9 +2,9 @@ import click
 
 from typing import Tuple
 
-from ..resolver import OA3Resolver
-from ..builder_factory import create_builder
-from ..error import InvalidBuilderError
+from opex_dashboard.resolver import OA3Resolver
+from opex_dashboard.builder_factory import create_builder
+from opex_dashboard.error import InvalidBuilderError
 
 
 def setup_required(ctx: click.Context, params: click.Option, value: str) -> str:

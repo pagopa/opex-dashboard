@@ -2,13 +2,13 @@
 
 from os.path import dirname, join
 from setuptools import find_packages, setup
-from src import src.opex_dashboard
+from src import opex_dashboard
 
-def read(fname):
+def read(fname: str) -> str:
     return open(join(dirname(__file__), fname)).read()
 
 setup(
-    name=opex_dashboard.__title__,
+    name=opex_dashboard.__name__,
     author=opex_dashboard.__author__,
     url="https://github.com/pagopa/operational-excellence-dashboard",
     project_urls={
@@ -17,6 +17,7 @@ setup(
     version=opex_dashboard.__version__,
     packages=find_packages(where="src"),
     package_dir={"": "src"},
+    package_data={"opex_dashboard.templates": ["*"]},
     description=opex_dashboard.__description__,
     long_description=read("README.md"),
     long_description_content_type="text/markdown",
@@ -34,4 +35,9 @@ setup(
         "django>=4.1",
         "click>=8.1.3",
     ],
+    entry_points={
+        "console_scripts": [
+            "opex_dashboard=opex_dashboard.cli:cli"
+        ]
+    },
 )

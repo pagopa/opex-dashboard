@@ -1,8 +1,8 @@
 import json
 import pytest
 
-from src.opex_dashboard.template import Template
-from src.opex_dashboard.error import FileError
+from opex_dashboard.template import Template
+from opex_dashboard.error import FileError
 
 
 def test_render_existing_template():

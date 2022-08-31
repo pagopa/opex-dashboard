@@ -1,6 +1,6 @@
 import pytest
 
-from src.opex_dashboard.util import normalize_params
+from opex_dashboard.util import normalize_params
 
 
 def test_normalize_params():

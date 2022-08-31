@@ -3,9 +3,9 @@ from django.template import Engine, Template as DTemplate, Context
 from django.template.exceptions import TemplateDoesNotExist
 from typing import Dict, Any
 
-from .error import FileError
+from opex_dashboard.error import FileError
 
-TEMPLATES_DIRS = [join(dirname(__file__), "templates")]
+TEMPLATES_DIRS = ["src/opex_dashboard/templates"]
 
 
 class Template:
@@ -13,9 +13,9 @@ class Template:
         TEMPLATES_DIRS,
         autoescape=False,
         libraries={
-            'mul': 'src.opex_dashboard.tags.mul',
-            'stringify': 'src.opex_dashboard.tags.stringify',
-            'uri_to_regex': 'src.opex_dashboard.tags.uri_to_regex',
+            'mul': 'opex_dashboard.tags.mul',
+            'stringify': 'opex_dashboard.tags.stringify',
+            'uri_to_regex': 'opex_dashboard.tags.uri_to_regex',
         }
     )
 

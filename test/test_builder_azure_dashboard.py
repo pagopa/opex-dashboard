@@ -2,9 +2,9 @@ import json
 
 from os.path import dirname, join
 
-from src.opex_dashboard.resolver import OA3Resolver
-from src.opex_dashboard.template import Template
-from src.opex_dashboard.builder_factory import create_builder
+from opex_dashboard.resolver import OA3Resolver
+from opex_dashboard.template import Template
+from opex_dashboard.builder_factory import create_builder
 
 DATA_BASE_PATH = join(dirname(__file__), "data")
 NUMBER_OF_GRAPH_FOR_EACH_ENDPOINT = 3
