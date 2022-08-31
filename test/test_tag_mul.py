@@ -1,4 +1,4 @@
-from opex_dashboard.tags.mul import mul
+from src.opex_dashboard.tags.mul import mul
 
 
 def test_multiplication():

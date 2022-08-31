@@ -1,6 +1,6 @@
 import json
 
-from opex_dashboard.builder_factory import create_builder
+from src.opex_dashboard.builder_factory import create_builder
 
 
 def test_produce_a_template_without_base_properties():

@@ -1,6 +1,6 @@
 import click
 
-from opex_dashboard.commands.generate import generate
+from src.opex_dashboard.commands.generate import generate
 
 
 @click.group()

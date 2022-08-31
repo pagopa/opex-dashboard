@@ -2,7 +2,7 @@
 
 from os.path import dirname, join
 from setuptools import find_packages, setup
-from src import opex_dashboard
+from src import src.opex_dashboard
 
 def read(fname):
     return open(join(dirname(__file__), fname)).read()

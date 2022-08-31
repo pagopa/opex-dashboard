@@ -1,7 +1,7 @@
 from typing import Dict, List, Any
 
-from opex_dashboard.builders.base import Builder
-from opex_dashboard.resolver import OA3Resolver
+from src.opex_dashboard.builders.base import Builder
+from src.opex_dashboard.resolver import OA3Resolver
 
 
 class AzDashboardBuilder(Builder):

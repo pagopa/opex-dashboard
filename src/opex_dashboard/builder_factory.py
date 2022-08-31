@@ -1,10 +1,10 @@
 from typing import Any, Optional
 
-from opex_dashboard.util import normalize_params
-from opex_dashboard.resolver import OA3Resolver
-from opex_dashboard.error import InvalidBuilderError
-from opex_dashboard.builders.base import Builder
-from opex_dashboard.builders.azure_dashboard_builder import AzDashboardBuilder
+from src.opex_dashboard.util import normalize_params
+from src.opex_dashboard.resolver import OA3Resolver
+from src.opex_dashboard.error import InvalidBuilderError
+from src.opex_dashboard.builders.base import Builder
+from src.opex_dashboard.builders.azure_dashboard_builder import AzDashboardBuilder
 
 
 def create_builder(template: str, **args: Optional[Any]) -> Optional[Builder]:
