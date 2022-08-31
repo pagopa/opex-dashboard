@@ -32,5 +32,6 @@ setup(
         "prance>=0.21.8.0",
         "openapi-spec-validator>=0.4.0",
         "django>=4.1",
+        "click>=8.1.3",
     ],
 )
