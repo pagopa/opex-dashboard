@@ -18,9 +18,9 @@ flake8 = ">=5.0.4"
 [scripts]
 lint = "flake8 ./src ./test"
 mypy = "mypy ./src"
-test = "python -m pytest -q"
+test = "pytest"
 build = "python ./setup.py sdist bdist_wheel"
-install = "python ./setup.py install"
+install_local = "python ./setup.py install"
 
 [requires]
 python_version = "3.9"

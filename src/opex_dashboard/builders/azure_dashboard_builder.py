@@ -1,4 +1,5 @@
 from typing import Dict, List, Any
+from urllib.parse import urlparse
 
 from opex_dashboard.builders.base import Builder
 from opex_dashboard.resolver import OA3Resolver
@@ -27,12 +28,17 @@ class AzDashboardBuilder(Builder):
             str: The rendered template to create an Azure Dashboard json
         """
         if "servers" in self._oa3_spec:
-            hosts = [h["url"] for h in self._oa3_spec["servers"]]
+            self._properties["hosts"] = []
+            self._properties["endpoints"] = []
+            for server in self._oa3_spec["servers"]:
+                url = urlparse(server["url"])
+                self._properties["hosts"].append(url.netloc)
+                for p in list(self._oa3_spec["paths"].keys()):
+                    self._properties["endpoints"].append(f"{url.path}/{p[1:]}")
+            self._properties["endpoints"] = [*set(self._properties["endpoints"])]
         else:
-            hosts = [self._oa3_spec["host"]]
-        self._properties["hosts"] = hosts
-
-        base_path = self._oa3_spec["basePath"]
-        self._properties["endpoints"] = [f"{base_path}/{endpoint[1:]}" for endpoint in self._oa3_spec["paths"].keys()]
+            base_path = self._oa3_spec["basePath"]
+            self._properties["hosts"] = [self._oa3_spec["host"]]
+            self._properties["endpoints"] = [f"{base_path}/{p[1:]}" for p in self._oa3_spec["paths"].keys()]
 
         return super().produce(values)

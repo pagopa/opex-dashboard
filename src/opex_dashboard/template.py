@@ -1,4 +1,3 @@
-from os.path import dirname, join
 from django.template import Engine, Template as DTemplate, Context
 from django.template.exceptions import TemplateDoesNotExist
 from typing import Dict, Any

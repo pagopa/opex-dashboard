@@ -6,7 +6,7 @@
         "order": 0,
         "parts": {
           {% for endpoint in endpoints %}
-          "{{ forloop.counter0|mul:3|add:"0" }}": {
+          "{{ forloop.counter0|mul:3|add:0 }}": {
             "position": {
               "x": 0,
               "y": {{ forloop.counter0|mul:4 }},
@@ -125,7 +125,7 @@
               }
             }
           },
-          "{{ forloop.counter0|mul:3|add:"1" }}": {
+          "{{ forloop.counter0|mul:3|add:1 }}": {
             "position": {
               "x": 6,
               "y": {{ forloop.counter0|mul:4 }},
@@ -260,7 +260,7 @@
               }
             }
           },
-          "{{ forloop.counter0|mul:3|add:"2" }}": {
+          "{{ forloop.counter0|mul:3|add:2 }}": {
             "position": {
               "x": 12,
               "y": {{ forloop.counter0|mul:4 }},

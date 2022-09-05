@@ -1,7 +1,5 @@
 import pytest
 
-from os.path import dirname, join
-
 from opex_dashboard.template import Template
 
 
