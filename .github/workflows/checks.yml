@@ -23,6 +23,11 @@ jobs:
         with:
           command: install -d
 
+      - name: Install library
+        uses: VaultVulp/action-pipenv@v2.0.1
+        with:
+          command: run install_local
+
       - name: Run linting
         uses: VaultVulp/action-pipenv@v2.0.1
         with:
