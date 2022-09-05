@@ -1,0 +1,44 @@
+name: Checks
+
+on:
+  push:
+    paths:
+      - '**.py'
+
+jobs:
+  release:
+    name: Checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: Install dependencies
+        uses: VaultVulp/action-pipenv@v2.0.1
+        with:
+          command: install -d
+
+      - name: Install library
+        uses: VaultVulp/action-pipenv@v2.0.1
+        with:
+          command: run install_local
+
+      - name: Run linting
+        uses: VaultVulp/action-pipenv@v2.0.1
+        with:
+          command: run lint
+
+      - name: Run MyPy
+        uses: VaultVulp/action-pipenv@v2.0.1
+        with:
+          command: run mypy
+
+      - name: Run tests
+        uses: VaultVulp/action-pipenv@v2.0.1
+        with:
+          command: run test
