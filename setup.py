@@ -1,11 +1,18 @@
 #!/usr/bin/env python
 
+import toml
+
+from typing import List
 from os.path import dirname, join
 from setuptools import find_packages, setup
 from src import opex_dashboard
 
 def read(fname: str) -> str:
     return open(join(dirname(__file__), fname)).read()
+
+def parse_deps() -> List[str]:
+    packages = toml.load("Pipfile")["packages"]
+    return [f"{package}{packages[package]}" for package in packages]
 
 setup(
     name=opex_dashboard.__name__,
@@ -29,12 +36,7 @@ setup(
         "Programming Language :: Python :: 3.9",
         "Topic :: Software Development :: Libraries",
     ],
-    install_requires=[
-        "prance>=0.21.8.0",
-        "openapi-spec-validator>=0.4.0",
-        "django>=4.1",
-        "click>=8.1.3",
-    ],
+    install_requires=parse_deps(),
     entry_points={
         "console_scripts": [
             "opex_dashboard=opex_dashboard.cli:cli"
