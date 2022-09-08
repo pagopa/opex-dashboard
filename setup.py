@@ -24,7 +24,7 @@ setup(
     version=opex_dashboard.__version__,
     packages=find_packages(where="src"),
     package_dir={"": "src"},
-    package_data={"opex_dashboard.templates": ["*"]},
+    include_package_data=True,
     description=opex_dashboard.__description__,
     long_description=read("README.md"),
     long_description_content_type="text/markdown",
