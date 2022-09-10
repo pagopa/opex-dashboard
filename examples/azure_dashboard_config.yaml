@@ -1,0 +1,5 @@
+oa3_spec: test/data/io_backend.yaml
+name: My spec
+location: West Europe
+resources:
+  - /subscriptions/uuid/resourceGroups/my-rg/providers/Microsoft.Network/applicationGateways/my-gtw
