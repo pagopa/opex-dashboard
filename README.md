@@ -27,6 +27,17 @@ folder](examples).
 This is the most convenient and rapid way. Generate the dashboard:
 
 ```bash
+cat config.yaml | docker run -v $(pwd):/home/nonroot/resources:Z \
+  ghcr.io/pagopa/operational-excellence-dashboard:latest generate \
+  --template-name azure-dashbaord \
+  --config-file -
+```
+
+`-` is a special value, it indicates stdin as input. Alternatively, it is always
+possible to bind mount a volume and load the configuration file, as well as the
+OA3 spec, from the volume:
+
+```bash
 docker run -v $(pwd):/home/nonroot/resources:Z \
   ghcr.io/pagopa/operational-excellence-dashboard:latest generate \
   --template-name azure-dashbaord \
@@ -71,7 +82,7 @@ Create the dashboard:
 ```bash
 opex_dashboard generate \
   --template-name azure-dashbaord \
-  --config-file "$(pwd)/config.yaml"
+  --config-file config.yaml
 ```
 
 ## Development
@@ -94,5 +105,5 @@ pipenv run install_local
 ```bash
 pipenv run opex_dashboard generate \
   --template-name azure-dashbaord \
-  --config-file "$(pwd)/config.yaml"
+  --config-file config.yaml
 ```

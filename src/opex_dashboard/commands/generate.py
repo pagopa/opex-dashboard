@@ -1,8 +1,6 @@
 import click
 import yaml
 
-from typing import Tuple
-
 from opex_dashboard.resolver import OA3Resolver
 from opex_dashboard.builder_factory import create_builder
 from opex_dashboard.error import InvalidBuilderError
@@ -14,10 +12,9 @@ from opex_dashboard.error import InvalidBuilderError
               type=click.Choice(["azure-dashboard"]),
               help="Name of the template.")
 @click.option("--config-file", "-c",
-              type=str,
+              type=click.File("r"),
               required=True,
-              default=None,
-              help="A yaml file with all params to create the template.")
+              help="A yaml file with all params to create the template, use - value to get input from stdin.")
 @click.option("--output-file", "-o",
               type=str,
               default=None,
@@ -28,8 +25,7 @@ def generate(template_name: str,
     """Generate enables you to create a dashboard definition that could be
        imported in a compatible provider.
     """
-    with open(config_file) as file:
-        config = yaml.load(file, Loader=yaml.FullLoader)
+    config = yaml.load(config_file, Loader=yaml.FullLoader)
 
     properties = {
         "resolver": OA3Resolver(config["oa3_spec"]),
