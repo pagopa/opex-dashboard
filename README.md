@@ -11,7 +11,7 @@ configuration file:
 
 ```bash
 cat <<EOF > config.yaml
-oa3_spec: $(pwd)/oa3_spec.yaml
+oa3_spec: https://raw.githubusercontent.com/pagopa/operational-excellence-dashboard/main/test/data/io_backend.yaml
 name: My dashboard
 location: West Europe
 resources:
@@ -27,7 +27,7 @@ folder](examples).
 This is the most convenient and rapid way. Generate the dashboard:
 
 ```bash
-cat config.yaml | docker run -v $(pwd):/home/nonroot/resources:Z \
+cat config.yaml | docker run \
   ghcr.io/pagopa/operational-excellence-dashboard:latest generate \
   --template-name azure-dashbaord \
   --config-file -

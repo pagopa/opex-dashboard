@@ -1,4 +1,4 @@
-oa3_spec: test/data/io_backend.yaml
+oa3_spec: test/data/io_backend.yaml # If start with http the file would be download from the internet
 name: My spec
 location: West Europe
 resources:

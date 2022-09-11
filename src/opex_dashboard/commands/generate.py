@@ -1,5 +1,8 @@
 import click
 import yaml
+import tempfile
+import requests
+import os
 
 from opex_dashboard.resolver import OA3Resolver
 from opex_dashboard.builder_factory import create_builder
@@ -27,8 +30,15 @@ def generate(template_name: str,
     """
     config = yaml.load(config_file, Loader=yaml.FullLoader)
 
+    spec_path = config["oa3_spec"]
+    if spec_path.startswith("http"):
+        req = requests.get(spec_path)
+        fd, spec_path = tempfile.mkstemp()
+        os.write(fd, req.content)
+        os.close(fd)
+
     properties = {
-        "resolver": OA3Resolver(config["oa3_spec"]),
+        "resolver": OA3Resolver(spec_path),
         "name": config["name"],
         "location": config["location"],
         "resources": config["resources"],
