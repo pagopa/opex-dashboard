@@ -11,7 +11,7 @@ configuration file:
 
 ```bash
 cat <<EOF > config.yaml
-oa3_spec: https://raw.githubusercontent.com/pagopa/operational-excellence-dashboard/main/test/data/io_backend.yaml
+oa3_spec: https://raw.githubusercontent.com/pagopa/opex-dashboard/main/test/data/io_backend.yaml
 name: My dashboard
 location: West Europe
 timespan: 5m
@@ -29,7 +29,7 @@ This is the most convenient and rapid way. Generate the dashboard:
 
 ```bash
 cat config.yaml | docker run -i \
-  ghcr.io/pagopa/operational-excellence-dashboard:latest generate \
+  ghcr.io/pagopa/opex-dashboard:latest generate \
   --template-name azure-dashbaord \
   --config-file -
 ```
@@ -40,7 +40,7 @@ OA3 spec, from the volume:
 
 ```bash
 docker run -v $(pwd):/home/nonroot/resources:Z \
-  ghcr.io/pagopa/operational-excellence-dashboard:latest generate \
+  ghcr.io/pagopa/opex-dashboard:latest generate \
   --template-name azure-dashbaord \
   --config-file home/nonroot/resources/config.yaml
 ```
@@ -51,11 +51,11 @@ There is a convenient (Dockerfile)[Dockerfile] that you can use to build the
 image from scratch on your localhost.
 
 ```bash
-git clone https://github.com/pagopa/operational-excellence-dashboard.git
+git clone https://github.com/pagopa/opex-dashboard.git
 ```
 
 ```bash
-cd operational-excellence-dashboard
+cd opex-dashboard
 ```
 
 ```bash
@@ -67,11 +67,11 @@ docker build -t opexd .
 Install the library:
 
 ```bash
-git clone https://github.com/pagopa/operational-excellence-dashboard.git
+git clone https://github.com/pagopa/opex-dashboard.git
 ```
 
 ```bash
-cd operational-excellence-dashboard
+cd opex-dashboard
 ```
 
 ```bash
