@@ -6,7 +6,7 @@ let success=AzureDiagnostics
 | where originalHost_s in (api_hosts)
 | where requestUri_s matches regex api_url
 | where httpStatus_d in (api_httpStatus)
-| summarize count() by HTTPStatus=" Success", bin(TimeGenerated, 5m);
+| summarize count() by HTTPStatus=" Success", bin(TimeGenerated, {{ timespan }});
 let fail=AzureDiagnostics
 | where originalHost_s in (api_hosts)
 | where requestUri_s matches regex api_url
@@ -17,6 +17,6 @@ httpStatus_d between (300 .. 399), "3XX",
 httpStatus_d between (400 .. 499), "4XX",
 "5XX"
 )
-| summarize count() by HTTPStatus, bin(TimeGenerated, 5m);
+| summarize count() by HTTPStatus, bin(TimeGenerated, {{ timespan }});
 union success, fail
 | render areachart

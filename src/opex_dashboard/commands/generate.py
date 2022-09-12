@@ -41,6 +41,7 @@ def generate(template_name: str,
         "resolver": OA3Resolver(spec_path),
         "name": config["name"],
         "location": config["location"],
+        "timespan": config["timespan"],
         "resources": config["resources"],
     }
 
