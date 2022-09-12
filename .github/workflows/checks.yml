@@ -36,7 +36,7 @@ jobs:
       - name: Run MyPy
         uses: VaultVulp/action-pipenv@v2.0.1
         with:
-          command: run mypy
+          command: run check
 
       - name: Run tests
         uses: VaultVulp/action-pipenv@v2.0.1
