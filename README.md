@@ -30,7 +30,7 @@ This is the most convenient and rapid way. Generate the dashboard:
 ```bash
 cat config.yaml | docker run -i \
   ghcr.io/pagopa/opex-dashboard:latest generate \
-  --template-name azure-dashbaord \
+  --template-name azure-dashboard \
   --config-file -
 ```
 
@@ -41,7 +41,7 @@ OA3 spec, from the volume:
 ```bash
 docker run -v $(pwd):/home/nonroot/resources:Z \
   ghcr.io/pagopa/opex-dashboard:latest generate \
-  --template-name azure-dashbaord \
+  --template-name azure-dashboard \
   --config-file home/nonroot/resources/config.yaml
 ```
 
@@ -82,7 +82,7 @@ Create the dashboard:
 
 ```bash
 opex_dashboard generate \
-  --template-name azure-dashbaord \
+  --template-name azure-dashboard \
   --config-file config.yaml
 ```
 
@@ -105,6 +105,6 @@ pipenv run install_local
 
 ```bash
 pipenv run opex_dashboard generate \
-  --template-name azure-dashbaord \
+  --template-name azure-dashboard \
   --config-file config.yaml
 ```
