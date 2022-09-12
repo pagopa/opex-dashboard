@@ -1,4 +1,4 @@
-FROM python:3.9-slim
+FROM python:3.9.14-slim@sha256:d95dc32274f817debe886e6c5a6164bf4e0d996632d8cb56fde89189134db9d7
 
 RUN pip install --upgrade pip
 
