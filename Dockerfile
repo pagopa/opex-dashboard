@@ -1,8 +1,9 @@
-FROM python:3.9.14-slim@sha256:d95dc32274f817debe886e6c5a6164bf4e0d996632d8cb56fde89189134db9d7
+FROM python:3.9.14-alpine@sha256:d80bb38eb14230a70ef922956d0621f7dd938b16794057f6fe71a90ef9ec5504
 
+RUN apk update && apk upgrade && apk add build-base
 RUN pip install --upgrade pip
 
-RUN useradd -m nonroot
+RUN adduser -D nonroot
 USER nonroot
 WORKDIR /home/nonroot
 
