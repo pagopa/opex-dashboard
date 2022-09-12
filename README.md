@@ -14,6 +14,7 @@ cat <<EOF > config.yaml
 oa3_spec: https://raw.githubusercontent.com/pagopa/operational-excellence-dashboard/main/test/data/io_backend.yaml
 name: My dashboard
 location: West Europe
+timespan: 5m
 resources:
   - /subscriptions/uuid/resourceGroups/my-rg/providers/Microsoft.Network/applicationGateways/my-gtw
 EOF
