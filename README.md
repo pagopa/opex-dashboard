@@ -27,7 +27,7 @@ folder](examples).
 This is the most convenient and rapid way. Generate the dashboard:
 
 ```bash
-cat config.yaml | docker run \
+cat config.yaml | docker run -i \
   ghcr.io/pagopa/operational-excellence-dashboard:latest generate \
   --template-name azure-dashbaord \
   --config-file -
