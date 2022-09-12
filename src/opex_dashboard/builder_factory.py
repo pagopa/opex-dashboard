@@ -19,9 +19,15 @@ def create_builder(template: str, **args: Optional[Any]) -> Optional[Builder]:
                 "resolver": OA3Resolver,
                 "name": str,
                 "location": str,
+                "timespan": str,
                 "resources": list,
                 })
-            return AzDashboardBuilder(inputs["resolver"], inputs["name"], inputs["location"], inputs["resources"])
+            return AzDashboardBuilder(
+                    inputs["resolver"],
+                    inputs["name"],
+                    inputs["location"],
+                    inputs["timespan"],
+                    inputs["resources"])
         elif template == "base":
             inputs = normalize_params({"base_properties": {}} | args, {
                 "template_name": str,

@@ -1,0 +1,5 @@
+[build-system]
+requires = [
+  "setuptools>=65.3.0",
+  "toml>=0.10.2"
+]

@@ -1,6 +1,7 @@
 import prance
 
 from typing import Dict, Any
+from prance.util.resolver import RESOLVE_FILES
 
 from opex_dashboard.error import ParseError
 
@@ -16,6 +17,7 @@ class OA3Resolver:
         self._resolver = prance.ResolvingParser(
             path,
             backend=PARSER_BACKEND,
+            resolve_types=RESOLVE_FILES,
             lazy=True,
             strict=False
         )

@@ -8,7 +8,12 @@ from opex_dashboard.resolver import OA3Resolver
 class AzDashboardBuilder(Builder):
     _oa3_spec: Dict[str, Any]
 
-    def __init__(self, resolver: OA3Resolver, name: str, location: str, resources: List[str]) -> None:
+    def __init__(self,
+                 resolver: OA3Resolver,
+                 name: str,
+                 location: str,
+                 timespan: str,
+                 resources: List[str]) -> None:
         """Create an AzDashbordBuilder object
         """
         self._oa3_spec = resolver.resolve()  # TODO base_properties from resolver?
@@ -17,6 +22,7 @@ class AzDashboardBuilder(Builder):
             base_properties={
                 "name": name,
                 "location": location,
+                "timespan": timespan,
                 "resource_ids": resources,
             }
         )

@@ -14,13 +14,14 @@ LOCATION = "West Europe"
 RESOURCE_ID = ("/subscriptions/uuid/"
                "resourceGroups/io-p-rg-external/providers/Microsoft.Network"
                "/applicationGateways/io-p-appgateway")
+TIMESPAN = "5m"
 ROW_SPAN = 4
 COL_SPAN = 6
 
 
 def test_produce_the_template_with_host_and_base_path_options():
     """
-    GIVEN a name, a location, a list of resrouces and a OA3 spec with host and basePath
+    GIVEN a name, a location, a timespan, a list of resources and a OA3 spec with host and basePath
     WHEN the builder produces the template
     THEN the template is rendered and properties applied
     """
@@ -30,6 +31,7 @@ def test_produce_the_template_with_host_and_base_path_options():
             resolver=resolver,
             name=NAME,
             location=LOCATION,
+            timespan=TIMESPAN,
             resources=[RESOURCE_ID]
             )
 
@@ -54,25 +56,36 @@ def test_produce_the_template_with_host_and_base_path_options():
         assert part["position"]["y"] == i // NUMBER_OF_GRAPH_FOR_EACH_ENDPOINT * ROW_SPAN
 
         resouce_id = next(e for e in part["metadata"]["inputs"] if e["name"] == "Scope")
+        title = next(e for e in part["metadata"]["inputs"] if e["name"] == "PartTitle")
         subtitle = next(e for e in part["metadata"]["inputs"] if e["name"] == "PartSubTitle")
         query = next(e for e in part["metadata"]["inputs"] if e["name"] == "Query")
 
         assert resouce_id["value"] == {"resourceIds": [RESOURCE_ID]}
+        assert title["value"].endswith(f"({TIMESPAN})")
         assert subtitle["value"] == path
 
+        query_params = {
+            "endpoint": path,
+            "hosts": [spec_dict["host"]],
+            "timespan": TIMESPAN,
+        }
+
         queries = [
-            Template("queries/availability.kusto").render({"endpoint": path, "hosts": [spec_dict["host"]]}),
-            Template("queries/response_codes.kusto").render({"endpoint": path, "hosts": [spec_dict["host"]]}),
-            Template("queries/response_time.kusto").render({"endpoint": path, "hosts": [spec_dict["host"]]}),
+            Template("queries/availability.kusto").render(query_params),
+            Template("queries/response_codes.kusto").render(query_params),
+            Template("queries/response_time.kusto").render(query_params),
         ]
 
         assert query["value"] == queries[i % NUMBER_OF_GRAPH_FOR_EACH_ENDPOINT]
-        assert part["metadata"]["settings"]["content"]["Query"] == queries[i % NUMBER_OF_GRAPH_FOR_EACH_ENDPOINT]
+
+        content = part["metadata"]["settings"]["content"]
+        assert content["Query"] == queries[i % NUMBER_OF_GRAPH_FOR_EACH_ENDPOINT]
+        assert content["PartTitle"].endswith(f"({TIMESPAN})")
 
 
 def test_produce_the_template_with_servers_option():
     """
-    GIVEN a name, a location, a list of resrouces and a OA3 spec with servers
+    GIVEN a name, a location, a timespan, a list of resources and a OA3 spec with host and basePath
     WHEN the builder produces the template
     THEN the template is rendered and properties applied
     """
@@ -82,6 +95,7 @@ def test_produce_the_template_with_servers_option():
             resolver=resolver,
             name=NAME,
             location=LOCATION,
+            timespan=TIMESPAN,
             resources=[RESOURCE_ID]
             )
 
@@ -106,6 +120,7 @@ def test_produce_the_template_with_servers_option():
 
         part = parts[part_index]
         resouce_id = next(e for e in part["metadata"]["inputs"] if e["name"] == "Scope")
+        title = next(e for e in part["metadata"]["inputs"] if e["name"] == "PartTitle")
         subtitle = next(e for e in part["metadata"]["inputs"] if e["name"] == "PartSubTitle")
         query = next(e for e in part["metadata"]["inputs"] if e["name"] == "Query")
 
@@ -113,13 +128,23 @@ def test_produce_the_template_with_servers_option():
         assert part["position"]["y"] == i // NUMBER_OF_GRAPH_FOR_EACH_ENDPOINT * ROW_SPAN
 
         assert resouce_id["value"] == {"resourceIds": [RESOURCE_ID]}
+        assert title["value"].endswith(f"({TIMESPAN})")
         assert subtitle["value"] in paths
 
+        query_params = {
+            "endpoint": subtitle["value"],
+            "hosts": hosts,
+            "timespan": TIMESPAN,
+        }
+
         queries = [
-            Template("queries/availability.kusto").render({"endpoint": subtitle["value"], "hosts": hosts}),
-            Template("queries/response_codes.kusto").render({"endpoint": subtitle["value"], "hosts": hosts}),
-            Template("queries/response_time.kusto").render({"endpoint": subtitle["value"], "hosts": hosts}),
+            Template("queries/availability.kusto").render(query_params),
+            Template("queries/response_codes.kusto").render(query_params),
+            Template("queries/response_time.kusto").render(query_params),
         ]
 
         assert query["value"] == queries[i % NUMBER_OF_GRAPH_FOR_EACH_ENDPOINT]
-        assert part["metadata"]["settings"]["content"]["Query"] == queries[i % NUMBER_OF_GRAPH_FOR_EACH_ENDPOINT]
+
+        content = part["metadata"]["settings"]["content"]
+        assert content["Query"] == queries[i % NUMBER_OF_GRAPH_FOR_EACH_ENDPOINT]
+        assert content["PartTitle"].endswith(f"({TIMESPAN})")

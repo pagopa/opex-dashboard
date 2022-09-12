@@ -1,0 +1,3 @@
+include Pipfile
+include src/opex_dashboard/templates/*
+include src/opex_dashboard/templates/queries/*

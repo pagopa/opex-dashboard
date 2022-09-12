@@ -72,7 +72,7 @@
                 },
                 {
                   "name": "PartTitle",
-                  "value": "Availability (5min)",
+                  "value": "Availability ({{ timespan }})",
                   "isOptional": true
                 },
                 {
@@ -120,7 +120,7 @@
               "settings": {
                 "content": {
                   "Query": {% filter stringify %}{% include "queries/availability.kusto" %}{% endfilter %},
-                  "PartTitle": "Availability (5min)"
+                  "PartTitle": "Availability ({{ timespan }})"
                 }
               }
             }
@@ -191,7 +191,7 @@
                 },
                 {
                   "name": "PartTitle",
-                  "value": "Response Codes (5min)",
+                  "value": "Response Codes ({{ timespan }})",
                   "isOptional": true
                 },
                 {
@@ -236,7 +236,7 @@
                 "content": {
                   "Query": {% filter stringify %}{% include "queries/response_codes.kusto" %}{% endfilter %},
                   "SpecificChart": "StackedArea",
-                  "PartTitle": "Response Codes (5min)",
+                  "PartTitle": "Response Codes ({{ timespan }})",
                   "Dimensions": {
                     "xAxis": {
                       "name": "TimeGenerated",
@@ -326,7 +326,7 @@
                 },
                 {
                   "name": "PartTitle",
-                  "value": "Percentile Response Time (5min)",
+                  "value": "Percentile Response Time ({{ timespan }})",
                   "isOptional": true
                 },
                 {
@@ -371,7 +371,7 @@
                 "content": {
                   "Query": {% filter stringify %}{% include "queries/response_time.kusto" %}{% endfilter %},
                   "SpecificChart": "Line",
-                  "PartTitle": "Percentile Response Time (5min)",
+                  "PartTitle": "Percentile Response Time ({{ timespan }})",
                   "Dimensions": {
                     "xAxis": {
                       "name": "TimeGenerated",
