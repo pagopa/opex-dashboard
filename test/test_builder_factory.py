@@ -22,6 +22,17 @@ def test_create_a_basic_builder():
     assert isinstance(builder, Builder)
 
 
+def test_create_an_inexsiting_builder():
+    """
+    GIVEN an inexsiting builder type
+    WHEN the builder is created
+    THEN it returns None
+    """
+    builder = create_builder("unknow")
+
+    assert not builder
+
+
 def test_create_a_basic_builder_without_a_template():
     """
     GIVEN a base builder type
