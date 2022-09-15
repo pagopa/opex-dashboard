@@ -1,0 +1,49 @@
+{% load stringify mul %}
+{
+    "widgets": [
+        {% for endpoint in endpoints %}
+        {
+            "height": 8,
+            "width": 8,
+            "x": 0,
+            "y": {{ forloop.counter0|mul:8 }},
+            "type": "log",
+            "properties": {
+                "query": "myquery#1",
+                "region": "eu-south-1",
+                "stacked": "false",
+                "title": "Availability - {{endpoint}}",
+                "view": "timeSeries"
+            }
+        },
+        {
+            "height": 8,
+            "width": 8,
+            "x": 8,
+            "y": {{ forloop.counter0|mul:8 }},
+            "type": "log",
+            "properties": {
+                "query": "myquery#2",
+                "region": "eu-south-1",
+                "stacked": "false",
+                "title": "Response Codes - {{endpoint}}",
+                "view": "timeSeries"
+            }
+        },
+        {
+            "height": 8,
+            "width": 8,
+            "x": 16,
+            "y": {{ forloop.counter0|mul:8 }},
+            "type": "log",
+            "properties": {
+                "query": "myquery#3",
+                "region": "eu-south-1",
+                "stacked": "false",
+                "title": "Response time - {{endpoint}}",
+                "view": "timeSeries"
+            }
+        }
+        {% endfor %}
+    ]
+}
