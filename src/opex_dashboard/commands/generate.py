@@ -45,7 +45,7 @@ def generate(template_name: str,
         "resources": config["resources"],
     }
 
-    builder = create_builder(template=template_name, **properties)
+    builder = create_builder(template_type=template_name, **properties)
     if not builder:
         raise InvalidBuilderError(f"Invalid builder error: unknown builder {template_name}")
     result = builder.produce()

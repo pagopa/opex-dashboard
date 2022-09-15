@@ -15,7 +15,7 @@ def test_produce_a_template_without_base_properties():
         "image": {"offset": 200}
     }
 
-    builder = create_builder("base", template_name="template.json")
+    builder = create_builder("base", template="template.json")
     template_dict = json.loads(builder.produce(values))
 
     assert template_dict["widget"]["debug"] == values["debug"]
@@ -36,7 +36,7 @@ def test_produce_a_template_with_base_properties():
         "image": {"offset": 200}
     }
 
-    builder = create_builder("base", template_name="template.json", base_properties=values)
+    builder = create_builder("base", template="template.json", base_properties=values)
     template_dict = json.loads(builder.produce())
 
     assert template_dict["widget"]["debug"] == values["debug"]
@@ -59,7 +59,7 @@ def test_produce_a_template_overwriting_base_properties():
 
     base_values = values | {"debug": "on"}
 
-    builder = create_builder("base", template_name="template.json", base_properties=base_values)
+    builder = create_builder("base", template="template.json", base_properties=base_values)
     template_dict = json.loads(builder.produce(values))
 
     assert template_dict["widget"]["debug"] == values["debug"]
