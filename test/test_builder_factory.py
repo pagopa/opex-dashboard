@@ -15,9 +15,9 @@ def test_create_a_basic_builder():
     """
     GIVEN a base builder type and a template
     WHEN the builder is created
-    THEN it retruns an instance of Builder
+    THEN it returns an instance of Builder
     """
-    builder = create_builder("base", template_name="template.json")
+    builder = create_builder("base", template="template.json")
 
     assert isinstance(builder, Builder)
 
@@ -31,19 +31,19 @@ def test_create_a_basic_builder_without_a_template():
     with pytest.raises(InvalidBuilderError) as e:
         create_builder("base")
 
-    assert str(e.value) == "Invalid builder error: 'template_name' is mandatory with base"
+    assert str(e.value).endswith("required positional argument: 'template'")
 
 
-def test_create_a_basic_builder_with_an_invalid_template_name():
+def test_create_a_basic_builder_with_an_invalid_template():
     """
     GIVEN a base builder type and a dict
     WHEN the builder is create with the dict as template name
     THEN it throws an exception
     """
     with pytest.raises(InvalidBuilderError) as e:
-        create_builder("base", template_name={"foo": "bar"})
+        create_builder("base", template={"foo": "bar"})
 
-    assert str(e.value) == f"Invalid builder error: 'template_name' must be a {str}"
+    assert str(e.value) == f"Invalid builder error: 'template' must be a {str}"
 
 
 def test_create_a_basic_builder_with_invalid_base_properties():
@@ -62,7 +62,7 @@ def test_create_an_azure_dashboard_builder():
     """
     GIVEN an azure dashboard builder type, a resolver, a name, a location, a timespan, and a list of resources
     WHEN the builder is created
-    THEN it retruns an instance of AzDashboardBuilder
+    THEN it returns an instance of AzDashboardBuilder
     """
     resolver = OA3Resolver(f"{DATA_BASE_PATH}/io_backend.yaml")
     builder = create_builder(
@@ -94,7 +94,7 @@ def test_create_an_azure_dashboard_builder_without_a_resolver():
                         "resourceGroups/io-p-rg-external/providers/Microsoft.Network"
                         "/applicationGateways/io-p-appgateway")])
 
-    assert str(e.value) == "Invalid builder error: 'resolver' is mandatory with azure-dashboard"
+    assert str(e.value).endswith("required positional argument: 'resolver'")
 
 
 def test_create_an_azure_dashboard_builder_with_an_invalid_resolver():
@@ -134,7 +134,7 @@ def test_create_an_azure_dashboard_builder_without_a_name():
                         "resourceGroups/io-p-rg-external/providers/Microsoft.Network"
                         "/applicationGateways/io-p-appgateway")])
 
-    assert str(e.value) == "Invalid builder error: 'name' is mandatory with azure-dashboard"
+    assert str(e.value).endswith("required positional argument: 'name'")
 
 
 def test_create_an_azure_dashboard_builder_with_an_invalid_name():
@@ -175,7 +175,7 @@ def test_create_an_azure_dashboard_builder_without_a_location():
                         "resourceGroups/io-p-rg-external/providers/Microsoft.Network"
                         "/applicationGateways/io-p-appgateway")])
 
-    assert str(e.value) == "Invalid builder error: 'location' is mandatory with azure-dashboard"
+    assert str(e.value).endswith("required positional argument: 'location'")
 
 
 def test_create_an_azure_dashboard_builder_with_an_invalid_location():
@@ -216,7 +216,7 @@ def test_create_an_azure_dashboard_builder_without_a_timespan():
                         "resourceGroups/io-p-rg-external/providers/Microsoft.Network"
                         "/applicationGateways/io-p-appgateway")])
 
-    assert str(e.value) == "Invalid builder error: 'timespan' is mandatory with azure-dashboard"
+    assert str(e.value).endswith("required positional argument: 'timespan'")
 
 
 def test_create_an_azure_dashboard_builder_with_an_invalid_timespan():
@@ -255,7 +255,7 @@ def test_create_an_azure_dashboard_builder_without_a_list_of_resources():
             location="West Europe",
             timespan="5m")
 
-    assert str(e.value) == "Invalid builder error: 'resources' is mandatory with azure-dashboard"
+    assert str(e.value).endswith("required positional argument: 'resources'")
 
 
 def test_create_an_azure_dashboard_builder_with_an_invalid_list_of_resources():
