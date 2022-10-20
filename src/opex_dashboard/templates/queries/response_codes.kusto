@@ -1,22 +1,14 @@
 {% load stringify uri_to_regex %}
 let api_url = "{{ endpoint|uri_to_regex }}";
 let api_hosts = datatable (name: string) {{ hosts|stringify }};
-let api_httpStatus = datatable (name: int) [ 200 , 304 ];
-let success=AzureDiagnostics
+AzureDiagnostics
 | where originalHost_s in (api_hosts)
 | where requestUri_s matches regex api_url
-| where httpStatus_d in (api_httpStatus)
-| summarize count() by HTTPStatus=" Success", bin(TimeGenerated, {{ timespan }});
-let fail=AzureDiagnostics
-| where originalHost_s in (api_hosts)
-| where requestUri_s matches regex api_url
-| where httpStatus_d !in (api_httpStatus)
 | extend HTTPStatus = case(
-httpStatus_d between (200 .. 299), "2XX",
-httpStatus_d between (300 .. 399), "3XX",
-httpStatus_d between (400 .. 499), "4XX",
-"5XX"
-)
-| summarize count() by HTTPStatus, bin(TimeGenerated, {{ timespan }});
-union success, fail
+  httpStatus_d between (100 .. 199), "1XX",
+  httpStatus_d between (200 .. 299), "2XX",
+  httpStatus_d between (300 .. 399), "3XX",
+  httpStatus_d between (400 .. 499), "4XX",
+  "5XX")
+| summarize count() by HTTPStatus, bin(TimeGenerated, {{ timespan }})
 | render areachart
