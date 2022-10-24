@@ -12,6 +12,7 @@ def create_azure_terraform_builder(**args: Optional[Any]) -> Optional[Builder]:
     inputs = normalize_params(args, {
         "name": str,
         "location": str,
+        "timespan": str,
         })
     inputs["dashboard_builder"] = create_azure_builder(**args)
     return AzDashboardTerraformBuilder(**inputs)

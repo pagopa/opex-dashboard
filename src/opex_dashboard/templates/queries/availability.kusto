@@ -6,7 +6,7 @@ AzureDiagnostics
 | summarize
   Total=count(),
   Success=count(httpStatus_d < 500)
-  by bin(TimeGenerated, 10m)
+  by bin(TimeGenerated, {{ timespan }})
 | extend availability=toreal(Success) / Total
 {% if is_alarm %}
 | where availability < 0.99
