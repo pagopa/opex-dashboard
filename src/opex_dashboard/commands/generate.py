@@ -12,7 +12,7 @@ from opex_dashboard.error import InvalidBuilderError
 @click.command(short_help="Generate a dashboard definition.")
 @click.option("--template-name", "-t",
               required=True,
-              type=click.Choice(["azure-dashboard"]),
+              type=click.Choice(["azure-dashboard", "azure-dashboard-terraform"]),
               help="Name of the template.")
 @click.option("--config-file", "-c",
               type=click.File("r"),

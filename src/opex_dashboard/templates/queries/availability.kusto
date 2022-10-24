@@ -1,15 +1,16 @@
 {% load stringify uri_to_regex %}
-let api_url = "{{ endpoint|uri_to_regex }}";
 let api_hosts = datatable (name: string) {{ hosts|stringify }};
 AzureDiagnostics
 | where originalHost_s in (api_hosts)
-| where requestUri_s matches regex api_url
-| where httpStatus_d < 500
-| summarize n_success = toreal(count()) by bin(TimeGenerated, {{ timespan }})
-| join kind=inner (
-  AzureDiagnostics
-  | where originalHost_s in (api_hosts)
-  | where requestUri_s matches regex api_url
-  | summarize n_total = toreal(count()) by bin(TimeGenerated, {{ timespan }})) on TimeGenerated
-| project TimeGenerated, availability=n_success/n_total, watermark=0.99
+| where requestUri_s matches regex "{{ endpoint|uri_to_regex }}"
+| summarize
+  Total=count(),
+  Success=count(httpStatus_d < 500)
+  by bin(TimeGenerated, 10m)
+| extend availability=toreal(Success) / Total
+{% if is_alarm %}
+| where availability < 0.99
+{% else %}
+| project TimeGenerated, availability, watermark=0.99
 | render timechart
+{% endif %}

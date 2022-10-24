@@ -13,6 +13,11 @@ class Builder:
         self._properties = base_properties
         self._template = Template(template)
 
+    def props(self) -> Dict[str, Any]:
+        """Get all base properties
+        """
+        return self._properties
+
     def produce(self, values: Dict[str, Any] = {}) -> str:
         """Render the template by merging base properties and given values
 
