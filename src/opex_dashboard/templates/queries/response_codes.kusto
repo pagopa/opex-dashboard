@@ -11,4 +11,4 @@ AzureDiagnostics
   httpStatus_d between (400 .. 499), "4XX",
   "5XX")
 | summarize count() by HTTPStatus, bin(TimeGenerated, {{ timespan }})
-| render areachart
+| render areachart with (xtitle = "time", ytitle= "count")

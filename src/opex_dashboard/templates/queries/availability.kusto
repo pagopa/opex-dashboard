@@ -1,16 +1,16 @@
 {% load stringify uri_to_regex %}
 let api_hosts = datatable (name: string) {{ hosts|stringify }};
+let threshold = 0.99;
 AzureDiagnostics
 | where originalHost_s in (api_hosts)
 | where requestUri_s matches regex "{{ endpoint|uri_to_regex }}"
 | summarize
   Total=count(),
-  Success=count(httpStatus_d < 500)
-  by bin(TimeGenerated, {{ timespan }})
+  Success=count(httpStatus_d < 500) by bin(TimeGenerated, {{ timespan }})
 | extend availability=toreal(Success) / Total
 {% if is_alarm %}
-| where availability < 0.99
+| where availability < threshold
 {% else %}
-| project TimeGenerated, availability, watermark=0.99
-| render timechart
+| project TimeGenerated, availability, watermark=threshold
+| render timechart with (xtitle = "time", ytitle= "availability(%)")
 {% endif %}
