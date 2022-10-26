@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - '**.py'
+      - '**.lock'
 
 jobs:
   release:
