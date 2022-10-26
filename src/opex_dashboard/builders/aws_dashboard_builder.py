@@ -5,33 +5,20 @@ from opex_dashboard.builders.base import Builder
 from opex_dashboard.resolver import OA3Resolver
 
 
-class AzDashboardBuilder(Builder):
+class AwsDashboardBuilder(Builder):
     _oa3_spec: Dict[str, Any]
 
-    def __init__(self,
-                 resolver: OA3Resolver,
-                 name: str,
-                 location: str,
-                 timespan: str,
-                 resources: List[str]) -> None:
-        """Create an AzDashbordBuilder object
+    def __init__(self, resolver: OA3Resolver) -> None:
+        """Create an AwsDashbordBuilder object
         """
         self._oa3_spec = resolver.resolve()
-        super().__init__(
-            template="azure_dashboard.json",
-            base_properties={
-                "name": name,
-                "location": location,
-                "timespan": timespan,
-                "resource_ids": resources,
-            }
-        )
+        super().__init__(template="aws_dashboard.json")
 
     def produce(self, values: Dict[str, Any] = {}) -> str:
         """Render the template by merging base properties, given values, and information extracted form OA3 spec
 
         Returns:
-            str: The rendered template to create an Azure Dashboard json
+            str: The rendered template to create an AWS Dashboard json
         """
         if "servers" in self._oa3_spec:
             self._properties["hosts"] = []

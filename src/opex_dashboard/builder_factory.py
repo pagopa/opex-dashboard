@@ -5,6 +5,7 @@ from opex_dashboard.resolver import OA3Resolver
 from opex_dashboard.error import InvalidBuilderError
 from opex_dashboard.builders.base import Builder
 from opex_dashboard.builders.azure_dashboard_builder import AzDashboardBuilder
+from opex_dashboard.builders.aws_dashboard_builder import AwsDashboardBuilder
 
 
 def create_azure_builder(**args: Optional[Any]) -> Optional[Builder]:
@@ -17,6 +18,11 @@ def create_azure_builder(**args: Optional[Any]) -> Optional[Builder]:
         })
     return AzDashboardBuilder(**inputs)
 
+def create_aws_builder(**args: Optional[Any]) -> Optional[Builder]:
+    inputs = normalize_params(args, {
+        "resolver": OA3Resolver,
+        })
+    return AwsDashboardBuilder(**inputs)
 
 def create_base_builder(**args: Optional[Any]) -> Optional[Builder]:
     inputs = normalize_params({"base_properties": {}} | args, {
@@ -35,6 +41,7 @@ def create_builder(template_type: str, **args: Optional[Any]) -> Optional[Builde
     try:
         builders = {
             "azure-dashboard": create_azure_builder,
+            "aws-dashboard": create_aws_builder,
             "base": create_base_builder
         }
         return builders.get(template_type, lambda **_: None)(**args)
