@@ -2,16 +2,16 @@ openapi: 3.0.3
 info:
   title: Party Process Micro Service
   description: This service is the party process
-  version: "v1"
+  version: 'v1'
   contact:
     name: API Support
-    url: "http://www.example.com/support"
+    url: 'http://www.example.com/support'
     email: support@example.com
-  termsOfService: "http://swagger.io/terms/"
+  termsOfService: 'http://swagger.io/terms/'
   x-api-id: an x-api-id
   x-summary: an x-summary
 servers:
-  - url: https://api.dev.selfcare.pagopa.it/external/party-process/v1
+  - url: 'https://api.dev.selfcare.pagopa.it'
     description: This service is the party process
 security:
   - bearerAuth: [ ]
@@ -20,24 +20,24 @@ tags:
     description: Implements party process
     externalDocs:
       description: Find out more
-      url: "http://swagger.io"
+      url: 'http://swagger.io'
   - name: external
     description: Implements external endpoints
     externalDocs:
       description: Find out more
-      url: "http://swagger.io"
+      url: 'http://swagger.io'
   - name: public
     description: Public endpoints
     externalDocs:
       description: Find out more
-      url: "http://swagger.io"
+      url: 'http://swagger.io'
   - name: health
     description: Verify service status
     externalDocs:
       description: Find out more
-      url: "http://swagger.io"
+      url: 'http://swagger.io'
 paths:
-  "/onboarding/info":
+  '/onboarding/info':
     get:
       tags:
         - process
@@ -47,7 +47,7 @@ paths:
       parameters:
         - name: x-selfcare-uid
           in: header
-          description: Logged user"s unique identifier
+          description: Logged user's unique identifier
           required: true
           schema:
             type: string
@@ -68,28 +68,28 @@ paths:
           schema:
             type: array
             items:
-              $ref: "#/components/schemas/RelationshipState"
+              $ref: '#/components/schemas/RelationshipState'
             default: [ ]
           explode: false
       responses:
-        "200":
+        '200':
           description: successful operation
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/OnboardingInfo"
-        "404":
+                $ref: '#/components/schemas/OnboardingInfo'
+        '404':
           description: Not found
           content:
             application/problem+json:
               schema:
-                $ref: "#/components/schemas/Problem"
-        "400":
+                $ref: '#/components/schemas/Problem'
+        '400':
           description: Invalid ID supplied
           content:
             application/problem+json:
               schema:
-                $ref: "#/components/schemas/Problem"
+                $ref: '#/components/schemas/Problem'
   /onboarding/institution:
     post:
       tags:
@@ -100,7 +100,7 @@ paths:
       parameters:
         - name: x-selfcare-uid
           in: header
-          description: Logged user"s unique identifier
+          description: Logged user's unique identifier
           required: true
           schema:
             type: string
@@ -109,23 +109,23 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/OnboardingInstitutionRequest"
+              $ref: '#/components/schemas/OnboardingInstitutionRequest'
       responses:
-        "204":
+        '204':
           description: successful operation
-        "404":
+        '404':
           description: Not found
           content:
             application/problem+json:
               schema:
-                $ref: "#/components/schemas/Problem"
-        "400":
+                $ref: '#/components/schemas/Problem'
+        '400':
           description: Invalid ID supplied
           content:
             application/problem+json:
               schema:
-                $ref: "#/components/schemas/Problem"
-  "/onboarding/institution/{externalId}/products/{productId}":
+                $ref: '#/components/schemas/Problem'
+  '/onboarding/institution/{externalId}/products/{productId}':
     head:
       tags:
         - process
@@ -135,7 +135,7 @@ paths:
       parameters:
         - name: x-selfcare-uid
           in: header
-          description: Logged user"s unique identifier
+          description: Logged user's unique identifier
           required: true
           schema:
             type: string
@@ -152,20 +152,20 @@ paths:
           schema:
             type: string
       responses:
-        "204":
+        '204':
           description: successful operation
-        "400":
+        '400':
           description: Invalid ID supplied
           content:
             application/problem+json:
               schema:
-                $ref: "#/components/schemas/Problem"
-        "404":
+                $ref: '#/components/schemas/Problem'
+        '404':
           description: Not found
           content:
             application/problem+json:
               schema:
-                $ref: "#/components/schemas/Problem"
+                $ref: '#/components/schemas/Problem'
   /onboarding/legals:
     post:
       tags:
@@ -176,7 +176,7 @@ paths:
       parameters:
         - name: x-selfcare-uid
           in: header
-          description: Logged user"s unique identifier
+          description: Logged user's unique identifier
           required: true
           schema:
             type: string
@@ -185,22 +185,22 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/OnboardingLegalUsersRequest"
+              $ref: '#/components/schemas/OnboardingLegalUsersRequest'
       responses:
-        "204":
+        '204':
           description: successful operation
-        "404":
+        '404':
           description: Not found
           content:
             application/problem+json:
               schema:
-                $ref: "#/components/schemas/Problem"
-        "400":
+                $ref: '#/components/schemas/Problem'
+        '400':
           description: Invalid ID supplied
           content:
             application/problem+json:
               schema:
-                $ref: "#/components/schemas/Problem"
+                $ref: '#/components/schemas/Problem'
   /onboarding/subdelegates:
     post:
       tags:
@@ -211,7 +211,7 @@ paths:
       parameters:
         - name: x-selfcare-uid
           in: header
-          description: Logged user"s unique identifier
+          description: Logged user's unique identifier
           required: true
           schema:
             type: string
@@ -220,20 +220,20 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/OnboardingUsersRequest"
+              $ref: '#/components/schemas/OnboardingUsersRequest'
       responses:
-        "200":
+        '200':
           description: successful operation
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/RelationshipsResponse"
-        "400":
+                $ref: '#/components/schemas/RelationshipsResponse'
+        '400':
           description: Invalid ID supplied
           content:
             application/problem+json:
               schema:
-                $ref: "#/components/schemas/Problem"
+                $ref: '#/components/schemas/Problem'
   /onboarding/operators:
     post:
       tags:
@@ -244,7 +244,7 @@ paths:
       parameters:
         - name: x-selfcare-uid
           in: header
-          description: Logged user"s unique identifier
+          description: Logged user's unique identifier
           required: true
           schema:
             type: string
@@ -253,20 +253,20 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/OnboardingUsersRequest"
+              $ref: '#/components/schemas/OnboardingUsersRequest'
       responses:
-        "200":
+        '200':
           description: successful operation
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/RelationshipsResponse"
-        "400":
+                $ref: '#/components/schemas/RelationshipsResponse'
+        '400':
           description: Invalid ID supplied
           content:
             application/problem+json:
               schema:
-                $ref: "#/components/schemas/Problem"
+                $ref: '#/components/schemas/Problem'
   /institutions/{id}/relationships:
     get:
       tags:
@@ -277,7 +277,7 @@ paths:
       parameters:
         - name: x-selfcare-uid
           in: header
-          description: Logged user"s unique identifier
+          description: Logged user's unique identifier
           required: true
           schema:
             type: string
@@ -300,7 +300,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: "#/components/schemas/PartyRole"
+              $ref: '#/components/schemas/PartyRole'
             default: [ ]
           explode: false
         - in: query
@@ -309,7 +309,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: "#/components/schemas/RelationshipState"
+              $ref: '#/components/schemas/RelationshipState'
             default: [ ]
           explode: false
         - in: query
@@ -331,18 +331,18 @@ paths:
             default: [ ]
           explode: false
       responses:
-        "200":
+        '200':
           description: successful operation
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/RelationshipsResponse"
-        "400":
+                $ref: '#/components/schemas/RelationshipsResponse'
+        '400':
           description: Invalid institution id supplied
           content:
             application/problem+json:
               schema:
-                $ref: "#/components/schemas/Problem"
+                $ref: '#/components/schemas/Problem'
   /external/institutions/{externalId}/relationships:
     get:
       tags:
@@ -353,7 +353,7 @@ paths:
       parameters:
         - name: x-selfcare-uid
           in: header
-          description: Logged user"s unique identifier
+          description: Logged user's unique identifier
           required: true
           schema:
             type: string
@@ -375,7 +375,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: "#/components/schemas/PartyRole"
+              $ref: '#/components/schemas/PartyRole'
             default: [ ]
           explode: false
         - in: query
@@ -384,7 +384,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: "#/components/schemas/RelationshipState"
+              $ref: '#/components/schemas/RelationshipState'
             default: [ ]
           explode: false
         - in: query
@@ -406,18 +406,18 @@ paths:
             default: [ ]
           explode: false
       responses:
-        "200":
+        '200':
           description: successful operation
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/RelationshipsResponse"
-        "400":
+                $ref: '#/components/schemas/RelationshipsResponse'
+        '400':
           description: Invalid institution id supplied
           content:
             application/problem+json:
               schema:
-                $ref: "#/components/schemas/Problem"
+                $ref: '#/components/schemas/Problem'
   /external/institutions/{externalId}/products/{productId}/manager:
     get:
       tags:
@@ -428,7 +428,7 @@ paths:
       parameters:
         - name: x-selfcare-uid
           in: header
-          description: Logged user"s unique identifier
+          description: Logged user's unique identifier
           required: true
           schema:
             type: string
@@ -445,24 +445,24 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: successful operation
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/RelationshipInfo"
-        "404":
+                $ref: '#/components/schemas/RelationshipInfo'
+        '404':
           description: There is not a relationship between an ACTIVE manager and the institution/product
           content:
             application/problem+json:
               schema:
-                $ref: "#/components/schemas/Problem"
-        "400":
+                $ref: '#/components/schemas/Problem'
+        '400':
           description: Invalid institution id supplied
           content:
             application/problem+json:
               schema:
-                $ref: "#/components/schemas/Problem"
+                $ref: '#/components/schemas/Problem'
   /institutions/{id}/products:
     get:
       tags:
@@ -473,7 +473,7 @@ paths:
       parameters:
         - name: x-selfcare-uid
           in: header
-          description: Logged user"s unique identifier
+          description: Logged user's unique identifier
           required: true
           schema:
             type: string
@@ -490,22 +490,22 @@ paths:
           schema:
             type: array
             items:
-              $ref: "#/components/schemas/ProductState"
+              $ref: '#/components/schemas/ProductState'
             default: [ ]
           explode: false
       responses:
-        "200":
+        '200':
           description: successful operation
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Products"
-        "404":
+                $ref: '#/components/schemas/Products'
+        '404':
           description: Institution not found
           content:
             application/problem+json:
               schema:
-                $ref: "#/components/schemas/Problem"
+                $ref: '#/components/schemas/Problem'
   /external/institutions/{externalId}/products:
     get:
       tags:
@@ -516,7 +516,7 @@ paths:
       parameters:
         - name: x-selfcare-uid
           in: header
-          description: Logged user"s unique identifier
+          description: Logged user's unique identifier
           required: true
           schema:
             type: string
@@ -532,22 +532,22 @@ paths:
           schema:
             type: array
             items:
-              $ref: "#/components/schemas/ProductState"
+              $ref: '#/components/schemas/ProductState'
             default: [ ]
           explode: false
       responses:
-        "200":
+        '200':
           description: successful operation
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Products"
-        "404":
+                $ref: '#/components/schemas/Products'
+        '404':
           description: Institution not found
           content:
             application/problem+json:
               schema:
-                $ref: "#/components/schemas/Problem"
+                $ref: '#/components/schemas/Problem'
   /relationships/{relationshipId}:
     get:
       tags:
@@ -558,7 +558,7 @@ paths:
       parameters:
         - name: x-selfcare-uid
           in: header
-          description: Logged user"s unique identifier
+          description: Logged user's unique identifier
           required: true
           schema:
             type: string
@@ -570,24 +570,24 @@ paths:
             type: string
             format: uuid
       responses:
-        "200":
+        '200':
           description: successful operation
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/RelationshipInfo"
-        "400":
+                $ref: '#/components/schemas/RelationshipInfo'
+        '400':
           description: Invalid id supplied
           content:
             application/problem+json:
               schema:
-                $ref: "#/components/schemas/Problem"
-        "404":
+                $ref: '#/components/schemas/Problem'
+        '404':
           description: Not found
           content:
             application/problem+json:
               schema:
-                $ref: "#/components/schemas/Problem"
+                $ref: '#/components/schemas/Problem'
     delete:
       tags:
         - process
@@ -597,7 +597,7 @@ paths:
       parameters:
         - name: x-selfcare-uid
           in: header
-          description: Logged user"s unique identifier
+          description: Logged user's unique identifier
           required: true
           schema:
             type: string
@@ -609,20 +609,20 @@ paths:
             type: string
             format: uuid
       responses:
-        "204":
+        '204':
           description: relationship deleted
-        "400":
+        '400':
           description: Bad request
           content:
             application/problem+json:
               schema:
-                $ref: "#/components/schemas/Problem"
-        "404":
+                $ref: '#/components/schemas/Problem'
+        '404':
           description: Relationship not found
           content:
             application/problem+json:
               schema:
-                $ref: "#/components/schemas/Problem"
+                $ref: '#/components/schemas/Problem'
   /relationships/{relationshipId}/activate:
     post:
       tags:
@@ -633,7 +633,7 @@ paths:
       parameters:
         - name: x-selfcare-uid
           in: header
-          description: Logged user"s unique identifier
+          description: Logged user's unique identifier
           required: true
           schema:
             type: string
@@ -645,20 +645,20 @@ paths:
             type: string
             format: uuid
       responses:
-        "204":
+        '204':
           description: Successful operation
-        "400":
+        '400':
           description: Invalid id supplied
           content:
             application/problem+json:
               schema:
-                $ref: "#/components/schemas/Problem"
-        "404":
+                $ref: '#/components/schemas/Problem'
+        '404':
           description: Not found
           content:
             application/problem+json:
               schema:
-                $ref: "#/components/schemas/Problem"
+                $ref: '#/components/schemas/Problem'
   /relationships/{relationshipId}/suspend:
     post:
       tags:
@@ -669,7 +669,7 @@ paths:
       parameters:
         - name: x-selfcare-uid
           in: header
-          description: Logged user"s unique identifier
+          description: Logged user's unique identifier
           required: true
           schema:
             type: string
@@ -681,21 +681,21 @@ paths:
             type: string
             format: uuid
       responses:
-        "204":
+        '204':
           description: Successful operation
-        "400":
+        '400':
           description: Invalid id supplied
           content:
             application/problem+json:
               schema:
-                $ref: "#/components/schemas/Problem"
-        "404":
+                $ref: '#/components/schemas/Problem'
+        '404':
           description: Not found
           content:
             application/problem+json:
               schema:
-                $ref: "#/components/schemas/Problem"
-  "/institutions/{id}":
+                $ref: '#/components/schemas/Problem'
+  '/institutions/{id}':
     get:
       security: [ { } ]
       tags:
@@ -706,7 +706,7 @@ paths:
       parameters:
         - name: x-selfcare-uid
           in: header
-          description: Logged user"s unique identifier
+          description: Logged user's unique identifier
           required: true
           schema:
             type: string
@@ -718,25 +718,25 @@ paths:
             type: string
             format: uuid
       responses:
-        "200":
+        '200':
           description: successful operation
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Institution"
-        "400":
+                $ref: '#/components/schemas/Institution'
+        '400':
           description: Invalid id supplied
           content:
             application/problem+json:
               schema:
-                $ref: "#/components/schemas/Problem"
-        "404":
+                $ref: '#/components/schemas/Problem'
+        '404':
           description: Not found
           content:
             application/problem+json:
               schema:
-                $ref: "#/components/schemas/Problem"
-  "/institutions/{externalId}":
+                $ref: '#/components/schemas/Problem'
+  '/institutions/{externalId}':
     post:
       tags:
         - process
@@ -746,7 +746,7 @@ paths:
       parameters:
         - name: x-selfcare-uid
           in: header
-          description: Logged user"s unique identifier
+          description: Logged user's unique identifier
           required: true
           schema:
             type: string
@@ -757,25 +757,25 @@ paths:
           schema:
             type: string
       responses:
-        "201":
+        '201':
           description: successful operation
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Institution"
-        "404":
+                $ref: '#/components/schemas/Institution'
+        '404':
           description: Invalid externalId supplied
           content:
             application/problem+json:
               schema:
-                $ref: "#/components/schemas/Problem"
-        "409":
+                $ref: '#/components/schemas/Problem'
+        '409':
           description: institution having externalId already exists
           content:
             application/problem+json:
               schema:
-                $ref: "#/components/schemas/Problem"
-  "/external/institutions/{externalId}":
+                $ref: '#/components/schemas/Problem'
+  '/external/institutions/{externalId}':
     get:
       security: [{}]
       tags:
@@ -786,7 +786,7 @@ paths:
       parameters:
         - name: x-selfcare-uid
           in: header
-          description: Logged user"s unique identifier
+          description: Logged user's unique identifier
           required: true
           schema:
             type: string
@@ -797,25 +797,25 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: successful operation
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Institution"
-        "400":
+                $ref: '#/components/schemas/Institution'
+        '400':
           description: Invalid id supplied
           content:
             application/problem+json:
               schema:
-                $ref: "#/components/schemas/Problem"
-        "404":
+                $ref: '#/components/schemas/Problem'
+        '404':
           description: Not found
           content:
             application/problem+json:
               schema:
-                $ref: "#/components/schemas/Problem"
-  "/onboarding/complete/{tokenId}":
+                $ref: '#/components/schemas/Problem'
+  '/onboarding/complete/{tokenId}':
     post:
       security: [{}]
       tags:
@@ -826,7 +826,7 @@ paths:
       parameters:
         - name: x-selfcare-uid
           in: header
-          description: Logged user"s unique identifier
+          description: Logged user's unique identifier
           required: true
           schema:
             type: string
@@ -853,15 +853,15 @@ paths:
                 contentType: application/octet-stream
         required: true
       responses:
-        "204":
+        '204':
           description: successful operation
-        "400":
+        '400':
           description: Invalid ID supplied
           content:
             application/problem+json:
               schema:
-                $ref: "#/components/schemas/Problem"
-        "409":
+                $ref: '#/components/schemas/Problem'
+        '409':
           description: |
             Document validation failed
 
@@ -884,7 +884,7 @@ paths:
           content:
             application/problem+json:
               schema:
-                $ref: "#/components/schemas/Problem"
+                $ref: '#/components/schemas/Problem'
     delete:
       security: [{}]
       tags:
@@ -895,7 +895,7 @@ paths:
       parameters:
         - name: x-selfcare-uid
           in: header
-          description: Logged user"s unique identifier
+          description: Logged user's unique identifier
           required: true
           schema:
             type: string
@@ -906,14 +906,14 @@ paths:
           schema:
             type: string
       responses:
-        "204":
+        '204':
           description: successful operation
-        "400":
+        '400':
           description: Invalid ID supplied
           content:
             application/problem+json:
               schema:
-                $ref: "#/components/schemas/Problem"
+                $ref: '#/components/schemas/Problem'
   /onboarding/relationship/{relationshipId}/document:
     get:
       tags:
@@ -923,7 +923,7 @@ paths:
       parameters:
         - name: x-selfcare-uid
           in: header
-          description: Logged user"s unique identifier
+          description: Logged user's unique identifier
           required: true
           schema:
             type: string
@@ -946,7 +946,7 @@ paths:
           content:
             application/problem+json:
               schema:
-                $ref: "#/components/schemas/Problem"
+                $ref: '#/components/schemas/Problem'
   /status:
     get:
       security:
@@ -959,17 +959,17 @@ paths:
       parameters:
         - name: x-selfcare-uid
           in: header
-          description: Logged user"s unique identifier
+          description: Logged user's unique identifier
           required: true
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: successful operation
           content:
             application/problem+json:
               schema:
-                $ref: "#/components/schemas/Problem"
+                $ref: '#/components/schemas/Problem'
 components:
   schemas:
     OnboardingInstitutionRequest:
@@ -977,18 +977,18 @@ components:
         users:
           type: array
           items:
-            $ref: "#/components/schemas/User"
+            $ref: '#/components/schemas/User'
         institutionExternalId:
           type: string
         institutionUpdate:
-          $ref: "#/components/schemas/InstitutionUpdate"
+          $ref: '#/components/schemas/InstitutionUpdate'
         pricingPlan:
           type: string
           description: pricing plan
         billing:
-          $ref: "#/components/schemas/Billing"
+          $ref: '#/components/schemas/Billing'
         contract:
-          $ref: "#/components/schemas/OnboardingContract"
+          $ref: '#/components/schemas/OnboardingContract'
       additionalProperties: false
       required:
         - users
@@ -1000,7 +1000,7 @@ components:
         users:
           type: array
           items:
-            $ref: "#/components/schemas/User"
+            $ref: '#/components/schemas/User'
         institutionId:
           type: string
           description: institution id
@@ -1009,7 +1009,7 @@ components:
         institutionExternalId:
           type: string
         contract:
-          $ref: "#/components/schemas/OnboardingContract"
+          $ref: '#/components/schemas/OnboardingContract'
       additionalProperties: false
       required:
         - users
@@ -1019,7 +1019,7 @@ components:
         users:
           type: array
           items:
-            $ref: "#/components/schemas/User"
+            $ref: '#/components/schemas/User'
         institutionId:
           type: string
           description: institution id
@@ -1052,18 +1052,18 @@ components:
           type: string
           format: uuid
         role:
-          $ref: "#/components/schemas/PartyRole"
+          $ref: '#/components/schemas/PartyRole'
         product:
-          $ref: "#/components/schemas/ProductInfo"
+          $ref: '#/components/schemas/ProductInfo'
         state:
-          $ref: "#/components/schemas/RelationshipState"
+          $ref: '#/components/schemas/RelationshipState'
         pricingPlan:
           type: string
           description: pricing plan
         institutionUpdate:
-          $ref: "#/components/schemas/InstitutionUpdate"
+          $ref: '#/components/schemas/InstitutionUpdate'
         billing:
-          $ref: "#/components/schemas/Billing"
+          $ref: '#/components/schemas/Billing'
         createdAt:
           type: string
           format: date-time
@@ -1082,7 +1082,7 @@ components:
     RelationshipsResponse:
       type: array
       items:
-        $ref: "#/components/schemas/RelationshipInfo"
+        $ref: '#/components/schemas/RelationshipInfo'
     User:
       properties:
         id:
@@ -1098,7 +1098,7 @@ components:
         email:
           type: string
         role:
-          $ref: "#/components/schemas/PartyRole"
+          $ref: '#/components/schemas/PartyRole'
         product:
           type: string
         productRole:
@@ -1146,11 +1146,11 @@ components:
         zipCode:
           type: string
         state:
-          $ref: "#/components/schemas/RelationshipState"
+          $ref: '#/components/schemas/RelationshipState'
         role:
-          $ref: "#/components/schemas/PartyRole"
+          $ref: '#/components/schemas/PartyRole'
         productInfo:
-          $ref: "#/components/schemas/ProductInfo"
+          $ref: '#/components/schemas/ProductInfo'
         institutionType:
           type: string
           description: institution type
@@ -1159,7 +1159,7 @@ components:
           type: string
           description: pricing plan
         billing:
-          $ref: "#/components/schemas/Billing"
+          $ref: '#/components/schemas/Billing'
         origin:
           type: string
           description: The origin form which the institution has been retrieved
@@ -1168,7 +1168,7 @@ components:
           type: array
           description: certified attributes bound to this institution
           items:
-            $ref: "#/components/schemas/Attribute"
+            $ref: '#/components/schemas/Attribute'
       additionalProperties: false
       required:
         - id
@@ -1200,7 +1200,7 @@ components:
     Attributes:
       type: array
       items:
-        $ref: "#/components/schemas/Attribute"
+        $ref: '#/components/schemas/Attribute'
     OnboardingInfo:
       properties:
         userId:
@@ -1210,7 +1210,7 @@ components:
         institutions:
           type: array
           items:
-            $ref: "#/components/schemas/OnboardingData"
+            $ref: '#/components/schemas/OnboardingData'
       additionalProperties: false
       required:
         - userId
@@ -1221,7 +1221,7 @@ components:
         id:
           type: string
         state:
-          $ref: "#/components/schemas/ProductState"
+          $ref: '#/components/schemas/ProductState'
       required:
         - id
         - state
@@ -1231,7 +1231,7 @@ components:
         products:
           type: array
           items:
-            $ref: "#/components/schemas/Product"
+            $ref: '#/components/schemas/Product'
       required:
         - products
     ProductRolesResponse:
@@ -1290,11 +1290,11 @@ components:
           example: 97c0f418-bcb3-48d4-825a-fe8b29ae68e5
         externalId:
           description: external institution id
-          example: "c_f205"
+          example: 'c_f205'
           type: string
         originId:
           description: origin institution id (e.g iPA code)
-          example: "c_f205"
+          example: 'c_f205'
           type: string
         description:
           type: string
@@ -1321,7 +1321,7 @@ components:
           description: institution type
           example: PA
         attributes:
-          $ref: "#/components/schemas/Attributes"
+          $ref: '#/components/schemas/Attributes'
         logo:
           description: URL to institution logo
           format: url
@@ -1355,19 +1355,19 @@ components:
           description: A short, summary of the problem type. Written in english and readable
           example: Service Unavailable
           maxLength: 64
-          pattern: "^[ -~]{0,64}$"
+          pattern: '^[ -~]{0,64}$'
           type: string
         detail:
           description: A human readable explanation of the problem.
           example: Request took too long to complete.
           maxLength: 4096
-          pattern: "^.{0,1024}$"
+          pattern: '^.{0,1024}$'
           type: string
         errors:
           type: array
           minItems: 1
           items:
-            $ref: "#/components/schemas/ProblemError"
+            $ref: '#/components/schemas/ProblemError'
       additionalProperties: false
       required:
         - type
@@ -1381,13 +1381,13 @@ components:
           example: 123-4567
           minLength: 8
           maxLength: 8
-          pattern: "^[0-9]{3}-[0-9]{4}$"
+          pattern: '^[0-9]{3}-[0-9]{4}$'
           type: string
         detail:
           description: A human readable explanation specific to this occurrence of the problem.
           example: Parameter not valid
           maxLength: 4096
-          pattern: "^.{0,1024}$"
+          pattern: '^.{0,1024}$'
           type: string
       required:
         - code
@@ -1434,6 +1434,7 @@ components:
   securitySchemes:
     bearerAuth:
       type: http
-      description: "A bearer token in the format of a JWS and conformed to the specifications included in [RFC8725](https://tools.ietf.org/html/RFC8725)."
+      description: 'A bearer token in the format of a JWS and conformed to the specifications included in [RFC8725](https://tools.ietf.org/html/RFC8725).'
       scheme: bearer
       bearerFormat: JWT
+

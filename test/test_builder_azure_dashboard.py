@@ -89,7 +89,7 @@ def test_produce_the_template_with_servers_option():
     WHEN the builder produces the template
     THEN the template is rendered and properties applied
     """
-    resolver = OA3Resolver(f"{DATA_BASE_PATH}/selfcare_partyprocess.yaml")
+    resolver = OA3Resolver(f"{DATA_BASE_PATH}/selfcare_party_process.yaml")
     builder = create_builder(
             "azure-dashboard",
             resolver=resolver,

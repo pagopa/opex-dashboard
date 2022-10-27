@@ -1,6 +1,14 @@
-{% load uri_to_regex %}
+{% load stringify uri_to_regex %}
+let api_hosts = datatable (name: string) {{ hosts|stringify }};
+let threshold = 1;
 AzureDiagnostics
-| where {% for h in hosts %}originalHost_s == "{{ h }}"{% if hosts|length > forloop.counter %} or {% endif %}{% endfor %}
+| where originalHost_s in (api_hosts)
 | where requestUri_s matches regex "{{ endpoint|uri_to_regex }}"
-| summarize percentiles(timeTaken_d, 95) by bin(TimeGenerated, {{ timespan }}), watermark=1
+| summarize
+    watermark=threshold,
+    percentiles(timeTaken_d, 95) by bin(TimeGenerated, {{ timespan }})
+{% if is_alarm %}
+| where percentile_timeTaken_d_95 > threshold
+{% else %}
 | render timechart with (xtitle = "time", ytitle= "response time(s)")
+{% endif %}

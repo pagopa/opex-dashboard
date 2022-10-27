@@ -28,7 +28,7 @@ class AzDashboardBuilder(Builder):
         )
 
     def produce(self, values: Dict[str, Any] = {}) -> str:
-        """Render the template by merging base properties, given values, and information extracted form OA3 spec
+        """Render the template by merging base properties with given and extracted values from OA3 spec
 
         Returns:
             str: The rendered template to create an Azure Dashboard json
