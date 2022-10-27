@@ -1,13 +1,61 @@
-# OpEx Dashboard
+# OpEx Dashboard 📈
 
-This is a tool to generate PagoPA's Operational Excellence dashboards from Open
-Api specs.
+**Generate standardized PagoPA's Operational Excellence dashboards from OpenApi specs.**
+
+[![issues](https://img.shields.io/github/issues-raw/pagopa/opex-dashboard)](https://github.com/pagopa/opex-dashboard/issues) [![release](https://img.shields.io/github/v/release/pagopa/opex-dashboard)](https://github.com/pagopa/opex-dashboard/releases) ![python](https://img.shields.io/github/pipenv/locked/python-version/pagopa/opex-dashboard)
+
+## What is it?
+
+This tool can do the following:
+
+| Template                  | Description                                                                       | Status     |
+|---------------------------|-----------------------------------------------------------------------------------|------------|
+| azure-dashboard           | Programmatically create a JSON representation of a PagoPA's Azure Dashboard       | ✅ OK      |
+| azure-dashboard-terraform | Programmatically create a Terraform representation of an PagoPA's Azure Dashboard | ✅ OK      |
+| aws                       | Programmatically create a JSON representation of a PagoPA's CloudWatch Dashboard  | ⚒️ WIP      |
+| grafana                   | Programmatically create a JSON representation of a PagoPA's Grafana Dashboard     | ❌ Planned |
+
+It is distribuited as a Python package and it has two important components:
+
+- The OpEx Dashboard **client** is a command-line tool for end users;
+- The OpEx Dashboard **library** provides the logic for executing all the operations.
+
+### Dashboard
+
+For each endpoint in the OpenApi spec there are three graphs:
+
+1. **Availability**: ratio with HTTP status codes greater than 499;
+1. **Response codes**: segmentation of all HTTP status codes;
+1. **Response time**: 95th percentile response time.
+
+### Alarm
+
+For each endpoint in the OpenApi spec there are two alarms:
+
+1. **Availability**: threshold at 99%;
+1. **Response time**: threshold at 1 second.
 
 ## Usage
 
-There are several way to use this tool. Each of them assume that the current
-working directory stores the OA3 spec. The first step is to create a
-configuration file:
+To generate a dashbord template there are several way. You can use the `opex_dashboard generate --help` to learn about this process:
+
+```
+Usage: opex_dashboard generate [OPTIONS]
+
+  Generate enables you to create a dashboard definition that could be imported
+  in a compatible provider.
+
+Options:
+  -t, --template-name [azure-dashboard|azure-dashboard-terraform]
+                                  Name of the template.  [required]
+  -c, --config-file FILENAME      A yaml file with all params to create the
+                                  template, use - value to get input from
+                                  stdin.  [required]
+  -o, --output-file TEXT          Save the output into a file.
+  --help                          Show this message and exit.
+```
+
+The first step is to create a configuration file:
 
 ```bash
 cat <<EOF > config.yaml
@@ -46,7 +94,8 @@ docker run -v $(pwd):/home/nonroot/myfolder:Z \
 ```
 
 You can also load an OA3 spec by mounting it inside the container. In this case
-you must pay attention to the path inside the `config.yaml`:
+you must pay attention to the path of the spec beacuse it relies on the path of
+the mounted volume. An example of `config.yaml` in this scenario:
 
 ```yaml
 oa3_spec: myfolder/oa3_spec.yaml
@@ -60,8 +109,8 @@ EOF
 
 ### Build from local
 
-There is a convenient (Dockerfile)[Dockerfile] that you can use to build the
-image from scratch on your localhost.
+There is a convenient [Dockerfile](Dockerfile) that you can use to build the
+image from scratch on your localhost:
 
 ```bash
 git clone https://github.com/pagopa/opex-dashboard.git
@@ -77,21 +126,24 @@ docker build -t opexd .
 
 ### As a python library
 
-Install the library:
+You can choose either between cloning the repository and manually installing
+the package (with or without venv) or by pointing directly to this repository.
+
+By cloning the source:
 
 ```bash
-git clone https://github.com/pagopa/opex-dashboard.git
+git clone https://github.com/pagopa/opex-dashboard.git && \
+  cd opex-dashboard && \
+  pip install --user -e .
 ```
+
+Or download the dependency to the repository:
 
 ```bash
-cd opex-dashboard
+pip install --user 'opex_dashboard @ git+https://github.com/pagopa/opex-dashboard'
 ```
 
-```bash
-pip install --user -e .
-```
-
-Create the dashboard:
+In any case, you'll be able to create the dashboard by using the CLI:
 
 ```bash
 opex_dashboard generate \
@@ -121,7 +173,6 @@ pipenv run opex_dashboard generate \
   --template-name azure-dashboard \
   --config-file config.yaml
 ```
-
 ### How to create a new template
 
 This is a four steps process.
@@ -277,3 +328,18 @@ Update `src/opex_dashboard/commands/generate.py`:
 
 In the [test folder](https://github.com/pagopa/opex-dashboard/tree/main/test)
 there are lots of tests, consider to upgrade it after develop a new template.
+
+### Use the library in your project
+
+You can add the core library as a dependecy like any common Python package.
+unfortunately we didn't publish the package to PyPI (Python Package Index) but
+you can directly use GitHub:
+
+```bash
+pip install 'opex_dashboard @ git+https://github.com/pagopa/opex-dashboard'
+```
+
+## Features roadmap
+
+- Configurable thresholds for availability and response time;
+- Overridable hostnames.
