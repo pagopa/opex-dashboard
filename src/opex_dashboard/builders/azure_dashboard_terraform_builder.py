@@ -2,7 +2,7 @@ import os
 import shutil
 import json
 
-from typing import Dict, Any
+from typing import Dict, Any, List
 
 from opex_dashboard.builders.base import Builder
 from opex_dashboard.builders.azure_dashboard_builder import AzDashboardBuilder
@@ -15,7 +15,8 @@ class AzDashboardTerraformBuilder(Builder):
                  dashboard_builder: AzDashboardBuilder,
                  name: str,
                  location: str,
-                 timespan: str) -> None:
+                 timespan: str,
+                 data_source_id: str) -> None:
         """Create an AzDashbordTerraformBuilder object
         """
         self._builder = dashboard_builder
@@ -25,6 +26,7 @@ class AzDashboardTerraformBuilder(Builder):
                 "name": name,
                 "location": location,
                 "timespan": timespan,
+                "data_source_id": data_source_id,
             }
         )
 
@@ -39,13 +41,12 @@ class AzDashboardTerraformBuilder(Builder):
             "dashboard_properties": json.dumps(dashboard["properties"], indent=2),
             "hosts": self._builder.props()["hosts"],
             "endpoints": self._builder.props()["endpoints"],
-            "timespan": self._builder.props()["timespan"],
         })
 
     def package(self, path: str, values: Dict[str, Any] = {}) -> None:
         """Save the rendered template on filesystem with PagoPA Terraform project conventions
         """
-        filepath = os.path.join(path, "core.tf")
+        filepath = os.path.join(path, "01_opex.tf")
         with open(filepath, "w") as file:
             file.write(self.produce(values))
 

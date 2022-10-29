@@ -1,17 +1,17 @@
-data "azurerm_log_analytics_workspace" "this" {
-  name                = var.log_workspace_name
-  resource_group_name = var.log_workspace_rg
+locals {
+  name = "${var.prefix}-${var.env_short}-{{name}}"
 }
 
 resource "azurerm_resource_group" "this" {
-  name     = var.rg_name
+  name     = "${local.name}-rg"
   location = "{{ location }}"
 }
 
 resource "azurerm_dashboard" "this" {
-  name                = "{{ name }}"
+  name                = local.name
   resource_group_name = azurerm_resource_group.this.name
   location            = azurerm_resource_group.this.location
+  tags                = var.tags
 
   dashboard_properties = <<-PROPS
     {{ dashboard_properties }}
@@ -20,7 +20,7 @@ resource "azurerm_dashboard" "this" {
 
 {% for endpoint in endpoints %}
 resource "azurerm_monitor_scheduled_query_rules_alert" "alarm_availability_{{ forloop.counter0 }}" {
-  name                = replace(join("_",split("/", "Availability @ {{endpoint}}")), "/\\{|\\}/", "")
+  name                = replace(join("_",split("/", "${local.name}-availability @ {{endpoint}}")), "/\\{|\\}/", "")
   resource_group_name = azurerm_resource_group.this.name
   location            = azurerm_resource_group.this.location
 
@@ -28,7 +28,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert" "alarm_availability_{{ fo
     action_group = []
   }
 
-  data_source_id          = data.azurerm_log_analytics_workspace.this.id
+  data_source_id          = "{{ data_source_id }}"
   description             = "Availability for {{endpoint}} is less than or equal to 99%"
   enabled                 = true
   auto_mitigation_enabled = false
@@ -44,10 +44,12 @@ resource "azurerm_monitor_scheduled_query_rules_alert" "alarm_availability_{{ fo
     operator  = "GreaterThanOrEqual"
     threshold = 1
   }
+
+  tags = var.tags
 }
 
 resource "azurerm_monitor_scheduled_query_rules_alert" "alarm_time_{{ forloop.counter0 }}" {
-  name                = replace(join("_",split("/", "ResponseTime @ {{endpoint}}")), "/\\{|\\}/", "")
+  name                = replace(join("_",split("/", "${local.name}-responsetime @ {{endpoint}}")), "/\\{|\\}/", "")
   resource_group_name = azurerm_resource_group.this.name
   location            = azurerm_resource_group.this.location
 
@@ -55,7 +57,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert" "alarm_time_{{ forloop.co
     action_group = []
   }
 
-  data_source_id          = data.azurerm_log_analytics_workspace.this.id
+  data_source_id          = "{{ data_source_id }}"
   description             = "Response time for {{endpoint}} is less than or equal to 1s"
   enabled                 = true
   auto_mitigation_enabled = false
@@ -71,5 +73,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert" "alarm_time_{{ forloop.co
     operator  = "GreaterThanOrEqual"
     threshold = 1
   }
+
+  tags = var.tags
 }
 {% endfor %}
