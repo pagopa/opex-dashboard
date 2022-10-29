@@ -13,6 +13,7 @@ def create_azure_terraform_builder(**args: Optional[Any]) -> Optional[Builder]:
         "name": str,
         "location": str,
         "timespan": str,
+        "data_source_id": str,
         })
     inputs["dashboard_builder"] = create_azure_builder(**args)
     return AzDashboardTerraformBuilder(**inputs)

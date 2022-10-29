@@ -41,7 +41,8 @@ def generate(template_name: str,
         "name": config["name"],
         "location": config["location"],
         "timespan": config["timespan"],
-        "resources": config["resources"],
+        "resources": [config["data_source"]],
+        "data_source_id": config["data_source"],
     }
 
     builder = create_builder(template_type=template_name, **properties)
