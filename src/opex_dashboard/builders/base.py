@@ -1,3 +1,5 @@
+import os
+
 from typing import Dict, Any
 
 from opex_dashboard.template import Template
@@ -25,3 +27,10 @@ class Builder:
             str: The rendered template
         """
         return self._template.render(self._properties | values)
+
+    def package(self, path: str, values: Dict[str, Any] = {}) -> None:
+        """Save the rendered template on filesystem
+        """
+        filepath = os.path.join(path, self._template.getname())
+        with open(filepath, "w") as file:
+            file.write(self.produce(values))
