@@ -16,7 +16,7 @@ class AzDashboardBuilder(Builder):
                  resources: List[str]) -> None:
         """Create an AzDashbordBuilder object
         """
-        self._oa3_spec = resolver.resolve()  # TODO base_properties from resolver?
+        self._oa3_spec = resolver.resolve()
         super().__init__(
             template="azure_dashboard.json",
             base_properties={

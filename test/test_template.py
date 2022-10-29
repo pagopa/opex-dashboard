@@ -77,3 +77,15 @@ def test_render_with_inexistent_tag():
     assert template_dict["widget"]["window"]["title"] == values["window"]["title"]
     assert template_dict["widget"]["image"]["hOffset"] == values["image"]["offset"]
     assert template_dict["widget"]["image"]["vOffset"] == values["image"]["offset"]
+
+
+def test_set_correct_name():
+    """
+    GIVEN a template
+    WHEN get its name
+    THEN it returns the filename
+    """
+    filename = "template.json"
+    template = Template(filename)
+
+    assert template.getname() == filename

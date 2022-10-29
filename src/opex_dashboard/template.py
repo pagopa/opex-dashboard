@@ -19,6 +19,7 @@ class Template:
     )
 
     _template: DTemplate
+    _name: str
 
     def __init__(self, template_file: str) -> None:
         """Create a Template object
@@ -27,6 +28,7 @@ class Template:
             FileError: If template file missed
         """
         try:
+            self._name = template_file
             self._template = self.engine.get_template(template_file)
         except TemplateDoesNotExist:
             raise FileError(f"Template file missing error: {template_file}")
@@ -39,3 +41,11 @@ class Template:
         """
         context = Context(tags, autoescape=False, use_l10n=False, use_tz=False)
         return self._template.render(context)
+
+    def getname(self) -> str:
+        """Return the name of the template file
+
+        Returns:
+            str: The template filename
+        """
+        return self._name
