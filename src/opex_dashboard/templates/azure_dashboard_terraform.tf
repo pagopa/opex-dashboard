@@ -1,31 +1,3 @@
-terraform {
-  required_providers {
-    azurerm = {
-      source  = "hashicorp/azurerm"
-      version = ">= 2.99.0"
-    }
-  }
-}
-
-provider "azurerm" {
-  features {}
-}
-
-variable "log_workspace_name" {
-  description = "Name of the log analytics workspace"
-  type        = string
-}
-
-variable "rg_name" {
-  description = "Name of the resource group to deploy resources into"
-  type        = string
-}
-
-variable "log_workspace_rg" {
-  description = "Resource group of the log analytics workspace"
-  type        = string
-}
-
 data "azurerm_log_analytics_workspace" "this" {
   name                = var.log_workspace_name
   resource_group_name = var.log_workspace_rg

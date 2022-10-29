@@ -1,3 +1,5 @@
+import os
+import shutil
 import json
 
 from typing import Dict, Any
@@ -39,3 +41,18 @@ class AzDashboardTerraformBuilder(Builder):
             "endpoints": self._builder.props()["endpoints"],
             "timespan": self._builder.props()["timespan"],
         })
+
+    def package(self, path: str, values: Dict[str, Any] = {}) -> None:
+        """Save the rendered template on filesystem with PagoPA Terraform project conventions
+        """
+        filepath = os.path.join(path, "core.tf")
+        with open(filepath, "w") as file:
+            file.write(self.produce(values))
+
+        assets_path = os.path.join(os.path.dirname(__file__), "../assets/terraform")
+        for obj in os.listdir(assets_path):
+            obj_path = os.path.join(assets_path, obj)
+            copy = shutil.copy
+            if os.path.isdir(obj_path):
+                copy = shutil.copytree
+            copy(obj_path, os.path.join(path, obj))
