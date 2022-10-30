@@ -8,7 +8,7 @@ from opex_dashboard.builders.base import Builder
 from opex_dashboard.builders.azure_dashboard_raw_builder import AzDashboardRawBuilder
 
 
-class AzDashboardTerraformBuilder(Builder):
+class AzDashboardBuilder(Builder):
     _builder: AzDashboardRawBuilder
 
     def __init__(self,

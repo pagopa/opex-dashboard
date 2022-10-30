@@ -5,7 +5,7 @@ from opex_dashboard.resolver import OA3Resolver
 from opex_dashboard.error import InvalidBuilderError
 from opex_dashboard.builders.base import Builder
 from opex_dashboard.builders.azure_dashboard_raw_builder import AzDashboardRawBuilder
-from opex_dashboard.builders.azure_dashboard_terraform_builder import AzDashboardTerraformBuilder
+from opex_dashboard.builders.azure_dashboard_builder import AzDashboardBuilder
 
 
 def create_azure_terraform_builder(**args: Optional[Any]) -> Optional[Builder]:
@@ -16,7 +16,7 @@ def create_azure_terraform_builder(**args: Optional[Any]) -> Optional[Builder]:
         "data_source_id": str,
         })
     inputs["dashboard_builder"] = create_azure_raw_builder(**args)
-    return AzDashboardTerraformBuilder(**inputs)
+    return AzDashboardBuilder(**inputs)
 
 
 def create_azure_raw_builder(**args: Optional[Any]) -> Optional[Builder]:
