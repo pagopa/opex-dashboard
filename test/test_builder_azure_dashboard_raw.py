@@ -27,7 +27,7 @@ def test_produce_the_template_with_host_and_base_path_options():
     """
     resolver = OA3Resolver(f"{DATA_BASE_PATH}/io_backend.yaml")
     builder = create_builder(
-            "azure-dashboard",
+            "azure-dashboard-raw",
             resolver=resolver,
             name=NAME,
             location=LOCATION,
@@ -91,7 +91,7 @@ def test_produce_the_template_with_servers_option():
     """
     resolver = OA3Resolver(f"{DATA_BASE_PATH}/selfcare_party_process.yaml")
     builder = create_builder(
-            "azure-dashboard",
+            "azure-dashboard-raw",
             resolver=resolver,
             name=NAME,
             location=LOCATION,

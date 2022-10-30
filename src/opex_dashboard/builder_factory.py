@@ -46,8 +46,8 @@ def create_builder(template_type: str, **args: Optional[Any]) -> Optional[Builde
     """
     try:
         builders = {
-            "azure-dashboard": create_azure_raw_builder,
-            "azure-dashboard-terraform": create_azure_terraform_builder,
+            "azure-dashboard": create_azure_terraform_builder,
+            "azure-dashboard-raw": create_azure_raw_builder,
             "base": create_base_builder
         }
         return builders.get(template_type, lambda **_: None)(**args)

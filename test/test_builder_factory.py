@@ -77,7 +77,7 @@ def test_create_an_azure_dashboard_raw_builder():
     """
     resolver = OA3Resolver(f"{DATA_BASE_PATH}/io_backend.yaml")
     builder = create_builder(
-            "azure-dashboard",
+            "azure-dashboard-raw",
             resolver=resolver,
             name="PROD-IO/IO App Availability",
             location="West Europe",
@@ -97,7 +97,7 @@ def test_create_an_azure_dashboard_raw_builder_without_a_resolver():
     """
     with pytest.raises(InvalidBuilderError) as e:
         create_builder(
-            "azure-dashboard",
+            "azure-dashboard-raw",
             name="PROD-IO/IO App Availability",
             location="West Europe",
             timespan="5m",
@@ -116,7 +116,7 @@ def test_create_an_azure_dashboard_raw_builder_with_an_invalid_resolver():
     """
     with pytest.raises(InvalidBuilderError) as e:
         create_builder(
-            "azure-dashboard",
+            "azure-dashboard-raw",
             resolver={"foo": "bar"},
             name="PROD-IO/IO App Availability",
             location="West Europe",
@@ -137,7 +137,7 @@ def test_create_an_azure_dashboard_raw_builder_without_a_name():
     with pytest.raises(InvalidBuilderError) as e:
         resolver = OA3Resolver(f"{DATA_BASE_PATH}/io_backend.yaml")
         create_builder(
-            "azure-dashboard",
+            "azure-dashboard-raw",
             resolver=resolver,
             location="West Europe",
             timespan="5m",
@@ -157,7 +157,7 @@ def test_create_an_azure_dashboard_raw_builder_with_an_invalid_name():
     with pytest.raises(InvalidBuilderError) as e:
         resolver = OA3Resolver(f"{DATA_BASE_PATH}/io_backend.yaml")
         create_builder(
-            "azure-dashboard",
+            "azure-dashboard-raw",
             resolver=resolver,
             name={"foo": "bar"},
             location="West Europe",
@@ -178,7 +178,7 @@ def test_create_an_azure_dashboard_raw_builder_without_a_location():
     with pytest.raises(InvalidBuilderError) as e:
         resolver = OA3Resolver(f"{DATA_BASE_PATH}/io_backend.yaml")
         create_builder(
-            "azure-dashboard",
+            "azure-dashboard-raw",
             resolver=resolver,
             name="PROD-IO/IO App Availability",
             timespan="5m",
@@ -198,7 +198,7 @@ def test_create_an_azure_dashboard_raw_builder_with_an_invalid_location():
     with pytest.raises(InvalidBuilderError) as e:
         resolver = OA3Resolver(f"{DATA_BASE_PATH}/io_backend.yaml")
         create_builder(
-            "azure-dashboard",
+            "azure-dashboard-raw",
             resolver=resolver,
             name="PROD-IO/IO App Availability",
             location={"foo": "bar"},
@@ -219,7 +219,7 @@ def test_create_an_azure_dashboard_raw_builder_without_a_timespan():
     with pytest.raises(InvalidBuilderError) as e:
         resolver = OA3Resolver(f"{DATA_BASE_PATH}/io_backend.yaml")
         create_builder(
-            "azure-dashboard",
+            "azure-dashboard-raw",
             resolver=resolver,
             name="PROD-IO/IO App Availability",
             location="West Europe",
@@ -239,7 +239,7 @@ def test_create_an_azure_dashboard_raw_builder_with_an_invalid_timespan():
     with pytest.raises(InvalidBuilderError) as e:
         resolver = OA3Resolver(f"{DATA_BASE_PATH}/io_backend.yaml")
         create_builder(
-            "azure-dashboard",
+            "azure-dashboard-raw",
             resolver=resolver,
             name="PROD-IO/IO App Availability",
             location="West Europe",
@@ -260,7 +260,7 @@ def test_create_an_azure_dashboard_raw_builder_without_a_list_of_resources():
     with pytest.raises(InvalidBuilderError) as e:
         resolver = OA3Resolver(f"{DATA_BASE_PATH}/io_backend.yaml")
         create_builder(
-            "azure-dashboard",
+            "azure-dashboard-raw",
             resolver=resolver,
             name="PROD-IO/IO App Availability",
             location="West Europe",
@@ -278,7 +278,7 @@ def test_create_an_azure_dashboard_raw_builder_with_an_invalid_list_of_resources
     with pytest.raises(InvalidBuilderError) as e:
         resolver = OA3Resolver(f"{DATA_BASE_PATH}/io_backend.yaml")
         create_builder(
-            "azure-dashboard",
+            "azure-dashboard-raw",
             resolver=resolver,
             name="PROD-IO/IO App Availability",
             location="West Europe",
