@@ -19,11 +19,14 @@ from opex_dashboard.error import InvalidBuilderError
               required=True,
               help="A yaml file with all params to create the template, use - value to get input from stdin.")
 @click.option("--package",
-              is_flag=True,
-              help="Save the template among with related files, it creates a folder in current working dir.")
+              type=str,
+              is_flag=False,
+              flag_value=os.getcwd(),
+              default=None,
+              help="Save the template as a package, by default it creates a folder in teh current directory.")
 def generate(template_name: str,
              config_file: str,
-             package: bool) -> None:
+             package: str) -> None:
     """Generate enables you to create a dashboard definition that could be
        imported in a compatible provider.
     """
@@ -50,7 +53,7 @@ def generate(template_name: str,
         raise InvalidBuilderError(f"Invalid builder error: unknown builder {template_name}")
 
     if package:
-        basepath = os.path.join(os.getcwd(), template_name)
+        basepath = os.path.join(package, template_name)
         if not os.path.exists(basepath):
             os.makedirs(basepath)
         builder.package(path=basepath)
