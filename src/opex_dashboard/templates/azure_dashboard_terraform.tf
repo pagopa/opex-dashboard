@@ -37,7 +37,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert" "alarm_availability_{{ fo
     {% include "queries/availability.kusto" with is_alarm=True %}
   QUERY
 
-  severity    = 0
+  severity    = 1
   frequency   = 10
   time_window = 20
   trigger {
@@ -66,7 +66,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert" "alarm_time_{{ forloop.co
     {% include "queries/response_time.kusto" with is_alarm=True %}
   QUERY
 
-  severity    = 0
+  severity    = 1
   frequency   = 10
   time_window = 20
   trigger {
