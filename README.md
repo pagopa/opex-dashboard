@@ -8,12 +8,12 @@
 
 This tool can do the following:
 
-| Template                  | Description                                                                       | Status     |
-|---------------------------|-----------------------------------------------------------------------------------|------------|
-| azure-dashboard           | Programmatically create a JSON representation of a PagoPA's Azure Dashboard       | ✅ OK      |
-| azure-dashboard-terraform | Programmatically create a Terraform representation of an PagoPA's Azure Dashboard | ✅ OK      |
-| aws                       | Programmatically create a JSON representation of a PagoPA's CloudWatch Dashboard  | ⚒️ WIP      |
-| grafana                   | Programmatically create a JSON representation of a PagoPA's Grafana Dashboard     | ❌ Planned |
+| Template            | Description                                                                       | Status     |
+|---------------------|-----------------------------------------------------------------------------------|------------|
+| azure-dashboard     | Programmatically create a Terraform representation of an PagoPA's Azure Dashboard | ✅ OK      |
+| azure-dashboard-raw | Programmatically create a JSON representation of a PagoPA's Azure Dashboard       | ✅ OK      |
+| aws                 | Programmatically create a JSON representation of a PagoPA's CloudWatch Dashboard  | ⚒️ WIP      |
+| grafana             | Programmatically create a JSON representation of a PagoPA's Grafana Dashboard     | ❌ Planned |
 
 It is distribuited as a Python package and it has two important components:
 
@@ -46,12 +46,14 @@ Usage: opex_dashboard generate [OPTIONS]
   in a compatible provider.
 
 Options:
-  -t, --template-name [azure-dashboard|azure-dashboard-terraform]
+  -t, --template-name [azure-dashboard|azure-dashboard-raw]
                                   Name of the template.  [required]
   -c, --config-file FILENAME      A yaml file with all params to create the
                                   template, use - value to get input from
                                   stdin.  [required]
-  -o, --output-file TEXT          Save the output into a file.
+  --package PATH                  Save the template as a package, by default
+                                  it creates a folder in the current
+                                  directory.
   --help                          Show this message and exit.
 ```
 
@@ -149,6 +151,32 @@ In any case, you'll be able to create the dashboard by using the CLI:
 opex_dashboard generate \
   --template-name azure-dashboard \
   --config-file config.yaml
+```
+
+### Terraform
+
+Using the option `--package` with a Terraform template, the CLI creates a
+package using PagoPA's conventions. The package has this structure:
+
+```
+<template_name>/
+|- .env/
+|  |- dev/
+|  |  |- backend.ini
+|  |  |- backend_state.tfvars
+|  |  |- terraform.tfvars
+|  |- uat/
+|  |  |- backend.ini
+|  |  |- backend_state.tfvars
+|  |  |- terraform.tfvars
+|  |- prod/
+|     |- backend.ini
+|     |- backend_state.tfvars
+|     |- terraform.tfvars
+|- terraform.sh
+|- 99_main.tf
+|- 99_variables.tf
+|- 99_core.tf
 ```
 
 ## Development

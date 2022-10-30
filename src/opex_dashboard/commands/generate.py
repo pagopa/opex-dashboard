@@ -19,11 +19,11 @@ from opex_dashboard.error import InvalidBuilderError
               required=True,
               help="A yaml file with all params to create the template, use - value to get input from stdin.")
 @click.option("--package",
-              type=str,
+              type=click.Path(),
               is_flag=False,
               flag_value=os.getcwd(),
               default=None,
-              help="Save the template as a package, by default it creates a folder in teh current directory.")
+              help="Save the template as a package, by default it creates a folder in the current directory.")
 def generate(template_name: str,
              config_file: str,
              package: str) -> None:
