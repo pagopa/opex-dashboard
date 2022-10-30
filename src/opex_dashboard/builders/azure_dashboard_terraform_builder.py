@@ -5,14 +5,14 @@ import json
 from typing import Dict, Any, List
 
 from opex_dashboard.builders.base import Builder
-from opex_dashboard.builders.azure_dashboard_builder import AzDashboardBuilder
+from opex_dashboard.builders.azure_dashboard_raw_builder import AzDashboardRawBuilder
 
 
 class AzDashboardTerraformBuilder(Builder):
-    _builder: AzDashboardBuilder
+    _builder: AzDashboardRawBuilder
 
     def __init__(self,
-                 dashboard_builder: AzDashboardBuilder,
+                 dashboard_builder: AzDashboardRawBuilder,
                  name: str,
                  location: str,
                  timespan: str,
@@ -31,7 +31,7 @@ class AzDashboardTerraformBuilder(Builder):
         )
 
     def produce(self, values: Dict[str, Any] = {}) -> str:
-        """Render the template by merging base properties with given and extracted values from AzDashboardBuilder
+        """Render the template by merging base properties with given and extracted values from AzDashboardRawBuilder
 
         Returns:
             str: The rendered template to create an Azure Dashboard with Terraform

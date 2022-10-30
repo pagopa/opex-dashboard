@@ -5,7 +5,7 @@ from opex_dashboard.builders.base import Builder
 from opex_dashboard.resolver import OA3Resolver
 
 
-class AzDashboardBuilder(Builder):
+class AzDashboardRawBuilder(Builder):
     _oa3_spec: Dict[str, Any]
 
     def __init__(self,

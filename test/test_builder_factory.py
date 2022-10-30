@@ -4,7 +4,7 @@ from os.path import dirname, join
 
 from opex_dashboard.builder_factory import create_builder
 from opex_dashboard.builders.base import Builder
-from opex_dashboard.builders.azure_dashboard_builder import AzDashboardBuilder
+from opex_dashboard.builders.azure_dashboard_raw_builder import AzDashboardRawBuilder
 from opex_dashboard.resolver import OA3Resolver
 from opex_dashboard.error import InvalidBuilderError
 
@@ -69,11 +69,11 @@ def test_create_a_basic_builder_with_invalid_base_properties():
     assert str(e.value) == f"Invalid builder error: 'base_properties' must be a {dict}"
 
 
-def test_create_an_azure_dashboard_builder():
+def test_create_an_azure_dashboard_raw_builder():
     """
     GIVEN an azure dashboard builder type, a resolver, a name, a location, a timespan, and a list of resources
     WHEN the builder is created
-    THEN it returns an instance of AzDashboardBuilder
+    THEN it returns an instance of AzDashboardRawBuilder
     """
     resolver = OA3Resolver(f"{DATA_BASE_PATH}/io_backend.yaml")
     builder = create_builder(
@@ -86,10 +86,10 @@ def test_create_an_azure_dashboard_builder():
                         "resourceGroups/io-p-rg-external/providers/Microsoft.Network"
                         "/applicationGateways/io-p-appgateway")])
 
-    assert isinstance(builder, AzDashboardBuilder)
+    assert isinstance(builder, AzDashboardRawBuilder)
 
 
-def test_create_an_azure_dashboard_builder_without_a_resolver():
+def test_create_an_azure_dashboard_raw_builder_without_a_resolver():
     """
     GIVEN an azure dashboard builder type, a name, a location, a timespan, and a list of resources
     WHEN the builder is created
@@ -108,7 +108,7 @@ def test_create_an_azure_dashboard_builder_without_a_resolver():
     assert str(e.value).endswith("required positional argument: 'resolver'")
 
 
-def test_create_an_azure_dashboard_builder_with_an_invalid_resolver():
+def test_create_an_azure_dashboard_raw_builder_with_an_invalid_resolver():
     """
     GIVEN an azure dashboard builder type, a name, a location, a timespan, a list of resources, and a dict
     WHEN the builder is created with the dict as resolver
@@ -128,7 +128,7 @@ def test_create_an_azure_dashboard_builder_with_an_invalid_resolver():
     assert str(e.value) == f"Invalid builder error: 'resolver' must be a {OA3Resolver}"
 
 
-def test_create_an_azure_dashboard_builder_without_a_name():
+def test_create_an_azure_dashboard_raw_builder_without_a_name():
     """
     GIVEN an azure dashboard builder type, a resolver, a location, a timespan, and a list of resources
     WHEN the builder is created
@@ -148,7 +148,7 @@ def test_create_an_azure_dashboard_builder_without_a_name():
     assert str(e.value).endswith("required positional argument: 'name'")
 
 
-def test_create_an_azure_dashboard_builder_with_an_invalid_name():
+def test_create_an_azure_dashboard_raw_builder_with_an_invalid_name():
     """
     GIVEN an azure dashboard builder type, a resolver, a location, a timespan, a list of resources, and a dict
     WHEN the builder is created with the dict as resolver
@@ -169,7 +169,7 @@ def test_create_an_azure_dashboard_builder_with_an_invalid_name():
     assert str(e.value) == f"Invalid builder error: 'name' must be a {str}"
 
 
-def test_create_an_azure_dashboard_builder_without_a_location():
+def test_create_an_azure_dashboard_raw_builder_without_a_location():
     """
     GIVEN an azure dashboard builder type, a resolver, a name, a timespan, and a list of resources
     WHEN the builder is created
@@ -189,7 +189,7 @@ def test_create_an_azure_dashboard_builder_without_a_location():
     assert str(e.value).endswith("required positional argument: 'location'")
 
 
-def test_create_an_azure_dashboard_builder_with_an_invalid_location():
+def test_create_an_azure_dashboard_raw_builder_with_an_invalid_location():
     """
     GIVEN an azure dashboard builder type, a resolver, a name, a timespan, a list of resources, and a dict
     WHEN the builder is created with the dict as resolver
@@ -210,7 +210,7 @@ def test_create_an_azure_dashboard_builder_with_an_invalid_location():
     assert str(e.value) == f"Invalid builder error: 'location' must be a {str}"
 
 
-def test_create_an_azure_dashboard_builder_without_a_timespan():
+def test_create_an_azure_dashboard_raw_builder_without_a_timespan():
     """
     GIVEN an azure dashboard builder type, a resolver, a name, a location, and a list of resources
     WHEN the builder is created
@@ -230,7 +230,7 @@ def test_create_an_azure_dashboard_builder_without_a_timespan():
     assert str(e.value).endswith("required positional argument: 'timespan'")
 
 
-def test_create_an_azure_dashboard_builder_with_an_invalid_timespan():
+def test_create_an_azure_dashboard_raw_builder_with_an_invalid_timespan():
     """
     GIVEN an azure dashboard builder type, a resolver, a name, a location, a list of resources, and a dict
     WHEN the builder is created with the dict as resolver
@@ -251,7 +251,7 @@ def test_create_an_azure_dashboard_builder_with_an_invalid_timespan():
     assert str(e.value) == f"Invalid builder error: 'timespan' must be a {str}"
 
 
-def test_create_an_azure_dashboard_builder_without_a_list_of_resources():
+def test_create_an_azure_dashboard_raw_builder_without_a_list_of_resources():
     """
     GIVEN an azure dashboard builder type, a resolver, a name, a timespan, and a location
     WHEN the builder is created
@@ -269,7 +269,7 @@ def test_create_an_azure_dashboard_builder_without_a_list_of_resources():
     assert str(e.value).endswith("required positional argument: 'resources'")
 
 
-def test_create_an_azure_dashboard_builder_with_an_invalid_list_of_resources():
+def test_create_an_azure_dashboard_raw_builder_with_an_invalid_list_of_resources():
     """
     GIVEN an azure dashboard builder type, a resolver, a name, a timespan, a list of resources, and a dict
     WHEN the builder is created with the dict as resolver
