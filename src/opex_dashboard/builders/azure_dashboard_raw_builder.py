@@ -18,7 +18,7 @@ class AzDashboardRawBuilder(Builder):
         """
         self._oa3_spec = resolver.resolve()
         super().__init__(
-            template="azure_dashboard.json",
+            template="azure_dashboard_raw.json",
             base_properties={
                 "name": name,
                 "location": location,
