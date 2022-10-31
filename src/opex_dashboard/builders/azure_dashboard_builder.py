@@ -2,7 +2,7 @@ import os
 import shutil
 import json
 
-from typing import Dict, Any, List
+from typing import Dict, Any
 
 from opex_dashboard.builders.base import Builder
 from opex_dashboard.builders.azure_dashboard_raw_builder import AzDashboardRawBuilder
@@ -53,7 +53,7 @@ class AzDashboardBuilder(Builder):
         assets_path = os.path.join(os.path.dirname(__file__), "../assets/terraform")
         for obj in os.listdir(assets_path):
             obj_path = os.path.join(assets_path, obj)
-            copy = shutil.copy
             if os.path.isdir(obj_path):
-                copy = shutil.copytree
-            copy(obj_path, os.path.join(path, obj))
+                shutil.copytree(obj_path, os.path.join(path, obj))
+            else:
+                shutil.copy(obj_path, os.path.join(path, obj))
