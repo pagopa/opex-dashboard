@@ -198,13 +198,13 @@ example](examples/azure_dashboard_overrides_config.yaml) for more.
 
 ### Examples
 
-To overrides hosts add this snippet tou your config:
+To overrides hosts add this snippet tou your config (`http(s)` prefix is mandatory):
 
 ```yaml
 overrides:
   hosts:
-    - example.com
-    - github.com
+    - https://example.com
+    - https://github.com
 ```
 
 To overrides endpoint's settings add this snippet tou your config:
