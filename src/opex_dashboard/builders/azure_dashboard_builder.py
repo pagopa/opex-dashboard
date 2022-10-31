@@ -37,11 +37,10 @@ class AzDashboardBuilder(Builder):
             str: The rendered template to create an Azure Dashboard with Terraform
         """
         dashboard = json.loads(self._builder.produce(values))
-        return super().produce({
-            "dashboard_properties": json.dumps(dashboard["properties"], indent=2),
-            "hosts": self._builder.props()["hosts"],
-            "endpoints": self._builder.props()["endpoints"],
-        })
+        self._properties["dashboard_properties"] = json.dumps(dashboard["properties"], indent=2)
+        self._properties["hosts"] = self._builder.props()["hosts"]
+        self._properties["endpoints"] = self._builder.props()["endpoints"]
+        return super().produce(values)
 
     def package(self, path: str, values: Dict[str, Any] = {}) -> None:
         """Save the rendered template on filesystem with PagoPA Terraform project conventions
