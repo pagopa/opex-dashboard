@@ -5,6 +5,8 @@ timespan: 5m # Default, a number or a timespan https://docs.microsoft.com/en-us/
 data_source: /subscriptions/uuid/resourceGroups/my-rg/providers/Microsoft.Network/applicationGateways/my-gtw
 overrides:
   hosts: # Use these hosts instead of those inside the OpenApi spec
-    - https://api.dev.selfcare.pagopa.it
-    - https://api.dev.selfcare.pagopa.com
     - https://example.com
+  endpoints:
+    /services/{service_id}:
+      availability_threshold: 0.99 # Default, it is a percentage
+      response_time_threshold: 1 # Default, it is seconds

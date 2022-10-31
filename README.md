@@ -196,6 +196,27 @@ For each template you can overrides basic values by passing their values in the
 `overrides` block of the configuration file. Look at [this
 example](examples/azure_dashboard_overrides_config.yaml).
 
+### examples:
+
+To overrides hosts add this snippet tou your config:
+
+```yaml
+overrides:
+  hosts:
+    - example.com
+    - github.com
+```
+
+To overrides endpoint's settings add this snippet tou your config:
+
+```yaml
+overrides:
+  endpoints:
+    /onboarding/info:              # This is the endpoint in the OpenApi spec
+      availability_threshold: 0.95 # Default: 99%
+      response_time_threshold: 2   # Default: 1 second
+```
+
 ## Development
 
 The development environment leverages on
@@ -384,7 +405,3 @@ you can directly use GitHub:
 ```bash
 pip install 'opex_dashboard @ git+https://github.com/pagopa/opex-dashboard'
 ```
-
-## Features roadmap
-
-- Configurable thresholds for availability and response time.

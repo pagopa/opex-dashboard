@@ -19,7 +19,7 @@ resource "azurerm_portal_dashboard" "this" {
   PROPS
 }
 
-{% for endpoint in endpoints %}
+{% for endpoint,props in endpoints.items %}
 resource "azurerm_monitor_scheduled_query_rules_alert" "alarm_availability_{{ forloop.counter0 }}" {
   name                = replace(join("_",split("/", "${local.name}-availability @ {{endpoint}}")), "/\\{|\\}/", "")
   resource_group_name = azurerm_resource_group.this.name
@@ -35,7 +35,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert" "alarm_availability_{{ fo
   auto_mitigation_enabled = false
 
   query = <<-QUERY
-    {% include "queries/availability.kusto" with is_alarm=True %}
+    {% include "queries/availability.kusto" with is_alarm=True threshold=props.availability_threshold %}
   QUERY
 
   severity    = 1
@@ -64,7 +64,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert" "alarm_time_{{ forloop.co
   auto_mitigation_enabled = false
 
   query = <<-QUERY
-    {% include "queries/response_time.kusto" with is_alarm=True %}
+    {% include "queries/response_time.kusto" with is_alarm=True threshold=props.response_time_threshold %}
   QUERY
 
   severity    = 1

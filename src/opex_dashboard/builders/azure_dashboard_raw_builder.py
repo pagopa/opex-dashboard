@@ -33,18 +33,24 @@ class AzDashboardRawBuilder(Builder):
         Returns:
             str: The rendered template to create an Azure Dashboard json
         """
+        endpoint_default_values = {
+            "availability_threshold": 0.99,
+            "response_time_threshold": 1,
+        }
+
         if "servers" in self._oa3_spec:
             self._properties["hosts"] = []
-            self._properties["endpoints"] = []
+            self._properties["endpoints"] = {}
             for server in self._oa3_spec["servers"]:
                 url = urlparse(server["url"])
                 self._properties["hosts"].append(url.netloc)
                 for p in list(self._oa3_spec["paths"].keys()):
-                    self._properties["endpoints"].append(f"{url.path}/{p[1:]}")
-            self._properties["endpoints"] = [*set(self._properties["endpoints"])]
+                    self._properties["endpoints"][f"{url.path}/{p[1:]}"] = endpoint_default_values
         else:
             base_path = self._oa3_spec["basePath"]
             self._properties["hosts"] = [self._oa3_spec["host"]]
-            self._properties["endpoints"] = [f"{base_path}/{p[1:]}" for p in self._oa3_spec["paths"].keys()]
+            self._properties["endpoints"] = {}
+            for p in self._oa3_spec["paths"].keys():
+                self._properties["endpoints"][f"{base_path}/{p[1:]}"] = endpoint_default_values
 
         return super().produce(values)
