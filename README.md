@@ -179,6 +179,17 @@ package using PagoPA's conventions. The package has this structure:
 |- 99_core.tf
 ```
 
+If you are running the script inside a container you can pass to `--package`
+the path of the bind mounted volume. This is an example:
+
+```bash
+docker run -v $(pwd):/home/nonroot/myfolder:Z \
+  ghcr.io/pagopa/opex-dashboard:latest generate \
+  --template-name azure-dashboard \
+  --config-file myfolder/config.yaml \
+  --package myfolder
+```
+
 ## Development
 
 The development environment leverages on
