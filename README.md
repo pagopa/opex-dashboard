@@ -35,6 +35,8 @@ For each endpoint in the OpenApi spec there are two alarms:
 1. **Availability**: threshold at 99%;
 1. **Response time**: threshold at 1 second.
 
+These values can be configured, look at [Overrides](#overrides) paragraph.
+
 ## Usage
 
 To generate a dashbord template there are several way. You can use the `opex_dashboard generate --help` to learn about this process:
@@ -192,11 +194,11 @@ docker run -v $(pwd):/home/nonroot/myfolder:Z \
 
 ## Overrides
 
-For each template you can overrides basic values by passing their values in the
-`overrides` block of the configuration file. Look at [this
-example](examples/azure_dashboard_overrides_config.yaml).
+For each template you can overrides OpenAPI values by using the `overrides`
+block in the configuration file, see [this
+example](examples/azure_dashboard_overrides_config.yaml) for more.
 
-### examples:
+### Examples
 
 To overrides hosts add this snippet tou your config:
 
@@ -335,19 +337,25 @@ class MyDashboardBuilder(Builder):
         Returns:
             str: The rendered template
         """
+        endpoint_default_values = {
+            "availability_threshold": 0.99,
+            "response_time_threshold": 1,
+        }
+
         if "servers" in self._oa3_spec:
             self._properties["hosts"] = []
-            self._properties["endpoints"] = []
+            self._properties["endpoints"] = {}
             for server in self._oa3_spec["servers"]:
                 url = urlparse(server["url"])
                 self._properties["hosts"].append(url.netloc)
                 for p in list(self._oa3_spec["paths"].keys()):
-                    self._properties["endpoints"].append(f"{url.path}/{p[1:]}")
-            self._properties["endpoints"] = [*set(self._properties["endpoints"])]
+                    self._properties["endpoints"][f"{url.path}/{p[1:]}"] = endpoint_default_values
         else:
             base_path = self._oa3_spec["basePath"]
             self._properties["hosts"] = [self._oa3_spec["host"]]
-            self._properties["endpoints"] = [f"{base_path}/{p[1:]}" for p in self._oa3_spec["paths"].keys()]
+            self._properties["endpoints"] = {}
+            for p in self._oa3_spec["paths"].keys():
+                self._properties["endpoints"][f"{base_path}/{p[1:]}"] = endpoint_default_values
 
         return super().produce(values)
 ```
