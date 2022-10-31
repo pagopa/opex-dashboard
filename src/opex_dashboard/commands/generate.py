@@ -52,10 +52,11 @@ def generate(template_name: str,
     if not builder:
         raise InvalidBuilderError(f"Invalid builder error: unknown builder {template_name}")
 
+    overrides = config.get("overrides", {})
     if package:
         basepath = os.path.join(package, template_name)
         if not os.path.exists(basepath):
             os.makedirs(basepath)
-        builder.package(path=basepath)
+        builder.package(path=basepath, values=overrides)
     else:
-        print(builder.produce())
+        print(builder.produce(overrides))

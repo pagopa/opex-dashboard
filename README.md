@@ -190,6 +190,12 @@ docker run -v $(pwd):/home/nonroot/myfolder:Z \
   --package myfolder
 ```
 
+## Overrides
+
+For each template you can overrides basic values by passing their values in the
+`overrides` block of the configuration file. Look at [this
+example](examples/azure_dashboard_overrides_config.yaml).
+
 ## Development
 
 The development environment leverages on
@@ -212,6 +218,7 @@ pipenv run opex_dashboard generate \
   --template-name azure-dashboard \
   --config-file config.yaml
 ```
+
 ### How to create a new template
 
 This is a four steps process.
@@ -380,5 +387,4 @@ pip install 'opex_dashboard @ git+https://github.com/pagopa/opex-dashboard'
 
 ## Features roadmap
 
-- Configurable thresholds for availability and response time;
-- Overridable hostnames.
+- Configurable thresholds for availability and response time.
