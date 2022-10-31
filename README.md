@@ -67,8 +67,7 @@ oa3_spec: https://raw.githubusercontent.com/pagopa/opex-dashboard/main/test/data
 name: My dashboard
 location: West Europe
 timespan: 5m
-resources:
-  - /subscriptions/uuid/resourceGroups/my-rg/providers/Microsoft.Network/applicationGateways/my-gtw
+data_source: /subscriptions/uuid/resourceGroups/my-rg/providers/Microsoft.Network/applicationGateways/my-gtw
 EOF
 ```
 
@@ -106,8 +105,7 @@ oa3_spec: myfolder/oa3_spec.yaml
 name: My dashboard
 location: West Europe
 timespan: 5m
-resources:
-  - /subscriptions/uuid/resourceGroups/my-rg/providers/Microsoft.Network/applicationGateways/my-gtw
+data_source: /subscriptions/uuid/resourceGroups/my-rg/providers/Microsoft.Network/applicationGateways/my-gtw
 EOF
 ```
 
