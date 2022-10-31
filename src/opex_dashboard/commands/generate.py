@@ -12,19 +12,21 @@ from opex_dashboard.error import InvalidBuilderError
 @click.command(short_help="Generate a dashboard definition.")
 @click.option("--template-name", "-t",
               required=True,
-              type=click.Choice(["azure-dashboard", "azure-dashboard-terraform"]),
+              type=click.Choice(["azure-dashboard", "azure-dashboard-raw"]),
               help="Name of the template.")
 @click.option("--config-file", "-c",
               type=click.File("r"),
               required=True,
               help="A yaml file with all params to create the template, use - value to get input from stdin.")
-@click.option("--output-file", "-o",
-              type=str,
+@click.option("--package",
+              type=click.Path(),
+              is_flag=False,
+              flag_value=os.getcwd(),
               default=None,
-              help="Save the output into a file.")
+              help="Save the template as a package, by default it creates a folder in the current directory.")
 def generate(template_name: str,
              config_file: str,
-             output_file: str) -> None:
+             package: str) -> None:
     """Generate enables you to create a dashboard definition that could be
        imported in a compatible provider.
     """
@@ -42,17 +44,19 @@ def generate(template_name: str,
         "name": config["name"],
         "location": config["location"],
         "timespan": config["timespan"],
-        "resources": config["resources"],
+        "resources": [config["data_source"]],
+        "data_source_id": config["data_source"],
     }
 
     builder = create_builder(template_type=template_name, **properties)
     if not builder:
         raise InvalidBuilderError(f"Invalid builder error: unknown builder {template_name}")
-    result = builder.produce()
 
-    if output_file:
-        file = open(output_file, "w")
-        file.write(result)
-        file.close()
+    overrides = config.get("overrides", {})
+    if package:
+        basepath = os.path.join(package, template_name)
+        if not os.path.exists(basepath):
+            os.makedirs(basepath)
+        builder.package(path=basepath, values=overrides)
     else:
-        print(result)
+        print(builder.produce(overrides))

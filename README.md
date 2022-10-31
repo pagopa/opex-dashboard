@@ -8,12 +8,12 @@
 
 This tool can do the following:
 
-| Template                  | Description                                                                       | Status     |
-|---------------------------|-----------------------------------------------------------------------------------|------------|
-| azure-dashboard           | Programmatically create a JSON representation of a PagoPA's Azure Dashboard       | ✅ OK      |
-| azure-dashboard-terraform | Programmatically create a Terraform representation of an PagoPA's Azure Dashboard | ✅ OK      |
-| aws                       | Programmatically create a JSON representation of a PagoPA's CloudWatch Dashboard  | ⚒️ WIP      |
-| grafana                   | Programmatically create a JSON representation of a PagoPA's Grafana Dashboard     | ❌ Planned |
+| Template            | Description                                                                       | Status     |
+|---------------------|-----------------------------------------------------------------------------------|------------|
+| azure-dashboard     | Programmatically create a Terraform representation of an PagoPA's Azure Dashboard | ✅ OK      |
+| azure-dashboard-raw | Programmatically create a JSON representation of a PagoPA's Azure Dashboard       | ✅ OK      |
+| aws                 | Programmatically create a JSON representation of a PagoPA's CloudWatch Dashboard  | ⚒️ WIP      |
+| grafana             | Programmatically create a JSON representation of a PagoPA's Grafana Dashboard     | ❌ Planned |
 
 It is distribuited as a Python package and it has two important components:
 
@@ -35,6 +35,8 @@ For each endpoint in the OpenApi spec there are two alarms:
 1. **Availability**: threshold at 99%;
 1. **Response time**: threshold at 1 second.
 
+These values can be configured, look at [Overrides](#overrides) paragraph.
+
 ## Usage
 
 To generate a dashbord template there are several way. You can use the `opex_dashboard generate --help` to learn about this process:
@@ -46,12 +48,14 @@ Usage: opex_dashboard generate [OPTIONS]
   in a compatible provider.
 
 Options:
-  -t, --template-name [azure-dashboard|azure-dashboard-terraform]
+  -t, --template-name [azure-dashboard|azure-dashboard-raw]
                                   Name of the template.  [required]
   -c, --config-file FILENAME      A yaml file with all params to create the
                                   template, use - value to get input from
                                   stdin.  [required]
-  -o, --output-file TEXT          Save the output into a file.
+  --package PATH                  Save the template as a package, by default
+                                  it creates a folder in the current
+                                  directory.
   --help                          Show this message and exit.
 ```
 
@@ -151,6 +155,70 @@ opex_dashboard generate \
   --config-file config.yaml
 ```
 
+### Terraform
+
+Using the option `--package` with a Terraform template, the CLI creates a
+package using PagoPA's conventions. The package has this structure:
+
+```
+<template_name>/
+|- .env/
+|  |- dev/
+|  |  |- backend.ini
+|  |  |- backend_state.tfvars
+|  |  |- terraform.tfvars
+|  |- uat/
+|  |  |- backend.ini
+|  |  |- backend_state.tfvars
+|  |  |- terraform.tfvars
+|  |- prod/
+|     |- backend.ini
+|     |- backend_state.tfvars
+|     |- terraform.tfvars
+|- terraform.sh
+|- 99_main.tf
+|- 99_variables.tf
+|- 99_core.tf
+```
+
+If you are running the script inside a container you can pass to `--package`
+the path of the bind mounted volume. This is an example:
+
+```bash
+docker run -v $(pwd):/home/nonroot/myfolder:Z \
+  ghcr.io/pagopa/opex-dashboard:latest generate \
+  --template-name azure-dashboard \
+  --config-file myfolder/config.yaml \
+  --package myfolder
+```
+
+## Overrides
+
+For each template you can overrides OpenAPI values by using the `overrides`
+block in the configuration file, see [this
+example](examples/azure_dashboard_overrides_config.yaml) for more.
+
+### Examples
+
+To overrides hosts add this snippet tou your config:
+
+```yaml
+overrides:
+  hosts:
+    - example.com
+    - github.com
+```
+
+To overrides endpoint's settings add this snippet tou your config:
+
+```yaml
+overrides:
+  endpoints:
+    /onboarding/info:              # This is the endpoint in the OpenApi spec
+      availability_threshold: 0.95 # Default: 99%
+      response_time_threshold: 2   # Default: 1 second
+```
+
 ## Development
 
 The development environment leverages on
@@ -173,6 +241,7 @@ pipenv run opex_dashboard generate \
   --template-name azure-dashboard \
   --config-file config.yaml
 ```
+
 ### How to create a new template
 
 This is a four steps process.
@@ -268,19 +337,25 @@ class MyDashboardBuilder(Builder):
         Returns:
             str: The rendered template
         """
+        endpoint_default_values = {
+            "availability_threshold": 0.99,
+            "response_time_threshold": 1,
+        }
+
         if "servers" in self._oa3_spec:
             self._properties["hosts"] = []
-            self._properties["endpoints"] = []
+            self._properties["endpoints"] = {}
             for server in self._oa3_spec["servers"]:
                 url = urlparse(server["url"])
                 self._properties["hosts"].append(url.netloc)
                 for p in list(self._oa3_spec["paths"].keys()):
-                    self._properties["endpoints"].append(f"{url.path}/{p[1:]}")
-            self._properties["endpoints"] = [*set(self._properties["endpoints"])]
+                    self._properties["endpoints"][f"{url.path}/{p[1:]}"] = endpoint_default_values
         else:
             base_path = self._oa3_spec["basePath"]
             self._properties["hosts"] = [self._oa3_spec["host"]]
-            self._properties["endpoints"] = [f"{base_path}/{p[1:]}" for p in self._oa3_spec["paths"].keys()]
+            self._properties["endpoints"] = {}
+            for p in self._oa3_spec["paths"].keys():
+                self._properties["endpoints"][f"{base_path}/{p[1:]}"] = endpoint_default_values
 
         return super().produce(values)
 ```
@@ -338,8 +413,3 @@ you can directly use GitHub:
 ```bash
 pip install 'opex_dashboard @ git+https://github.com/pagopa/opex-dashboard'
 ```
-
-## Features roadmap
-
-- Configurable thresholds for availability and response time;
-- Overridable hostnames.

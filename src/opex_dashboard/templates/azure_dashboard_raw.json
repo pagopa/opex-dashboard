@@ -5,7 +5,7 @@
       "0": {
         "order": 0,
         "parts": {
-          {% for endpoint in endpoints %}
+          {% for endpoint,props in endpoints.items %}
           "{{ forloop.counter0|mul:3|add:0 }}": {
             "position": {
               "x": 0,
@@ -57,7 +57,7 @@
                 },
                 {
                   "name": "Query",
-                  "value": {% filter stringify %}{% include "queries/availability.kusto" %}{% endfilter %},
+                  "value": {% filter stringify %}{% include "queries/availability.kusto" with threshold=props.availability_threshold %}{% endfilter %},
                   "isOptional": true
                 },
                 {
@@ -119,7 +119,7 @@
               "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart",
               "settings": {
                 "content": {
-                  "Query": {% filter stringify %}{% include "queries/availability.kusto" %}{% endfilter %},
+                  "Query": {% filter stringify %}{% include "queries/availability.kusto" with threshold=props.availability_threshold %}{% endfilter %},
                   "PartTitle": "Availability ({{ timespan }})"
                 }
               }
@@ -311,7 +311,7 @@
                 },
                 {
                   "name": "Query",
-                  "value": {% filter stringify %}{% include "queries/response_time.kusto" %}{% endfilter %},
+                  "value": {% filter stringify %}{% include "queries/response_time.kusto" with threshold=props.response_time_threshold %}{% endfilter %},
                   "isOptional": true
                 },
                 {
@@ -369,7 +369,7 @@
               "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart",
               "settings": {
                 "content": {
-                  "Query": {% filter stringify %}{% include "queries/response_time.kusto" %}{% endfilter %},
+                  "Query": {% filter stringify %}{% include "queries/response_time.kusto" with threshold=props.response_time_threshold %}{% endfilter %},
                   "SpecificChart": "Line",
                   "PartTitle": "Percentile Response Time ({{ timespan }})",
                   "Dimensions": {

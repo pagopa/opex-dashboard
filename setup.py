@@ -17,9 +17,9 @@ def parse_deps() -> List[str]:
 setup(
     name=opex_dashboard.__name__,
     author=opex_dashboard.__author__,
-    url="https://github.com/pagopa/operational-excellence-dashboard",
+    url="https://github.com/pagopa/opex-dashboard",
     project_urls={
-        "Source": "https://github.com/pagopa/operational-excellence-dashboard",
+        "Source": "https://github.com/pagopa/opex-dashboard",
     },
     version=opex_dashboard.__version__,
     packages=find_packages(where="src"),

@@ -1,50 +1,58 @@
-from typing import Dict, List, Any
-from urllib.parse import urlparse
+import os
+import shutil
+import json
+
+from typing import Dict, Any
 
 from opex_dashboard.builders.base import Builder
-from opex_dashboard.resolver import OA3Resolver
+from opex_dashboard.builders.azure_dashboard_raw_builder import AzDashboardRawBuilder
 
 
 class AzDashboardBuilder(Builder):
-    _oa3_spec: Dict[str, Any]
+    _builder: AzDashboardRawBuilder
 
     def __init__(self,
-                 resolver: OA3Resolver,
+                 dashboard_builder: AzDashboardRawBuilder,
                  name: str,
                  location: str,
                  timespan: str,
-                 resources: List[str]) -> None:
-        """Create an AzDashbordBuilder object
+                 data_source_id: str) -> None:
+        """Create an AzDashbordTerraformBuilder object
         """
-        self._oa3_spec = resolver.resolve()  # TODO base_properties from resolver?
+        self._builder = dashboard_builder
         super().__init__(
-            template="azure_dashboard.json",
+            template="azure_dashboard_terraform.tf",
             base_properties={
                 "name": name,
                 "location": location,
                 "timespan": timespan,
-                "resource_ids": resources,
+                "data_source_id": data_source_id,
             }
         )
 
     def produce(self, values: Dict[str, Any] = {}) -> str:
-        """Render the template by merging base properties with given and extracted values from OA3 spec
+        """Render the template by merging base properties with given and extracted values from AzDashboardRawBuilder
 
         Returns:
-            str: The rendered template to create an Azure Dashboard json
+            str: The rendered template to create an Azure Dashboard with Terraform
         """
-        if "servers" in self._oa3_spec:
-            self._properties["hosts"] = []
-            self._properties["endpoints"] = []
-            for server in self._oa3_spec["servers"]:
-                url = urlparse(server["url"])
-                self._properties["hosts"].append(url.netloc)
-                for p in list(self._oa3_spec["paths"].keys()):
-                    self._properties["endpoints"].append(f"{url.path}/{p[1:]}")
-            self._properties["endpoints"] = [*set(self._properties["endpoints"])]
-        else:
-            base_path = self._oa3_spec["basePath"]
-            self._properties["hosts"] = [self._oa3_spec["host"]]
-            self._properties["endpoints"] = [f"{base_path}/{p[1:]}" for p in self._oa3_spec["paths"].keys()]
-
+        dashboard = json.loads(self._builder.produce(values))
+        self._properties["dashboard_properties"] = json.dumps(dashboard["properties"], indent=2)
+        self._properties["hosts"] = self._builder.props()["hosts"]
+        self._properties["endpoints"] = self._builder.props()["endpoints"]
         return super().produce(values)
+
+    def package(self, path: str, values: Dict[str, Any] = {}) -> None:
+        """Save the rendered template on filesystem with PagoPA Terraform project conventions
+        """
+        filepath = os.path.join(path, "01_opex.tf")
+        with open(filepath, "w") as file:
+            file.write(self.produce(values))
+
+        assets_path = os.path.join(os.path.dirname(__file__), "../assets/terraform")
+        for obj in os.listdir(assets_path):
+            obj_path = os.path.join(assets_path, obj)
+            if os.path.isdir(obj_path):
+                shutil.copytree(obj_path, os.path.join(path, obj))
+            else:
+                shutil.copy(obj_path, os.path.join(path, obj))
