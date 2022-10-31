@@ -1,5 +1,6 @@
 locals {
-  name = "${var.prefix}-${var.env_short}-{{name}}"
+  name                = "${var.prefix}-${var.env_short}-{{name}}"
+  dashboard_base_addr = "https://portal.azure.com/#@pagopait.onmicrosoft.com/dashboard/arm"
 }
 
 resource "azurerm_resource_group" "this" {
@@ -29,7 +30,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert" "alarm_availability_{{ fo
   }
 
   data_source_id          = "{{ data_source_id }}"
-  description             = "Availability for {{endpoint}} is less than or equal to 99%"
+  description             = "Availability for {{endpoint}} is less than or equal to 99% - ${local.dashboard_base_addr}${azurerm_dashboard.this.id}"
   enabled                 = true
   auto_mitigation_enabled = false
 
@@ -58,7 +59,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert" "alarm_time_{{ forloop.co
   }
 
   data_source_id          = "{{ data_source_id }}"
-  description             = "Response time for {{endpoint}} is less than or equal to 1s"
+  description             = "Response time for {{endpoint}} is less than or equal to 1s - ${local.dashboard_base_addr}${azurerm_dashboard.this.id}"
   enabled                 = true
   auto_mitigation_enabled = false
 
