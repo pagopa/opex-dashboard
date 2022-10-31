@@ -174,9 +174,9 @@ package using PagoPA's conventions. The package has this structure:
 |     |- backend_state.tfvars
 |     |- terraform.tfvars
 |- terraform.sh
+|- 01_opex.tf
 |- 99_main.tf
 |- 99_variables.tf
-|- 99_core.tf
 ```
 
 If you are running the script inside a container you can pass to `--package`
