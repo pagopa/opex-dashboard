@@ -46,6 +46,7 @@ def generate(template_name: str,
         "timespan": config["timespan"],
         "resources": [config["data_source"]],
         "data_source_id": config["data_source"],
+        "action_groups_ids": config.get("action_groups", []),
     }
 
     builder = create_builder(template_type=template_name, **properties)

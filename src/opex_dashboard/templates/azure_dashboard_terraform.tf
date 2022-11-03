@@ -1,3 +1,4 @@
+{% load stringify %}
 locals {
   name                = "${var.prefix}-${var.env_short}-{{name}}"
   dashboard_base_addr = "https://portal.azure.com/#@pagopait.onmicrosoft.com/dashboard/arm"
@@ -26,7 +27,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert" "alarm_availability_{{ fo
   location            = azurerm_resource_group.this.location
 
   action {
-    action_group = []
+    action_group = {{ action_groups_ids|stringify }}
   }
 
   data_source_id          = "{{ data_source_id }}"
@@ -55,7 +56,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert" "alarm_time_{{ forloop.co
   location            = azurerm_resource_group.this.location
 
   action {
-    action_group = []
+    action_group = {{ action_groups_ids|stringify }}
   }
 
   data_source_id          = "{{ data_source_id }}"

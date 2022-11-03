@@ -2,7 +2,7 @@ import os
 import shutil
 import json
 
-from typing import Dict, Any
+from typing import Dict, Any, List
 
 from opex_dashboard.builders.base import Builder
 from opex_dashboard.builders.azure_dashboard_raw_builder import AzDashboardRawBuilder
@@ -16,7 +16,8 @@ class AzDashboardBuilder(Builder):
                  name: str,
                  location: str,
                  timespan: str,
-                 data_source_id: str) -> None:
+                 data_source_id: str,
+                 action_groups_ids: List[str]) -> None:
         """Create an AzDashbordTerraformBuilder object
         """
         self._builder = dashboard_builder
@@ -27,6 +28,7 @@ class AzDashboardBuilder(Builder):
                 "location": location,
                 "timespan": timespan,
                 "data_source_id": data_source_id,
+                "action_groups_ids": action_groups_ids,
             }
         )
 
