@@ -69,6 +69,9 @@ location: West Europe
 timespan: 5m
 resources:
   - /subscriptions/uuid/resourceGroups/my-rg/providers/Microsoft.Network/applicationGateways/my-gtw
+action_groups:
+  - /subscriptions/uuid/resourceGroups/my-rg/providers/microsoft.insights/actionGroups/my-action-group-email
+  - /subscriptions/uuid/resourceGroups/my-rg/providers/microsoft.insights/actionGroups/my-action-group-slack
 EOF
 ```
 
@@ -108,6 +111,9 @@ location: West Europe
 timespan: 5m
 resources:
   - /subscriptions/uuid/resourceGroups/my-rg/providers/Microsoft.Network/applicationGateways/my-gtw
+action_groups:
+  - /subscriptions/uuid/resourceGroups/my-rg/providers/microsoft.insights/actionGroups/my-action-group-email
+  - /subscriptions/uuid/resourceGroups/my-rg/providers/microsoft.insights/actionGroups/my-action-group-slack
 EOF
 ```
 
