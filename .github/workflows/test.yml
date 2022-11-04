@@ -1,0 +1,50 @@
+name: Test
+
+on:
+  push:
+
+jobs:
+  test:
+    permissions:
+      contents: read # for actions/checkout to fetch code
+    name: Test
+    runs-on: "ubuntu-22.04"
+    steps:
+      - name: Checkout
+        id: checkout
+        # from https://github.com/actions/checkout/commits/main
+        uses: actions/checkout@1f9a0c22da41e6ebfa534300ef656657ea2c6707
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Install dependencies
+        # from https://github.com/VaultVulp/action-pipenv/commits/main
+        uses: VaultVulp/action-pipenv@0e0abc7839b234802947bb8aa1a7c7b8b00a2ff4
+        with:
+          command: install -d
+      - name: Install library
+        # from https://github.com/VaultVulp/action-pipenv/commits/main
+        uses: VaultVulp/action-pipenv@0e0abc7839b234802947bb8aa1a7c7b8b00a2ff4
+        with:
+          command: run install_local
+      - name: Run tests
+        # from https://github.com/VaultVulp/action-pipenv/commits/main
+        uses: VaultVulp/action-pipenv@0e0abc7839b234802947bb8aa1a7c7b8b00a2ff4
+        with:
+          command: run coverage run -m pytest
+      - name: Generate report
+        # from https://github.com/VaultVulp/action-pipenv/commits/main
+        uses: VaultVulp/action-pipenv@0e0abc7839b234802947bb8aa1a7c7b8b00a2ff4
+        with:
+          command: run coverage report
+      - name: Generate HTML report
+        # from https://github.com/VaultVulp/action-pipenv/commits/main
+        uses: VaultVulp/action-pipenv@0e0abc7839b234802947bb8aa1a7c7b8b00a2ff4
+        with:
+          command: run coverage html
+      - name: Upload HTML report
+        # from https://github.com/actions/upload-artifact/commits/main
+        uses: actions/upload-artifact@83fd05a356d7e2593de66fc9913b3002723633cb
+        with:
+          name: coverage_html
+          path: htmlcov
