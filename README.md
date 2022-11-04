@@ -67,8 +67,7 @@ oa3_spec: https://raw.githubusercontent.com/pagopa/opex-dashboard/main/test/data
 name: My dashboard
 location: West Europe
 timespan: 5m
-resources:
-  - /subscriptions/uuid/resourceGroups/my-rg/providers/Microsoft.Network/applicationGateways/my-gtw
+data_source: /subscriptions/uuid/resourceGroups/my-rg/providers/Microsoft.Network/applicationGateways/my-gtw
 action_groups:
   - /subscriptions/uuid/resourceGroups/my-rg/providers/microsoft.insights/actionGroups/my-action-group-email
   - /subscriptions/uuid/resourceGroups/my-rg/providers/microsoft.insights/actionGroups/my-action-group-slack
@@ -109,8 +108,7 @@ oa3_spec: myfolder/oa3_spec.yaml
 name: My dashboard
 location: West Europe
 timespan: 5m
-resources:
-  - /subscriptions/uuid/resourceGroups/my-rg/providers/Microsoft.Network/applicationGateways/my-gtw
+data_source: /subscriptions/uuid/resourceGroups/my-rg/providers/Microsoft.Network/applicationGateways/my-gtw
 action_groups:
   - /subscriptions/uuid/resourceGroups/my-rg/providers/microsoft.insights/actionGroups/my-action-group-email
   - /subscriptions/uuid/resourceGroups/my-rg/providers/microsoft.insights/actionGroups/my-action-group-slack
@@ -182,9 +180,9 @@ package using PagoPA's conventions. The package has this structure:
 |     |- backend_state.tfvars
 |     |- terraform.tfvars
 |- terraform.sh
+|- 01_opex.tf
 |- 99_main.tf
 |- 99_variables.tf
-|- 99_core.tf
 ```
 
 If you are running the script inside a container you can pass to `--package`
@@ -206,13 +204,13 @@ example](examples/azure_dashboard_overrides_config.yaml) for more.
 
 ### Examples
 
-To overrides hosts add this snippet tou your config:
+To overrides hosts add this snippet tou your config (`http(s)` prefix is mandatory):
 
 ```yaml
 overrides:
   hosts:
-    - example.com
-    - github.com
+    - https://example.com
+    - https://github.com
 ```
 
 To overrides endpoint's settings add this snippet tou your config:
