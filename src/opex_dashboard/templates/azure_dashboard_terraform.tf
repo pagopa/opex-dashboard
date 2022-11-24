@@ -7,6 +7,7 @@ locals {
 resource "azurerm_resource_group" "this" {
   name     = "${local.name}-rg"
   location = "{{ location }}"
+  tags = var.tags
 }
 
 resource "azurerm_portal_dashboard" "this" {
@@ -18,6 +19,8 @@ resource "azurerm_portal_dashboard" "this" {
   dashboard_properties = <<-PROPS
     {{ dashboard_properties }}
   PROPS
+
+  tags = var.tags
 }
 
 {% for endpoint,props in endpoints.items %}
