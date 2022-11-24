@@ -209,8 +209,8 @@ To overrides hosts add this snippet tou your config (`http(s)` prefix is mandato
 ```yaml
 overrides:
   hosts:
-    - https://example.com
-    - https://github.com
+    - example.com
+    - github.com
 ```
 
 To overrides endpoint's settings add this snippet tou your config:
