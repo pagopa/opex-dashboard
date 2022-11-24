@@ -8,7 +8,7 @@ shift 2
 other="$@"
 # must be subscription in lower case
 subscription=""
-BACKEND_CONFIG_PATH="./env/${ENV}/backend_state.tfvars"
+BACKEND_CONFIG_PATH="./env/${ENV}/backend.tfvars"
 
 if [ -z "$ACTION" ]; then
   echo "[ERROR] Missed ACTION: init, apply, plan"

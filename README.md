@@ -169,15 +169,15 @@ package using PagoPA's conventions. The package has this structure:
 |- .env/
 |  |- dev/
 |  |  |- backend.ini
-|  |  |- backend_state.tfvars
+|  |  |- backend.tfvars
 |  |  |- terraform.tfvars
 |  |- uat/
 |  |  |- backend.ini
-|  |  |- backend_state.tfvars
+|  |  |- backend.tfvars
 |  |  |- terraform.tfvars
 |  |- prod/
 |     |- backend.ini
-|     |- backend_state.tfvars
+|     |- backend.tfvars
 |     |- terraform.tfvars
 |- terraform.sh
 |- 01_opex.tf
