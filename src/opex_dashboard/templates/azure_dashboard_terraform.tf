@@ -12,7 +12,6 @@ resource "azurerm_portal_dashboard" "this" {
   name                = local.name
   resource_group_name = data.azurerm_resource_group.this.name
   location            = data.azurerm_resource_group.this.location
-  tags                = var.tags
 
   dashboard_properties = <<-PROPS
     {{ dashboard_properties }}
