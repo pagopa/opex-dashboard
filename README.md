@@ -169,15 +169,15 @@ package using PagoPA's conventions. The package has this structure:
 |- .env/
 |  |- dev/
 |  |  |- backend.ini
-|  |  |- backend_state.tfvars
+|  |  |- backend.tfvars
 |  |  |- terraform.tfvars
 |  |- uat/
 |  |  |- backend.ini
-|  |  |- backend_state.tfvars
+|  |  |- backend.tfvars
 |  |  |- terraform.tfvars
 |  |- prod/
 |     |- backend.ini
-|     |- backend_state.tfvars
+|     |- backend.tfvars
 |     |- terraform.tfvars
 |- terraform.sh
 |- 01_opex.tf
@@ -209,8 +209,8 @@ To overrides hosts add this snippet tou your config (`http(s)` prefix is mandato
 ```yaml
 overrides:
   hosts:
-    - https://example.com
-    - https://github.com
+    - example.com
+    - github.com
 ```
 
 To overrides endpoint's settings add this snippet tou your config:
