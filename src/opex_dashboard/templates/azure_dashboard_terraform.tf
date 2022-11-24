@@ -4,16 +4,14 @@ locals {
   dashboard_base_addr = "https://portal.azure.com/#@pagopait.onmicrosoft.com/dashboard/arm"
 }
 
-resource "azurerm_resource_group" "this" {
-  name     = "${local.name}-rg"
-  location = "{{ location }}"
-  tags = var.tags
+data "azurerm_resource_group" "this" {
+  name     = "dashboards"
 }
 
 resource "azurerm_portal_dashboard" "this" {
   name                = local.name
-  resource_group_name = azurerm_resource_group.this.name
-  location            = azurerm_resource_group.this.location
+  resource_group_name = data.azurerm_resource_group.this.name
+  location            = data.azurerm_resource_group.this.location
   tags                = var.tags
 
   dashboard_properties = <<-PROPS
@@ -26,8 +24,8 @@ resource "azurerm_portal_dashboard" "this" {
 {% for endpoint,props in endpoints.items %}
 resource "azurerm_monitor_scheduled_query_rules_alert" "alarm_availability_{{ forloop.counter0 }}" {
   name                = replace(join("_",split("/", "${local.name}-availability @ {{endpoint}}")), "/\\{|\\}/", "")
-  resource_group_name = azurerm_resource_group.this.name
-  location            = azurerm_resource_group.this.location
+  resource_group_name = data.azurerm_resource_group.this.name
+  location            = data.azurerm_resource_group.this.location
 
   action {
     action_group = {{ action_groups_ids|stringify }}
@@ -55,8 +53,8 @@ resource "azurerm_monitor_scheduled_query_rules_alert" "alarm_availability_{{ fo
 
 resource "azurerm_monitor_scheduled_query_rules_alert" "alarm_time_{{ forloop.counter0 }}" {
   name                = replace(join("_",split("/", "${local.name}-responsetime @ {{endpoint}}")), "/\\{|\\}/", "")
-  resource_group_name = azurerm_resource_group.this.name
-  location            = azurerm_resource_group.this.location
+  resource_group_name = data.azurerm_resource_group.this.name
+  location            = data.azurerm_resource_group.this.location
 
   action {
     action_group = {{ action_groups_ids|stringify }}
