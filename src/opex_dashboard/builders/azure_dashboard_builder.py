@@ -24,7 +24,7 @@ class AzDashboardBuilder(Builder):
         super().__init__(
             template="azure_dashboard_terraform.tf",
             base_properties={
-                "name": name,
+                "name": name.replace(" ", "_"),
                 "location": location,
                 "timespan": timespan,
                 "data_source_id": data_source_id,
