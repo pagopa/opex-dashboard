@@ -1,63 +1,105 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-set -e
+set -Eeuo pipefail
+trap cleanup SIGINT SIGTERM ERR EXIT
 
-ACTION=$1
-ENV=$2
-shift 2
-other="$@"
-# must be subscription in lower case
-subscription=""
-BACKEND_CONFIG_PATH="./env/${ENV}/backend.tfvars"
+root_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd -P)
 
-if [ -z "$ACTION" ]; then
-  echo "[ERROR] Missed ACTION: init, apply, plan"
+usage() {
+  cat <<EOF
+Usage: $(basename "${BASH_SOURCE[0]}") [-h] [-v] ACTION ENV [TF_ARGS]
+
+A Terraform wrapper to ease operations.
+
+ACTION is a standard Terraform action. ENV is the target environment
+to point to in the 'env' folder. TF_ARGS are optional Terraform
+argument proxied to ACTION.
+
+Options:
+    -h, --help          Print help information
+    -v, --verbose       Set debug output
+EOF
   exit 0
-fi
+}
 
-if [ -z "$ENV" ]; then
-  echo "[ERROR] ENV should be: dev, uat or prod."
-  exit 0
-fi
+cleanup() {
+  trap - SIGINT SIGTERM ERR EXIT
+  # no needs, just in case
+}
 
-#
-# 🏁 Source & init shell
-#
+die() {
+  local msg=$1
+  local code=${2-1} # default exit status 1
+  msg "$msg"
+  exit "$code"
+}
 
-# shellcheck source=/dev/null
-source "./env/$ENV/backend.ini"
+msg() {
+  echo >&2 -e "${1-}"
+}
 
-# Subscription set
-az account set -s "${subscription}"
+parse_params() {
+  while :; do
+    case "${1-}" in
+    -h | --help) usage ;;
+    -v | --verbose) set -x ;;
+    -?*) die "[ERROR] Unknown option: $1" ;;
+    *) break ;;
+    esac
+    shift
+  done
 
-# if using cygwin, we have to transcode the WORKDIR
-if [[ $WORKDIR == /cygdrive/* ]]; then
-  WORKDIR=$(cygpath -w $WORKDIR)
-fi
+  arg_action=${1-}
+  [[ -z "${arg_action-}" ]] && die "[ERROR] Missing ACTION"
+  shift
 
-# Helm
-export HELM_DEBUG=1
+  arg_env=${1-}
+  [[ -z "${arg_env-}" ]] && die "[ERROR] Missing ENV"
+  shift
 
-#
-# 🌎 Terraform
-#
-if echo "init plan apply refresh import output state taint destroy" | grep -w "$ACTION" > /dev/null; then
-  if [ "$ACTION" = "init" ]; then
-    echo "[INFO] init tf on ENV: ${ENV}"
-    terraform "$ACTION" -backend-config="${BACKEND_CONFIG_PATH}" $other
-  elif [ "$ACTION" = "output" ] || [ "$ACTION" = "state" ] || [ "$ACTION" = "taint" ]; then
-    # init terraform backend
-    terraform init -reconfigure -backend-config="${BACKEND_CONFIG_PATH}"
-    terraform "$ACTION" $other
+  arg_tf="$@"
+
+  return 0
+}
+
+set_subscription() {
+  subscription=""
+  source "${root_dir}/env/${arg_env}/backend.ini"
+  az account set -s "${subscription}"
+}
+
+terraform_proxy() {
+  backend_config_path="${root_dir}/env/${arg_env}/backend.tfvars"
+
+  if echo "init plan apply refresh import output state taint destroy" | grep -w "${arg_action}" > /dev/null; then
+    if [ "${arg_action}" = "init" ]; then
+      msg "[INFO] init tf on env: ${arg_env}"
+      terraform -chdir="${root_dir}" "${arg_action}" -backend-config="${backend_config_path}" ${arg_tf}
+    elif [ "${arg_action}" = "output" ] || [ "${arg_action}" = "state" ] || [ "${arg_action}" = "taint" ]; then
+      terraform -chdir="${root_dir}" init -reconfigure -backend-config="${backend_config_path}"
+      terraform -chdir="${root_dir}" "${arg_action}" ${arg_tf}
+    else
+      msg "[INFO] init tf on env: ${arg_env}"
+      terraform -chdir="${root_dir}" init -reconfigure -backend-config="${backend_config_path}"
+
+      msg "[INFO] run tf with: ${arg_action} on env: ${arg_env} and other: >${arg_tf}<"
+      terraform -chdir="${root_dir}" "${arg_action}" -var-file="${root_dir}/env/${arg_env}/terraform.tfvars" -compact-warnings ${arg_tf}
+    fi
   else
-    # init terraform backend
-    echo "[INFO] init tf on ENV: ${ENV}"
-    terraform init -reconfigure -backend-config="${BACKEND_CONFIG_PATH}"
-
-    echo "[INFO] run tf with: ${ACTION} on ENV: ${ENV} and other: >${other}<"
-    terraform "${ACTION}" -var-file="./env/${ENV}/terraform.tfvars" -compact-warnings $other
+    die "[ERROR] action not allowed."
   fi
-else
-    echo "[ERROR] ACTION not allowed."
-    exit 1
-fi
+}
+
+main() {
+  parse_params "$@"
+
+  # if using cygwin, we have to transcode the WORKDIR
+  if [[ ${WORKDIR-} == /cygdrive/* ]]; then
+    WORKDIR=$(cygpath -w $WORKDIR)
+  fi
+
+  set_subscription
+  terraform_proxy
+}
+
+main "$@"
