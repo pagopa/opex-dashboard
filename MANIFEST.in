@@ -1,4 +1,2 @@
 include Pipfile
-include src/opex_dashboard/assets/**/*
-include src/opex_dashboard/templates/*
-include src/opex_dashboard/templates/queries/*
+recursive-include src/opex_dashboard *

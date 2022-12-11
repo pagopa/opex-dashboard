@@ -1,10 +1,12 @@
 from django.template import Engine, Template as DTemplate, Context
 from django.template.exceptions import TemplateDoesNotExist
 from typing import Dict, Any
+from os import path
 
 from opex_dashboard.error import FileError
 
-TEMPLATES_DIRS = ["src/opex_dashboard/templates"]
+MODULE_DIR = path.dirname(path.abspath(__file__))
+TEMPLATES_DIRS = [f"{MODULE_DIR}/templates"]
 
 
 class Template:
