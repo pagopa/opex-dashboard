@@ -241,9 +241,7 @@ pipenv run install_local
 ```
 
 ```bash
-pipenv run opex_dashboard generate \
-  --template-name azure-dashboard \
-  --config-file config.yaml
+pipenv run opex_dashboard generate --help
 ```
 
 ### How to create a new template
@@ -258,7 +256,7 @@ create a new template in `src/opex_dashboard/template`. As example, consider
 the following content for the file `src/opex_dashboard/template/mytemplate.json`:
 
 ```
-{% load stringify mul %}
+{% load mul %}
 {
     "widgets": [
         {% for endpoint in endpoints %}
@@ -309,7 +307,7 @@ the following content for the file `src/opex_dashboard/template/mytemplate.json`
 }
 ```
 
-`stringy` and `mul` are custom tags. You can find their implementation in [tags
+`mul` is a custom tag. You can find its implementation in [tags
 folder](https://github.com/pagopa/opex-dashboard/tree/main/src/opex_dashboard/tags).
 
 #### 2. Create the builder
@@ -364,7 +362,7 @@ class MyDashboardBuilder(Builder):
         return super().produce(values)
 ```
 
-It must be save as `src/opex_dashboard/builders/my_dashboard_builder.py`.
+Save it as `src/opex_dashboard/builders/my_dashboard_builder.py`.
 
 #### 3. Enanche the builder factory
 
@@ -374,7 +372,7 @@ Modify `src/opex_dashboard/builder_factory.py` to create the new dashboard:
 # ...
 from opex_dashboard.builders.my_dashboard_builder import MyDashboardBuilder
 # ...
-def create_my_builder(**args: Optional[Any]) -> Optional[Builder]:
+def create_my_dashboard_builder(**args: Optional[Any]) -> Optional[Builder]:
     inputs = normalize_params(args, {
         "resolver": OA3Resolver,
         })
@@ -384,7 +382,7 @@ def create_builder(template_type: str, **args: Optional[Any]) -> Optional[Builde
     # ...
     builders = {
       # ...
-      "my-dashboard": create_my_builder,
+      "my-dashboard": create_my_dashboard_builder,
       # ...
     }
     # ...
