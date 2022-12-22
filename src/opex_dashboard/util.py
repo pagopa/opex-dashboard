@@ -20,3 +20,19 @@ def normalize_params(values: Dict[str, Any], types: Dict[str, Any]) -> Dict[str,
             continue  # ignore missing values
 
     return inputs
+
+
+def override_with(source: Dict[str, Any], overrides: Dict[str, Any]) -> Dict[str, Any]:
+    """Deep override a dictionary with values in another one.
+
+    Returns
+        Dict[str, Any]: The resulting dictionary
+    """
+    result = source.copy()
+    for key, value in overrides.items():
+        if isinstance(value, dict):
+            result[key] = override_with(source.get(key, {}), value)
+        else:
+            result[key] = value
+
+    return result

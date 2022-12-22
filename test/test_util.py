@@ -1,6 +1,6 @@
 import pytest
 
-from opex_dashboard.util import normalize_params
+from opex_dashboard.util import normalize_params, override_with
 
 
 def test_normalize_params():
@@ -114,3 +114,37 @@ def test_normalize_params_with_invalid_type():
         normalize_params(values, types)
 
     assert str(e.value) == f"'list_value' must be a {list}"
+
+
+def test_override_with():
+    """
+    GIVEN a source dict and an override dict with simple and complex values
+    WHEN it is invoked
+    THEN it deep overrides the source dict
+    """
+    source = {
+        "unique_value": "this should not be overriden",
+        "str_value": "this is a string",
+        "int_value": 3,
+        "list_value": [1, 2, 3],
+        "dict_value": {"1": 1, "2": 2, "3": 3},
+        "tuple_value": (1, 2, 3),
+    }
+    override = {
+        "str_value": "new string",
+        "int_value": 1,
+        "list_value": [1, 4],
+        "dict_value": {"1": 2, "2": 3, "4": 1},
+        "tuple_value": (1),
+        "non_existing_value": "new value"
+    }
+
+    result = override_with(source, override)
+
+    assert "unique_value" in result and result["unique_value"] == source["unique_value"]
+    assert "str_value" in result and result["str_value"] == override["str_value"]
+    assert "int_value" in result and result["int_value"] == override["int_value"]
+    assert "list_value" in result and result["list_value"] == override["list_value"]
+    assert "dict_value" in result and result["dict_value"] == {"1": 2, "2": 3, "3": 3, "4": 1}
+    assert "tuple_value" in result and result["tuple_value"] == override["tuple_value"]
+    assert "non_existing_value" in result and result["non_existing_value"] == override["non_existing_value"]
