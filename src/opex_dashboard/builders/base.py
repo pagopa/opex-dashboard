@@ -3,6 +3,7 @@ import os
 from typing import Dict, Any
 
 from opex_dashboard.template import Template
+from opex_dashboard.util import override_with
 
 
 class Builder:
@@ -26,7 +27,7 @@ class Builder:
         Returns:
             str: The rendered template
         """
-        return self._template.render(self._properties | values)
+        return self._template.render(override_with(self._properties, values))
 
     def package(self, path: str, values: Dict[str, Any] = {}) -> None:
         """Save the rendered template on filesystem
