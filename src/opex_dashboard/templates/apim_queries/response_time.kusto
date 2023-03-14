@@ -5,7 +5,7 @@ AzureDiagnostics
 | where url_s matches regex "{{ endpoint|uri_to_regex }}"
 | summarize
     watermark=threshold,
-    percentiles(timeTaken_d, 95) by bin(TimeGenerated, {{ timespan }})
+    percentiles(DurationMs, 95) by bin(TimeGenerated, {{ timespan }})
 {% if is_alarm %}
 | where percentile_DurationMs_95 > threshold
 {% else %}
