@@ -5,5 +5,10 @@ AzureDiagnostics
 | where url_s matches regex "{{ endpoint|uri_to_regex }}"
 | summarize
     watermark=threshold,
-    percentiles(DurationMs, 95) by bin(TimeGenerated, {{ timespan }})
-{% if is_alarm %}| where percentile_DurationMs_95 > threshold{% else %}| render timechart with (xtitle = "time", ytitle= "response time(s)"){% endif %}
+    percentiles(DurationMs, 95)
+    by bin(TimeGenerated, {{ timespan }})
+{% if is_alarm %}
+| where percentile_DurationMs_95 > threshold
+{% else %}
+| render timechart with (xtitle = "time", ytitle= "response time(s)")
+{% endif %}
