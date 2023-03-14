@@ -363,7 +363,7 @@
                     },
                     "yAxis": [
                       {
-                        "name": "percentile_timeTaken_d_95",
+                        "name": "duration_percentile_95",
                         "type": "real"
                       }
                     ],
@@ -407,7 +407,7 @@
                         "type": "long"
                       },
                       {
-                        "name": "percentile_timeTaken_d_95",
+                        "name": "duration_percentile_95",
                         "type": "real"
                       }
                     ],
