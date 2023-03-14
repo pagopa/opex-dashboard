@@ -6,8 +6,4 @@ AzureDiagnostics
 | summarize
     watermark=threshold,
     percentiles(DurationMs, 95) by bin(TimeGenerated, {{ timespan }})
-{% if is_alarm %}
-| where percentile_DurationMs_95 > threshold
-{% else %}
-| render timechart with (xtitle = "time", ytitle= "response time(s)")
-{% endif %}
+{% if is_alarm %}| where percentile_DurationMs_95 > threshold{% else %}| render timechart with (xtitle = "time", ytitle= "response time(s)"){% endif %}
