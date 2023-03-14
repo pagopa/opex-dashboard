@@ -42,6 +42,8 @@ def generate(template_name: str,
     properties = {
         "resolver": OA3Resolver(spec_path),
         "name": config["name"],
+        "service": config["service"],
+        "is_internal": "Microsoft.ApiManagement" in config["data_source"],
         "location": config["location"],
         "timespan": config.get("timespan", "5m"),
         "resources": [config["data_source"]],

@@ -14,6 +14,8 @@ class AzDashboardBuilder(Builder):
     def __init__(self,
                  dashboard_builder: AzDashboardRawBuilder,
                  name: str,
+                 service: str,
+                 is_internal: bool,
                  location: str,
                  timespan: str,
                  data_source_id: str,
@@ -25,6 +27,8 @@ class AzDashboardBuilder(Builder):
             template="azure_dashboard_terraform.tf",
             base_properties={
                 "name": name.replace(" ", "_"),
+                "service": service,
+                "is_internal": is_internal,
                 "location": location,
                 "timespan": timespan,
                 "data_source_id": data_source_id,

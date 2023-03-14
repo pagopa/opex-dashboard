@@ -35,9 +35,15 @@ resource "azurerm_monitor_scheduled_query_rules_alert" "alarm_availability_{{ fo
   enabled                 = true
   auto_mitigation_enabled = false
 
+  {% if is_internal %}
   query = <<-QUERY
-    {% include "queries/availability.kusto" with is_alarm=True threshold=props.availability_threshold %}
+    {% include "apim_queries/availability.kusto" with is_alarm=True threshold=props.availability_threshold %}
   QUERY
+  {% else %}
+  query = <<-QUERY
+    {% include "gateway_queries/availability.kusto" with is_alarm=True threshold=props.availability_threshold %}
+  QUERY
+  {% endif %}
 
   severity    = 1
   frequency   = 10
@@ -64,9 +70,15 @@ resource "azurerm_monitor_scheduled_query_rules_alert" "alarm_time_{{ forloop.co
   enabled                 = true
   auto_mitigation_enabled = false
 
+  {% if is_internal %}
   query = <<-QUERY
-    {% include "queries/response_time.kusto" with is_alarm=True threshold=props.response_time_threshold %}
+      {% include "apim_queries/response_time.kusto" with is_alarm=True threshold=props.response_time_threshold %}
   QUERY
+  {% else %}
+  query = <<-QUERY
+    {% include "gateway_queries/response_time.kusto" with is_alarm=True threshold=props.response_time_threshold %}
+  QUERY
+  {% endif %}
 
   severity    = 1
   frequency   = 10
