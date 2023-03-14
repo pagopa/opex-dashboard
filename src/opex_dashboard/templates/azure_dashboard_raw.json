@@ -57,10 +57,10 @@
                 },
                 {
                   "name": "Query",
-                {% if is_internal %}
-                  "value": {% filter stringify %}{% include "apim_queries/availability.kusto" with threshold=props.availability_threshold %}{% endfilter %},
-                {% else %}
+                {% if resource_type == 'app-gateway' %}
                   "value": {% filter stringify %}{% include "gateway_queries/availability.kusto" with threshold=props.availability_threshold %}{% endfilter %},
+                {% else %}
+                  "value": {% filter stringify %}{% include "apim_queries/availability.kusto" with threshold=props.availability_threshold %}{% endfilter %},
                 {% endif %}
                   "isOptional": true
                 },
@@ -123,10 +123,10 @@
               "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart",
               "settings": {
                 "content": {
-                  {% if is_internal %}
-                  "Query": {% filter stringify %}{% include "apim_queries/availability.kusto" with threshold=props.availability_threshold %}{% endfilter %},
-                  {% else %}
+                  {% if resource_type == 'app-gateway' %}
                   "Query": {% filter stringify %}{% include "gateway_queries/availability.kusto" with threshold=props.availability_threshold %}{% endfilter %},
+                  {% else %}
+                  "Query": {% filter stringify %}{% include "apim_queries/availability.kusto" with threshold=props.availability_threshold %}{% endfilter %},
                   {% endif %}
                   "PartTitle": "Availability ({{ timespan }})"
                 }
@@ -184,10 +184,10 @@
                 },
                 {
                   "name": "Query",
-                  {% if is_internal %}
-                    "value": {% filter stringify %}{% include "apim_queries/response_codes.kusto" %}{% endfilter %},
-                  {% else %}
+                  {% if resource_type == 'app-gateway' %}
                     "value": {% filter stringify %}{% include "gateway_queries/response_codes.kusto" %}{% endfilter %},
+                  {% else %}
+                    "value": {% filter stringify %}{% include "apim_queries/response_codes.kusto" %}{% endfilter %},
                   {% endif %}
                   "isOptional": true
                 },
@@ -246,10 +246,10 @@
               "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart",
               "settings": {
                 "content": {
-                  {% if is_internal %}
-                    "Query": {% filter stringify %}{% include "apim_queries/response_codes.kusto" %}{% endfilter %},
-                  {% else %}
+                  {% if resource_type == 'app-gateway' %}
                     "Query": {% filter stringify %}{% include "gateway_queries/response_codes.kusto" %}{% endfilter %},
+                  {% else %}
+                    "Query": {% filter stringify %}{% include "apim_queries/response_codes.kusto" %}{% endfilter %},
                   {% endif %}
                   "SpecificChart": "StackedArea",
                   "PartTitle": "Response Codes ({{ timespan }})",
@@ -327,10 +327,10 @@
                 },
                 {
                   "name": "Query",
-                  {% if is_internal %}
-                    "value": {% filter stringify %}{% include "apim_queries/response_time.kusto" with threshold=props.response_time_threshold %}{% endfilter %},
-                  {% else %}
+                  {% if resource_type == 'app-gateway' %}
                     "value": {% filter stringify %}{% include "gateway_queries/response_time.kusto" with threshold=props.response_time_threshold %}{% endfilter %},
+                  {% else %}
+                    "value": {% filter stringify %}{% include "apim_queries/response_time.kusto" with threshold=props.response_time_threshold %}{% endfilter %},
                   {% endif %}
                   "isOptional": true
                 },
@@ -389,10 +389,10 @@
               "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart",
               "settings": {
                 "content": {
-                  {% if is_internal %}
-                  "Query": {% filter stringify %}{% include "apim_queries/response_time.kusto" with threshold=props.response_time_threshold %}{% endfilter %},
-                  {% else %}
+                  {% if resource_type == 'app-gateway' %}
                   "Query": {% filter stringify %}{% include "gateway_queries/response_time.kusto" with threshold=props.response_time_threshold %}{% endfilter %},
+                  {% else %}
+                  "Query": {% filter stringify %}{% include "apim_queries/response_time.kusto" with threshold=props.response_time_threshold %}{% endfilter %},
                   {% endif %}
                   "SpecificChart": "Line",
                   "PartTitle": "Percentile Response Time ({{ timespan }})",

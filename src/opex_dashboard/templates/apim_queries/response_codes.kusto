@@ -1,7 +1,6 @@
 {% load stringify uri_to_regex %}
 let api_url = "{{ endpoint|uri_to_regex }}";
 AzureDiagnostics
-| where url_s matches regex "{{ service }}"
 | where url_s matches regex api_url
 | extend HTTPStatus = case(
   responseCode_d between (100 .. 199), "1XX",

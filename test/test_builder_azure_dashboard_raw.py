@@ -1,17 +1,15 @@
 import json
-
 from os.path import dirname, join
 from urllib.parse import urlparse
 
+from opex_dashboard.builder_factory import create_builder
 from opex_dashboard.resolver import OA3Resolver
 from opex_dashboard.template import Template
-from opex_dashboard.builder_factory import create_builder
 
 DATA_BASE_PATH = join(dirname(__file__), "data")
 NUMBER_OF_GRAPH_FOR_EACH_ENDPOINT = 3
 NAME = "PROD-IO/IO App Availability"
-SERVICE = "pagopa-io-backend"
-IS_INTERNAL = False
+RESOURCE_TYPE = "app-gateway"
 LOCATION = "West Europe"
 RESOURCE_ID = ("/subscriptions/uuid/"
                "resourceGroups/io-p-rg-external/providers/Microsoft.Network"
@@ -29,15 +27,14 @@ def test_produce_the_template_with_host_and_base_path_options():
     """
     resolver = OA3Resolver(f"{DATA_BASE_PATH}/io_backend.yaml")
     builder = create_builder(
-            "azure-dashboard-raw",
-            resolver=resolver,
-            name=NAME,
-            service=SERVICE,
-            is_internal=IS_INTERNAL,
-            location=LOCATION,
-            timespan=TIMESPAN,
-            resources=[RESOURCE_ID]
-            )
+        "azure-dashboard-raw",
+        resolver=resolver,
+        name=NAME,
+        resource_type=RESOURCE_TYPE,
+        location=LOCATION,
+        timespan=TIMESPAN,
+        resources=[RESOURCE_ID]
+    )
 
     spec_dict = resolver.resolve()
     template_dict = json.loads(builder.produce())
@@ -95,15 +92,14 @@ def test_the_template_with_host_and_base_path_options_and_hosts_overrides():
     """
     resolver = OA3Resolver(f"{DATA_BASE_PATH}/io_backend.yaml")
     builder = create_builder(
-            "azure-dashboard-raw",
-            resolver=resolver,
-            name=NAME,
-            service=SERVICE,
-            is_internal=IS_INTERNAL,
-            location=LOCATION,
-            timespan=TIMESPAN,
-            resources=[RESOURCE_ID]
-            )
+        "azure-dashboard-raw",
+        resolver=resolver,
+        name=NAME,
+        resource_type=RESOURCE_TYPE,
+        location=LOCATION,
+        timespan=TIMESPAN,
+        resources=[RESOURCE_ID]
+    )
 
     custom_hosts = ["foo.pagopa.it", "bar.pagopa.it"]
     spec_dict = resolver.resolve()
@@ -162,15 +158,14 @@ def test_produce_the_template_with_servers_option():
     """
     resolver = OA3Resolver(f"{DATA_BASE_PATH}/selfcare_party_process.yaml")
     builder = create_builder(
-            "azure-dashboard-raw",
-            resolver=resolver,
-            name=NAME,
-            service=SERVICE,
-            is_internal=IS_INTERNAL,
-            location=LOCATION,
-            timespan=TIMESPAN,
-            resources=[RESOURCE_ID]
-            )
+        "azure-dashboard-raw",
+        resolver=resolver,
+        name=NAME,
+        resource_type=RESOURCE_TYPE,
+        location=LOCATION,
+        timespan=TIMESPAN,
+        resources=[RESOURCE_ID]
+    )
 
     spec_dict = resolver.resolve()
     template_dict = json.loads(builder.produce())
@@ -231,15 +226,14 @@ def test_the_template_with_servers_option_and_hosts_overrides():
     """
     resolver = OA3Resolver(f"{DATA_BASE_PATH}/selfcare_party_process.yaml")
     builder = create_builder(
-            "azure-dashboard-raw",
-            resolver=resolver,
-            name=NAME,
-            service=SERVICE,
-            is_internal=IS_INTERNAL,
-            location=LOCATION,
-            timespan=TIMESPAN,
-            resources=[RESOURCE_ID]
-            )
+        "azure-dashboard-raw",
+        resolver=resolver,
+        name=NAME,
+        resource_type=RESOURCE_TYPE,
+        location=LOCATION,
+        timespan=TIMESPAN,
+        resources=[RESOURCE_ID]
+    )
 
     custom_hosts = ["foo.pagopa.it", "bar.pagopa.it"]
     spec_dict = resolver.resolve()

@@ -12,8 +12,7 @@ class AzDashboardRawBuilder(Builder):
     def __init__(self,
                  resolver: OA3Resolver,
                  name: str,
-                 service: str,
-                 is_internal: bool,
+                 resource_type: str,
                  location: str,
                  timespan: str,
                  resources: List[str]) -> None:
@@ -24,8 +23,7 @@ class AzDashboardRawBuilder(Builder):
             template="azure_dashboard_raw.json",
             base_properties={
                 "name": name,
-                "service": service,
-                "is_internal": is_internal,
+                "resource_type": resource_type,
                 "location": location,
                 "timespan": timespan,
                 "resource_ids": resources,

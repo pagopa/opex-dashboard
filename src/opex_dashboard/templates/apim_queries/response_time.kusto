@@ -1,7 +1,6 @@
 {% load stringify uri_to_regex %}
 let threshold = {{ threshold|default:"1" }};
 AzureDiagnostics
-| where url_s matches regex "{{ service }}"
 | where url_s matches regex "{{ endpoint|uri_to_regex }}"
 | summarize
     watermark=threshold,
