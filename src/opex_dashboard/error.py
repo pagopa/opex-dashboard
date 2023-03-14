@@ -9,6 +9,7 @@ class ParseError(Exception):
     """
     pass
 
+
 class ConfigError(Exception):
     """Throw when a parameter of the configuration is invalid
     """
