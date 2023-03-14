@@ -10,6 +10,8 @@ from opex_dashboard.builder_factory import create_builder
 DATA_BASE_PATH = join(dirname(__file__), "data")
 NUMBER_OF_GRAPH_FOR_EACH_ENDPOINT = 3
 NAME = "PROD-IO/IO App Availability"
+SERVICE = "pagopa-io-backend"
+IS_INTERNAL = False
 LOCATION = "West Europe"
 RESOURCE_ID = ("/subscriptions/uuid/"
                "resourceGroups/io-p-rg-external/providers/Microsoft.Network"
@@ -30,6 +32,8 @@ def test_produce_the_template_with_host_and_base_path_options():
             "azure-dashboard-raw",
             resolver=resolver,
             name=NAME,
+            service=SERVICE,
+            is_internal=IS_INTERNAL,
             location=LOCATION,
             timespan=TIMESPAN,
             resources=[RESOURCE_ID]
@@ -71,9 +75,9 @@ def test_produce_the_template_with_host_and_base_path_options():
         }
 
         queries = [
-            Template("queries/availability.kusto").render(query_params),
-            Template("queries/response_codes.kusto").render(query_params),
-            Template("queries/response_time.kusto").render(query_params),
+            Template("gateway_queries/availability.kusto").render(query_params),
+            Template("gateway_queries/response_codes.kusto").render(query_params),
+            Template("gateway_queries/response_time.kusto").render(query_params),
         ]
 
         assert query["value"] == queries[i % NUMBER_OF_GRAPH_FOR_EACH_ENDPOINT]
@@ -94,6 +98,8 @@ def test_the_template_with_host_and_base_path_options_and_hosts_overrides():
             "azure-dashboard-raw",
             resolver=resolver,
             name=NAME,
+            service=SERVICE,
+            is_internal=IS_INTERNAL,
             location=LOCATION,
             timespan=TIMESPAN,
             resources=[RESOURCE_ID]
@@ -136,9 +142,9 @@ def test_the_template_with_host_and_base_path_options_and_hosts_overrides():
         }
 
         queries = [
-            Template("queries/availability.kusto").render(query_params),
-            Template("queries/response_codes.kusto").render(query_params),
-            Template("queries/response_time.kusto").render(query_params),
+            Template("gateway_queries/availability.kusto").render(query_params),
+            Template("gateway_queries/response_codes.kusto").render(query_params),
+            Template("gateway_queries/response_time.kusto").render(query_params),
         ]
 
         assert query["value"] == queries[i % NUMBER_OF_GRAPH_FOR_EACH_ENDPOINT]
@@ -159,6 +165,8 @@ def test_produce_the_template_with_servers_option():
             "azure-dashboard-raw",
             resolver=resolver,
             name=NAME,
+            service=SERVICE,
+            is_internal=IS_INTERNAL,
             location=LOCATION,
             timespan=TIMESPAN,
             resources=[RESOURCE_ID]
@@ -203,9 +211,9 @@ def test_produce_the_template_with_servers_option():
         }
 
         queries = [
-            Template("queries/availability.kusto").render(query_params),
-            Template("queries/response_codes.kusto").render(query_params),
-            Template("queries/response_time.kusto").render(query_params),
+            Template("gateway_queries/availability.kusto").render(query_params),
+            Template("gateway_queries/response_codes.kusto").render(query_params),
+            Template("gateway_queries/response_time.kusto").render(query_params),
         ]
 
         assert query["value"] == queries[i % NUMBER_OF_GRAPH_FOR_EACH_ENDPOINT]
@@ -226,6 +234,8 @@ def test_the_template_with_servers_option_and_hosts_overrides():
             "azure-dashboard-raw",
             resolver=resolver,
             name=NAME,
+            service=SERVICE,
+            is_internal=IS_INTERNAL,
             location=LOCATION,
             timespan=TIMESPAN,
             resources=[RESOURCE_ID]
@@ -270,9 +280,9 @@ def test_the_template_with_servers_option_and_hosts_overrides():
         }
 
         queries = [
-            Template("queries/availability.kusto").render(query_params),
-            Template("queries/response_codes.kusto").render(query_params),
-            Template("queries/response_time.kusto").render(query_params),
+            Template("gateway_queries/availability.kusto").render(query_params),
+            Template("gateway_queries/response_codes.kusto").render(query_params),
+            Template("gateway_queries/response_time.kusto").render(query_params),
         ]
 
         assert query["value"] == queries[i % NUMBER_OF_GRAPH_FOR_EACH_ENDPOINT]

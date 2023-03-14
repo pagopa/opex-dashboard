@@ -1,12 +1,11 @@
-import pytest
-
 from os.path import dirname, join
 
+import pytest
 from opex_dashboard.builder_factory import create_builder
-from opex_dashboard.builders.base import Builder
 from opex_dashboard.builders.azure_dashboard_raw_builder import AzDashboardRawBuilder
-from opex_dashboard.resolver import OA3Resolver
+from opex_dashboard.builders.base import Builder
 from opex_dashboard.error import InvalidBuilderError
+from opex_dashboard.resolver import OA3Resolver
 
 DATA_BASE_PATH = join(dirname(__file__), "data")
 
@@ -77,14 +76,16 @@ def test_create_an_azure_dashboard_raw_builder():
     """
     resolver = OA3Resolver(f"{DATA_BASE_PATH}/io_backend.yaml")
     builder = create_builder(
-            "azure-dashboard-raw",
-            resolver=resolver,
-            name="PROD-IO/IO App Availability",
-            location="West Europe",
-            timespan="5m",
-            resources=[("/subscriptions/uuid/"
-                        "resourceGroups/io-p-rg-external/providers/Microsoft.Network"
-                        "/applicationGateways/io-p-appgateway")])
+        "azure-dashboard-raw",
+        resolver=resolver,
+        name="PROD-IO/IO App Availability",
+        service="pagopa-io-backend",
+        is_internal=False,
+        location="West Europe",
+        timespan="5m",
+        resources=[("/subscriptions/uuid/"
+                    "resourceGroups/io-p-rg-external/providers/Microsoft.Network"
+                    "/applicationGateways/io-p-appgateway")])
 
     assert isinstance(builder, AzDashboardRawBuilder)
 
@@ -99,6 +100,8 @@ def test_create_an_azure_dashboard_raw_builder_without_a_resolver():
         create_builder(
             "azure-dashboard-raw",
             name="PROD-IO/IO App Availability",
+            service="pagopa-io-backend",
+            is_internal=False,
             location="West Europe",
             timespan="5m",
             resources=[("/subscriptions/uuid/"
@@ -119,6 +122,8 @@ def test_create_an_azure_dashboard_raw_builder_with_an_invalid_resolver():
             "azure-dashboard-raw",
             resolver={"foo": "bar"},
             name="PROD-IO/IO App Availability",
+            service="pagopa-io-backend",
+            is_internal=False,
             location="West Europe",
             timespan="5m",
             resources=[("/subscriptions/uuid/"
@@ -139,6 +144,8 @@ def test_create_an_azure_dashboard_raw_builder_without_a_name():
         create_builder(
             "azure-dashboard-raw",
             resolver=resolver,
+            service="pagopa-io-backend",
+            is_internal=False,
             location="West Europe",
             timespan="5m",
             resources=[("/subscriptions/uuid/"
@@ -160,6 +167,8 @@ def test_create_an_azure_dashboard_raw_builder_with_an_invalid_name():
             "azure-dashboard-raw",
             resolver=resolver,
             name={"foo": "bar"},
+            service="pagopa-io-backend",
+            is_internal=False,
             location="West Europe",
             timespan="5m",
             resources=[("/subscriptions/uuid/"
@@ -181,6 +190,8 @@ def test_create_an_azure_dashboard_raw_builder_without_a_location():
             "azure-dashboard-raw",
             resolver=resolver,
             name="PROD-IO/IO App Availability",
+            service="pagopa-io-backend",
+            is_internal=False,
             timespan="5m",
             resources=[("/subscriptions/uuid/"
                         "resourceGroups/io-p-rg-external/providers/Microsoft.Network"
@@ -201,6 +212,8 @@ def test_create_an_azure_dashboard_raw_builder_with_an_invalid_location():
             "azure-dashboard-raw",
             resolver=resolver,
             name="PROD-IO/IO App Availability",
+            service="pagopa-io-backend",
+            is_internal=False,
             location={"foo": "bar"},
             timespan="5m",
             resources=[("/subscriptions/uuid/"
@@ -222,6 +235,8 @@ def test_create_an_azure_dashboard_raw_builder_without_a_timespan():
             "azure-dashboard-raw",
             resolver=resolver,
             name="PROD-IO/IO App Availability",
+            service="pagopa-io-backend",
+            is_internal=False,
             location="West Europe",
             resources=[("/subscriptions/uuid/"
                         "resourceGroups/io-p-rg-external/providers/Microsoft.Network"
@@ -242,6 +257,8 @@ def test_create_an_azure_dashboard_raw_builder_with_an_invalid_timespan():
             "azure-dashboard-raw",
             resolver=resolver,
             name="PROD-IO/IO App Availability",
+            service="pagopa-io-backend",
+            is_internal=False,
             location="West Europe",
             timespan={"foo": "bar"},
             resources=[("/subscriptions/uuid/"
@@ -263,6 +280,8 @@ def test_create_an_azure_dashboard_raw_builder_without_a_list_of_resources():
             "azure-dashboard-raw",
             resolver=resolver,
             name="PROD-IO/IO App Availability",
+            service="pagopa-io-backend",
+            is_internal=False,
             location="West Europe",
             timespan="5m")
 
@@ -281,6 +300,8 @@ def test_create_an_azure_dashboard_raw_builder_with_an_invalid_list_of_resources
             "azure-dashboard-raw",
             resolver=resolver,
             name="PROD-IO/IO App Availability",
+            service="pagopa-io-backend",
+            is_internal=False,
             location="West Europe",
             timespan="5m",
             resources={"foo": "bar"})
