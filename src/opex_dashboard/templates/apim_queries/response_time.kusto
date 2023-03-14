@@ -4,7 +4,7 @@ AzureDiagnostics
 | where url_s matches regex "{{ service }}"
 | where url_s matches regex "{{ endpoint|uri_to_regex }}"
 | summarize
-    watermark=threshold, duration_percentile_95=percentiles(DurationMs, 95) by bin(TimeGenerated, {{ timespan }})
+    watermark=threshold, percentile_DurationMs_95=percentiles(DurationMs, 95) by bin(TimeGenerated, {{ timespan }})
 {% if is_alarm %}
 | where percentile_DurationMs_95 > threshold
 {% else %}
