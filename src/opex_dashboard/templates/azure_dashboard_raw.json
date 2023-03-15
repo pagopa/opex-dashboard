@@ -180,7 +180,7 @@
                 },
                 {
                   "name": "Query",
-                  {% with resource_type|add_str:"_queries/availability.kusto" as query %}
+                  {% with resource_type|add_str:"_queries/response_codes.kusto" as query %}
                   "value": {% filter stringify %}{% include query %}{% endfilter %},
                   {% endwith %}
                   "isOptional": true
@@ -240,7 +240,7 @@
               "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart",
               "settings": {
                 "content": {
-                  {% with resource_type|add_str:"_queries/availability.kusto" as query %}
+                  {% with resource_type|add_str:"_queries/response_codes.kusto" as query %}
                   "Query": {% filter stringify %}{% include query %}{% endfilter %},
                   {% endwith %}
                   "SpecificChart": "StackedArea",
@@ -319,7 +319,7 @@
                 },
                 {
                   "name": "Query",
-                  {% with resource_type|add_str:"_queries/availability.kusto" as query %}
+                  {% with resource_type|add_str:"_queries/response_time.kusto" as query %}
                   "value": {% filter stringify %}{% include query with threshold=props.response_time_threshold %}{% endfilter %},
                   {% endwith %}
                   "isOptional": true
@@ -379,7 +379,7 @@
               "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart",
               "settings": {
                 "content": {
-                  {% with resource_type|add_str:"_queries/availability.kusto" as query %}
+                  {% with resource_type|add_str:"_queries/response_time.kusto" as query %}
                   "Query": {% filter stringify %}{% include query with threshold=props.response_time_threshold %}{% endfilter %},
                   {% endwith %}
                   "SpecificChart": "Line",

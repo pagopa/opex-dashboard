@@ -72,11 +72,10 @@ def test_produce_the_template_with_host_and_base_path_options():
         }
 
         queries = [
-            Template("gateway_queries/availability.kusto").render(query_params),
-            Template("gateway_queries/response_codes.kusto").render(query_params),
-            Template("gateway_queries/response_time.kusto").render(query_params),
+            Template("app-gateway_queries/availability.kusto").render(query_params),
+            Template("app-gateway_queries/response_codes.kusto").render(query_params),
+            Template("app-gateway_queries/response_time.kusto").render(query_params),
         ]
-
         assert query["value"] == queries[i % NUMBER_OF_GRAPH_FOR_EACH_ENDPOINT]
 
         content = part["metadata"]["settings"]["content"]
@@ -138,9 +137,9 @@ def test_the_template_with_host_and_base_path_options_and_hosts_overrides():
         }
 
         queries = [
-            Template("gateway_queries/availability.kusto").render(query_params),
-            Template("gateway_queries/response_codes.kusto").render(query_params),
-            Template("gateway_queries/response_time.kusto").render(query_params),
+            Template("app-gateway_queries/availability.kusto").render(query_params),
+            Template("app-gateway_queries/response_codes.kusto").render(query_params),
+            Template("app-gateway_queries/response_time.kusto").render(query_params),
         ]
 
         assert query["value"] == queries[i % NUMBER_OF_GRAPH_FOR_EACH_ENDPOINT]
@@ -206,9 +205,9 @@ def test_produce_the_template_with_servers_option():
         }
 
         queries = [
-            Template("gateway_queries/availability.kusto").render(query_params),
-            Template("gateway_queries/response_codes.kusto").render(query_params),
-            Template("gateway_queries/response_time.kusto").render(query_params),
+            Template("app-gateway_queries/availability.kusto").render(query_params),
+            Template("app-gateway_queries/response_codes.kusto").render(query_params),
+            Template("app-gateway_queries/response_time.kusto").render(query_params),
         ]
 
         assert query["value"] == queries[i % NUMBER_OF_GRAPH_FOR_EACH_ENDPOINT]
@@ -274,9 +273,9 @@ def test_the_template_with_servers_option_and_hosts_overrides():
         }
 
         queries = [
-            Template("gateway_queries/availability.kusto").render(query_params),
-            Template("gateway_queries/response_codes.kusto").render(query_params),
-            Template("gateway_queries/response_time.kusto").render(query_params),
+            Template("app-gateway_queries/availability.kusto").render(query_params),
+            Template("app-gateway_queries/response_codes.kusto").render(query_params),
+            Template("app-gateway_queries/response_time.kusto").render(query_params),
         ]
 
         assert query["value"] == queries[i % NUMBER_OF_GRAPH_FOR_EACH_ENDPOINT]

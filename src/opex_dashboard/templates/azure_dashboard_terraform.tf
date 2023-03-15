@@ -67,7 +67,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert" "alarm_time_{{ forloop.co
   auto_mitigation_enabled = false
 
   query = <<-QUERY
-{% with resource_type|add_str:"_queries/availability.kusto" as query %}
+{% with resource_type|add_str:"_queries/response_time.kusto" as query %}
     {% include query with is_alarm=True threshold=props.response_time_threshold %}
 {% endwith %}
   QUERY
