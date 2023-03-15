@@ -6,9 +6,9 @@ AzureDiagnostics
 | where requestUri_s matches regex "{{ endpoint|uri_to_regex }}"
 | summarize
     watermark=threshold,
-    percentiles(timeTaken_d, 95) by bin(TimeGenerated, {{ timespan }})
+    duration_percentile_95=percentiles(timeTaken_d, 95) by bin(TimeGenerated, {{ timespan }})
 {% if is_alarm %}
-| where percentile_timeTaken_d_95 > threshold
+| where duration_percentile_95 > threshold
 {% else %}
 | render timechart with (xtitle = "time", ytitle= "response time(s)")
 {% endif %}

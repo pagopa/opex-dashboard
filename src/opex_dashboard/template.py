@@ -17,6 +17,7 @@ class Template:
             'mul': 'opex_dashboard.tags.mul',
             'stringify': 'opex_dashboard.tags.stringify',
             'uri_to_regex': 'opex_dashboard.tags.uri_to_regex',
+            'add_str': 'opex_dashboard.tags.add_str',
         }
     )
 
