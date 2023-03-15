@@ -39,7 +39,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert" "alarm_availability_{{ fo
   query = <<-QUERY
     {% include "gateway_queries/availability.kusto" with is_alarm=True threshold=props.availability_threshold %}
   QUERY
-  {% else %}
+  {% elif resource_type == 'api-management' %}
   query = <<-QUERY
     {% include "apim_queries/availability.kusto" with is_alarm=True threshold=props.availability_threshold %}
   QUERY
@@ -74,7 +74,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert" "alarm_time_{{ forloop.co
   query = <<-QUERY
     {% include "gateway_queries/response_time.kusto" with is_alarm=True threshold=props.response_time_threshold %}
   QUERY
-  {% else %}
+  {% elif resource_type == 'api-management' %}
   query = <<-QUERY
     {% include "apim_queries/response_time.kusto" with is_alarm=True threshold=props.response_time_threshold %}
   QUERY
