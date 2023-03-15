@@ -11,6 +11,7 @@ from opex_dashboard.builders.azure_dashboard_builder import AzDashboardBuilder
 def create_azure_terraform_builder(**args: Optional[Any]) -> Optional[Builder]:
     inputs = normalize_params(args, {
         "name": str,
+        "resource_type": str,
         "location": str,
         "timespan": str,
         "data_source_id": str,
@@ -24,6 +25,7 @@ def create_azure_raw_builder(**args: Optional[Any]) -> Optional[Builder]:
     inputs = normalize_params(args, {
         "resolver": OA3Resolver,
         "name": str,
+        "resource_type": str,
         "location": str,
         "timespan": str,
         "resources": list,

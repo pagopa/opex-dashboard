@@ -132,3 +132,4 @@ dmypy.json
 .dev/
 !src/opex_dashboard/assets/terraform/.env
 
+.idea/

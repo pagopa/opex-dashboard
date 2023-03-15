@@ -1,0 +1,14 @@
+{% load stringify uri_to_regex %}
+let threshold = {{ threshold|default:"0.99" }};
+AzureDiagnostics
+| where url_s matches regex "{{ endpoint|uri_to_regex }}"
+| summarize
+  Total=count(),
+  Success=count(responseCode_d < 500) by bin(TimeGenerated, {{ timespan }})
+| extend availability=toreal(Success) / Total
+{% if is_alarm %}
+| where availability < threshold
+{% else %}
+| project TimeGenerated, availability, watermark=threshold
+| render timechart with (xtitle = "time", ytitle= "availability(%)")
+{% endif %}

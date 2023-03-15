@@ -7,6 +7,7 @@ import os
 from opex_dashboard.resolver import OA3Resolver
 from opex_dashboard.builder_factory import create_builder
 from opex_dashboard.error import InvalidBuilderError
+from opex_dashboard.error import ConfigError
 
 
 @click.command(short_help="Generate a dashboard definition.")
@@ -39,15 +40,21 @@ def generate(template_name: str,
         os.write(fd, req.content)
         os.close(fd)
 
+    allowed_resource_type = ["app-gateway", "api-management"]
+
     properties = {
         "resolver": OA3Resolver(spec_path),
         "name": config["name"],
+        "resource_type": config.get("resource_type", "app-gateway"),
         "location": config["location"],
         "timespan": config.get("timespan", "5m"),
         "resources": [config["data_source"]],
         "data_source_id": config["data_source"],
         "action_groups_ids": config.get("action_groups", []),
     }
+
+    if properties["resource_type"] not in allowed_resource_type:
+        raise ConfigError(f"Invalid resource_type configuration: valid values are {allowed_resource_type}")
 
     builder = create_builder(template_type=template_name, **properties)
     if not builder:
