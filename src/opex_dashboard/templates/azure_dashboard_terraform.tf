@@ -1,4 +1,4 @@
-{% load stringify %}
+{% load stringify add_str %}
 locals {
   name                = "${var.prefix}-${var.env_short}-{{name}}"
   dashboard_base_addr = "https://portal.azure.com/#@pagopait.onmicrosoft.com/dashboard/arm"
@@ -35,15 +35,11 @@ resource "azurerm_monitor_scheduled_query_rules_alert" "alarm_availability_{{ fo
   enabled                 = true
   auto_mitigation_enabled = false
 
-  {% if resource_type == 'app-gateway' %}
   query = <<-QUERY
-    {% include "gateway_queries/availability.kusto" with is_alarm=True threshold=props.availability_threshold %}
+{% with resource_type|add_str:"_queries/availability.kusto" as query %}
+    {% include query with is_alarm=True threshold=props.availability_threshold %}
+{% endwith %}
   QUERY
-  {% elif resource_type == 'api-management' %}
-  query = <<-QUERY
-    {% include "apim_queries/availability.kusto" with is_alarm=True threshold=props.availability_threshold %}
-  QUERY
-  {% endif %}
 
   severity    = 1
   frequency   = 10
@@ -70,15 +66,11 @@ resource "azurerm_monitor_scheduled_query_rules_alert" "alarm_time_{{ forloop.co
   enabled                 = true
   auto_mitigation_enabled = false
 
-  {% if resource_type == 'app-gateway' %}
   query = <<-QUERY
-    {% include "gateway_queries/response_time.kusto" with is_alarm=True threshold=props.response_time_threshold %}
+{% with resource_type|add_str:"_queries/availability.kusto" as query %}
+    {% include query with is_alarm=True threshold=props.response_time_threshold %}
+{% endwith %}
   QUERY
-  {% elif resource_type == 'api-management' %}
-  query = <<-QUERY
-    {% include "apim_queries/response_time.kusto" with is_alarm=True threshold=props.response_time_threshold %}
-  QUERY
-  {% endif %}
 
   severity    = 1
   frequency   = 10
