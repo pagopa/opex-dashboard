@@ -15,6 +15,9 @@ RESOURCE_ID = ("/subscriptions/uuid/"
                "resourceGroups/io-p-rg-external/providers/Microsoft.Network"
                "/applicationGateways/io-p-appgateway")
 TIMESPAN = "5m"
+EVALUATION_FREQUENCY = 10
+EVALUATION_TIME_WINDOW = 20
+EVENT_OCCURRENCES = 2
 ROW_SPAN = 4
 COL_SPAN = 6
 
@@ -33,6 +36,9 @@ def test_produce_the_template_with_host_and_base_path_options():
         resource_type=RESOURCE_TYPE,
         location=LOCATION,
         timespan=TIMESPAN,
+        evaluation_frequency=EVALUATION_FREQUENCY,
+        evaluation_time_window=EVALUATION_TIME_WINDOW,
+        event_occurrences=EVENT_OCCURRENCES,
         resources=[RESOURCE_ID]
     )
 
@@ -97,6 +103,9 @@ def test_the_template_with_host_and_base_path_options_and_hosts_overrides():
         resource_type=RESOURCE_TYPE,
         location=LOCATION,
         timespan=TIMESPAN,
+        evaluation_frequency=EVALUATION_FREQUENCY,
+        evaluation_time_window=EVALUATION_TIME_WINDOW,
+        event_occurrences=EVENT_OCCURRENCES,
         resources=[RESOURCE_ID]
     )
 
@@ -163,6 +172,9 @@ def test_produce_the_template_with_servers_option():
         resource_type=RESOURCE_TYPE,
         location=LOCATION,
         timespan=TIMESPAN,
+        evaluation_frequency=EVALUATION_FREQUENCY,
+        evaluation_time_window=EVALUATION_TIME_WINDOW,
+        event_occurrences=EVENT_OCCURRENCES,
         resources=[RESOURCE_ID]
     )
 
@@ -231,6 +243,9 @@ def test_the_template_with_servers_option_and_hosts_overrides():
         resource_type=RESOURCE_TYPE,
         location=LOCATION,
         timespan=TIMESPAN,
+        evaluation_frequency=EVALUATION_FREQUENCY,
+        evaluation_time_window=EVALUATION_TIME_WINDOW,
+        event_occurrences=EVENT_OCCURRENCES,
         resources=[RESOURCE_ID]
     )
 

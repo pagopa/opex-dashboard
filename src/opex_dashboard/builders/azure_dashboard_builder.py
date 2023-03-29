@@ -17,6 +17,9 @@ class AzDashboardBuilder(Builder):
                  resource_type: str,
                  location: str,
                  timespan: str,
+                 evaluation_frequency: int,
+                 evaluation_time_window: int,
+                 event_occurrences: int,
                  data_source_id: str,
                  action_groups_ids: List[str]) -> None:
         """Create an AzDashbordTerraformBuilder object
@@ -29,6 +32,9 @@ class AzDashboardBuilder(Builder):
                 "resource_type": resource_type,
                 "location": location,
                 "timespan": timespan,
+                "evaluation_frequency": evaluation_frequency,
+                "evaluation_time_window": evaluation_time_window,
+                "event_occurrences": event_occurrences,
                 "data_source_id": data_source_id,
                 "action_groups_ids": action_groups_ids,
             }

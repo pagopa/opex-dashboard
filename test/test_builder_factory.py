@@ -9,6 +9,10 @@ from opex_dashboard.resolver import OA3Resolver
 
 DATA_BASE_PATH = join(dirname(__file__), "data")
 
+EVALUATION_FREQUENCY = 10
+EVALUATION_TIME_WINDOW = 20
+EVENT_OCCURRENCES = 2
+
 
 def test_create_a_basic_builder():
     """
@@ -82,6 +86,9 @@ def test_create_an_azure_dashboard_raw_builder():
         resource_type="app-gateway",
         location="West Europe",
         timespan="5m",
+        evaluation_frequency=EVALUATION_FREQUENCY,
+        evaluation_time_window=EVALUATION_TIME_WINDOW,
+        event_occurrences=EVENT_OCCURRENCES,
         resources=[("/subscriptions/uuid/"
                     "resourceGroups/io-p-rg-external/providers/Microsoft.Network"
                     "/applicationGateways/io-p-appgateway")])
@@ -102,6 +109,9 @@ def test_create_an_azure_dashboard_raw_builder_without_a_resolver():
             resource_type="app-gateway",
             location="West Europe",
             timespan="5m",
+            evaluation_frequency=EVALUATION_FREQUENCY,
+            evaluation_time_window=EVALUATION_TIME_WINDOW,
+            event_occurrences=EVENT_OCCURRENCES,
             resources=[("/subscriptions/uuid/"
                         "resourceGroups/io-p-rg-external/providers/Microsoft.Network"
                         "/applicationGateways/io-p-appgateway")])
@@ -123,6 +133,9 @@ def test_create_an_azure_dashboard_raw_builder_with_an_invalid_resolver():
             resource_type="app-gateway",
             location="West Europe",
             timespan="5m",
+            evaluation_frequency=EVALUATION_FREQUENCY,
+            evaluation_time_window=EVALUATION_TIME_WINDOW,
+            event_occurrences=EVENT_OCCURRENCES,
             resources=[("/subscriptions/uuid/"
                         "resourceGroups/io-p-rg-external/providers/Microsoft.Network"
                         "/applicationGateways/io-p-appgateway")])
@@ -144,6 +157,9 @@ def test_create_an_azure_dashboard_raw_builder_without_a_name():
             resource_type="app-gateway",
             location="West Europe",
             timespan="5m",
+            evaluation_frequency=EVALUATION_FREQUENCY,
+            evaluation_time_window=EVALUATION_TIME_WINDOW,
+            event_occurrences=EVENT_OCCURRENCES,
             resources=[("/subscriptions/uuid/"
                         "resourceGroups/io-p-rg-external/providers/Microsoft.Network"
                         "/applicationGateways/io-p-appgateway")])
@@ -166,6 +182,9 @@ def test_create_an_azure_dashboard_raw_builder_with_an_invalid_name():
             resource_type="app-gateway",
             location="West Europe",
             timespan="5m",
+            evaluation_frequency=EVALUATION_FREQUENCY,
+            evaluation_time_window=EVALUATION_TIME_WINDOW,
+            event_occurrences=EVENT_OCCURRENCES,
             resources=[("/subscriptions/uuid/"
                         "resourceGroups/io-p-rg-external/providers/Microsoft.Network"
                         "/applicationGateways/io-p-appgateway")])
@@ -187,6 +206,9 @@ def test_create_an_azure_dashboard_raw_builder_without_a_location():
             name="PROD-IO/IO App Availability",
             resource_type="app-gateway",
             timespan="5m",
+            evaluation_frequency=EVALUATION_FREQUENCY,
+            evaluation_time_window=EVALUATION_TIME_WINDOW,
+            event_occurrences=EVENT_OCCURRENCES,
             resources=[("/subscriptions/uuid/"
                         "resourceGroups/io-p-rg-external/providers/Microsoft.Network"
                         "/applicationGateways/io-p-appgateway")])
@@ -209,6 +231,9 @@ def test_create_an_azure_dashboard_raw_builder_with_an_invalid_location():
             resource_type="app-gateway",
             location={"foo": "bar"},
             timespan="5m",
+            evaluation_frequency=EVALUATION_FREQUENCY,
+            evaluation_time_window=EVALUATION_TIME_WINDOW,
+            event_occurrences=EVENT_OCCURRENCES,
             resources=[("/subscriptions/uuid/"
                         "resourceGroups/io-p-rg-external/providers/Microsoft.Network"
                         "/applicationGateways/io-p-appgateway")])
@@ -230,6 +255,9 @@ def test_create_an_azure_dashboard_raw_builder_without_a_timespan():
             name="PROD-IO/IO App Availability",
             resource_type="app-gateway",
             location="West Europe",
+            evaluation_frequency=EVALUATION_FREQUENCY,
+            evaluation_time_window=EVALUATION_TIME_WINDOW,
+            event_occurrences=EVENT_OCCURRENCES,
             resources=[("/subscriptions/uuid/"
                         "resourceGroups/io-p-rg-external/providers/Microsoft.Network"
                         "/applicationGateways/io-p-appgateway")])
@@ -252,6 +280,9 @@ def test_create_an_azure_dashboard_raw_builder_with_an_invalid_timespan():
             resource_type="app-gateway",
             location="West Europe",
             timespan={"foo": "bar"},
+            evaluation_frequency=EVALUATION_FREQUENCY,
+            evaluation_time_window=EVALUATION_TIME_WINDOW,
+            event_occurrences=EVENT_OCCURRENCES,
             resources=[("/subscriptions/uuid/"
                         "resourceGroups/io-p-rg-external/providers/Microsoft.Network"
                         "/applicationGateways/io-p-appgateway")])
@@ -273,7 +304,10 @@ def test_create_an_azure_dashboard_raw_builder_without_a_list_of_resources():
             name="PROD-IO/IO App Availability",
             resource_type="app-gateway",
             location="West Europe",
-            timespan="5m")
+            timespan="5m",
+            evaluation_frequency=EVALUATION_FREQUENCY,
+            evaluation_time_window=EVALUATION_TIME_WINDOW,
+            event_occurrences=EVENT_OCCURRENCES,)
 
     assert str(e.value).endswith("required positional argument: 'resources'")
 
@@ -293,6 +327,156 @@ def test_create_an_azure_dashboard_raw_builder_with_an_invalid_list_of_resources
             resource_type="app-gateway",
             location="West Europe",
             timespan="5m",
+            evaluation_frequency=EVALUATION_FREQUENCY,
+            evaluation_time_window=EVALUATION_TIME_WINDOW,
+            event_occurrences=EVENT_OCCURRENCES,
             resources={"foo": "bar"})
 
     assert str(e.value) == f"Invalid builder error: 'resources' must be a {list}"
+
+
+def test_create_an_azure_dashboard_raw_builder_without_an_evaluation_frequency():
+    """
+    GIVEN an azure dashboard builder
+    WHEN the builder is created without evaluation_frequency value
+    THEN it throws an exception
+    """
+    with pytest.raises(InvalidBuilderError) as e:
+        resolver = OA3Resolver(f"{DATA_BASE_PATH}/io_backend.yaml")
+        create_builder(
+            "azure-dashboard-raw",
+            resolver=resolver,
+            name="PROD-IO/IO App Availability",
+            resource_type="app-gateway",
+            location="West Europe",
+            timespan="5m",
+            evaluation_time_window=EVALUATION_TIME_WINDOW,
+            event_occurrences=EVENT_OCCURRENCES,
+            resources=[("/subscriptions/uuid/"
+                        "resourceGroups/io-p-rg-external/providers/Microsoft.Network"
+                        "/applicationGateways/io-p-appgateway")])
+
+    assert str(e.value).endswith("required positional argument: 'evaluation_frequency'")
+
+
+def test_create_an_azure_dashboard_raw_builder_with_an_invalid_evaluation_frequency():
+    """
+    GIVEN an azure dashboard builder
+    WHEN the builder is created with an invalid evaluation_frequency
+    THEN it throws an exception
+    """
+    with pytest.raises(InvalidBuilderError) as e:
+        resolver = OA3Resolver(f"{DATA_BASE_PATH}/io_backend.yaml")
+        create_builder(
+            "azure-dashboard-raw",
+            resolver=resolver,
+            name="PROD-IO/IO App Availability",
+            resource_type="app-gateway",
+            location="West Europe",
+            timespan="5m",
+            evaluation_frequency="5",
+            evaluation_time_window=EVALUATION_TIME_WINDOW,
+            event_occurrences=EVENT_OCCURRENCES,
+            resources=[("/subscriptions/uuid/"
+                        "resourceGroups/io-p-rg-external/providers/Microsoft.Network"
+                        "/applicationGateways/io-p-appgateway")])
+
+    assert str(e.value) == f"Invalid builder error: 'evaluation_frequency' must be a {int}"
+
+
+def test_create_an_azure_dashboard_raw_builder_without_an_evaluation_time_window():
+    """
+    GIVEN an azure dashboard builder
+    WHEN the builder is created without evaluation_time_window value
+    THEN it throws an exception
+    """
+    with pytest.raises(InvalidBuilderError) as e:
+        resolver = OA3Resolver(f"{DATA_BASE_PATH}/io_backend.yaml")
+        create_builder(
+            "azure-dashboard-raw",
+            resolver=resolver,
+            name="PROD-IO/IO App Availability",
+            resource_type="app-gateway",
+            location="West Europe",
+            timespan="5m",
+            evaluation_frequency=EVALUATION_FREQUENCY,
+            event_occurrences=EVENT_OCCURRENCES,
+            resources=[("/subscriptions/uuid/"
+                        "resourceGroups/io-p-rg-external/providers/Microsoft.Network"
+                        "/applicationGateways/io-p-appgateway")])
+
+    assert str(e.value).endswith("required positional argument: 'evaluation_time_window'")
+
+
+def test_create_an_azure_dashboard_raw_builder_with_an_invalid_evaluation_time_window():
+    """
+    GIVEN an azure dashboard builder
+    WHEN the builder is created with an invalid evaluation_time_window
+    THEN it throws an exception
+    """
+    with pytest.raises(InvalidBuilderError) as e:
+        resolver = OA3Resolver(f"{DATA_BASE_PATH}/io_backend.yaml")
+        create_builder(
+            "azure-dashboard-raw",
+            resolver=resolver,
+            name="PROD-IO/IO App Availability",
+            resource_type="app-gateway",
+            location="West Europe",
+            timespan="5m",
+            evaluation_frequency=EVALUATION_FREQUENCY,
+            evaluation_time_window="5",
+            event_occurrences=EVENT_OCCURRENCES,
+            resources=[("/subscriptions/uuid/"
+                        "resourceGroups/io-p-rg-external/providers/Microsoft.Network"
+                        "/applicationGateways/io-p-appgateway")])
+
+    assert str(e.value) == f"Invalid builder error: 'evaluation_time_window' must be a {int}"
+
+
+def test_create_an_azure_dashboard_raw_builder_without_an_event_occurrences():
+    """
+    GIVEN an azure dashboard builder
+    WHEN the builder is created without event_occurrences value
+    THEN it throws an exception
+    """
+    with pytest.raises(InvalidBuilderError) as e:
+        resolver = OA3Resolver(f"{DATA_BASE_PATH}/io_backend.yaml")
+        create_builder(
+            "azure-dashboard-raw",
+            resolver=resolver,
+            name="PROD-IO/IO App Availability",
+            resource_type="app-gateway",
+            location="West Europe",
+            timespan="5m",
+            evaluation_frequency=EVALUATION_FREQUENCY,
+            evaluation_time_window=EVALUATION_TIME_WINDOW,
+            resources=[("/subscriptions/uuid/"
+                        "resourceGroups/io-p-rg-external/providers/Microsoft.Network"
+                        "/applicationGateways/io-p-appgateway")])
+
+    assert str(e.value).endswith("required positional argument: 'event_occurrences'")
+
+
+def test_create_an_azure_dashboard_raw_builder_with_an_invalid_event_occurrences():
+    """
+    GIVEN an azure dashboard builder
+    WHEN the builder is created with an invalid event_occurrences
+    THEN it throws an exception
+    """
+    with pytest.raises(InvalidBuilderError) as e:
+        resolver = OA3Resolver(f"{DATA_BASE_PATH}/io_backend.yaml")
+        create_builder(
+            "azure-dashboard-raw",
+            resolver=resolver,
+            name="PROD-IO/IO App Availability",
+            resource_type="app-gateway",
+            location="West Europe",
+            timespan="5m",
+            evaluation_frequency=EVALUATION_FREQUENCY,
+            evaluation_time_window=EVALUATION_TIME_WINDOW,
+            event_occurrences="1",
+            resources=[("/subscriptions/uuid/"
+                        "resourceGroups/io-p-rg-external/providers/Microsoft.Network"
+                        "/applicationGateways/io-p-appgateway")])
+
+    assert str(e.value) == f"Invalid builder error: 'event_occurrences' must be a {int}"
