@@ -8,9 +8,7 @@ AzureDiagnostics
   Total=count(),
   Success=count(httpStatus_d < 500) by bin(TimeGenerated, {{ timespan }})
 | extend availability=toreal(Success) / Total
-{% if is_alarm %}
-| where availability < threshold
-{% else %}
-| project TimeGenerated, availability, watermark=threshold
+{% if is_alarm %}| where availability < threshold
+{% else %}| project TimeGenerated, availability, watermark=threshold
 | render timechart with (xtitle = "time", ytitle= "availability(%)")
 {% endif %}
