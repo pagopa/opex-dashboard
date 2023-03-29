@@ -37,12 +37,14 @@ For each endpoint in the OpenApi spec there are two alarms:
 
 For each alarm, the following variables can be cofigured:
 
-
+1. **Timespan _(Default: 5m)_** The aggregation.
 1. **Evaluation frequency _(Default: 10)_** The frequency (in minutes) at which rule condition should be evaluated.
 1. **Time window _(Default: 20)_** The time window for which data needs to be fetched for query (must be greater than or equal to evalation frequency).
 1. **Event occurrences number _(Default: 1)_** The number of events within a time window needed to raise an alert.
 
 Each of them can be configured at openapi level and can be overridden for each alert at endpoint level.
+
+**NOTE:** Maximum number of event occurrences is defined by **time window/timespan**. i.e. within a time window of 30m, with a timespan of 5m, a maximum of 6 events can occur.
 
 These values can be configured, look at [Overrides](#overrides) paragraph.
 
