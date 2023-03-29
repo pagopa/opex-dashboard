@@ -12,7 +12,11 @@ overrides:
     - https://example.com
   endpoints:
     /api/v1/services/{service_id}:
-      availability_threshold: 0.95 # Default, it is a percentage
-      availability_evaluation_frequency: 30 # Default, it is the frequency (in minutes) at which rule condition should be evaluated. NOTE: it should never be lower than the `timespan` value
-      availability_evaluation_time_window: 50 # Default, it is the time window for which data needs to be fetched for query (must be greater than or equal to `frequency``)
-      availability_event_occurrences: 15 # Default, it is the number of events needed to raise an alert
+      availability_threshold: 0.95 # Default: 99%
+      availability_evaluation_frequency: 30 # Default: 10
+      availability_evaluation_time_window: 50 # Default: 20
+      availability_event_occurrences: 3 # Default: 1
+      response_time_threshold: 2 # Default: 1
+      response_time_evaluation_frequency: 35 # Default: 10
+      response_time_evaluation_time_window: 55 # Default: 20
+      response_time_event_occurrences: 5 # Default: 1

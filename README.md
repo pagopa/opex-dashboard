@@ -35,6 +35,15 @@ For each endpoint in the OpenApi spec there are two alarms:
 1. **Availability**: threshold at 99%;
 1. **Response time**: threshold at 1 second.
 
+For each alarm, the following variables can be cofigured:
+
+
+1. **Evaluation frequency _(Default: 10)_** The frequency (in minutes) at which rule condition should be evaluated.
+1. **Time window _(Default: 20)_** The time window for which data needs to be fetched for query (must be greater than or equal to evalation frequency).
+1. **Event occurrences number _(Default: 1)_** The number of events within a time window needed to raise an alert.
+
+Each of them can be configured at openapi level and can be overridden for each alert at endpoint level.
+
 These values can be configured, look at [Overrides](#overrides) paragraph.
 
 ## Usage
@@ -109,6 +118,9 @@ oa3_spec: myfolder/oa3_spec.yaml
 name: My dashboard
 location: West Europe
 timespan: 5m
+evaluation_frequency: 5
+evaluation_time_window: 30
+event_occurrences: 3
 data_source: /subscriptions/uuid/resourceGroups/my-rg/providers/Microsoft.Network/applicationGateways/my-gtw
 resource_type: app-gateway
 action_groups:
@@ -222,7 +234,13 @@ overrides:
   endpoints:
     /onboarding/info:              # This is the endpoint in the OpenApi spec
       availability_threshold: 0.95 # Default: 99%
-      response_time_threshold: 2   # Default: 1 second
+      availability_evaluation_frequency: 30 # Default: 10
+      availability_evaluation_time_window: 50 # Default: 20
+      availability_event_occurrences: 3 # Default: 1
+      response_time_threshold: 2 # Default: 1
+      response_time_evaluation_frequency: 35 # Default: 10
+      response_time_evaluation_time_window: 55 # Default: 20
+      response_time_event_occurrences: 5 # Default: 1
 ```
 
 ## Development
