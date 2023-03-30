@@ -1,10 +1,7 @@
-import json
 from os.path import dirname, join
-from urllib.parse import urlparse
 
 from opex_dashboard.builder_factory import create_builder
 from opex_dashboard.resolver import OA3Resolver
-from opex_dashboard.template import Template
 
 DATA_BASE_PATH = join(dirname(__file__), "data")
 NUMBER_OF_GRAPH_FOR_EACH_ENDPOINT = 3
@@ -19,8 +16,10 @@ EVALUATION_FREQUENCY = 10
 EVALUATION_TIME_WINDOW = 20
 EVENT_OCCURRENCES = 2
 DATA_SOURCE_ID = "data_source_id"
-ACTION_GROUPS_IDS = ["/subscriptions/uuid/resourceGroups/my-rg/providers/microsoft.insights/actionGroups/my-action-group-email",
-                     "/subscriptions/uuid/resourceGroups/my-rg/providers/microsoft.insights/actionGroups/my-action-group-slack"
+ACTION_GROUPS_IDS = ["/subscriptions/uuid/resourceGroups/my-rg/providers/"
+                     "microsoft.insights/actionGroups/my-action-group-email",
+                     "/subscriptions/uuid/resourceGroups/my-rg/providers/"
+                     "microsoft.insights/actionGroups/my-action-group-slack"
                      ]
 ROW_SPAN = 4
 COL_SPAN = 6
