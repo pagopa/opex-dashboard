@@ -9,6 +9,10 @@
 #### Motivation and Context
 <!--- Why is this change required? What problem does it solve? -->
 
+#### Update dependency
+
+Remmeber to update also the package version here https://github.com/pagopa/opex-dashboard-azure-action/blob/main/Dockerfile
+
 #### How Has This Been Tested?
 <!--- Please describe in detail how you tested your changes. -->
 <!--- Include details of your testing environment, tests ran to see how -->
