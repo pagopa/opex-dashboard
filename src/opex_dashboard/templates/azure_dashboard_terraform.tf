@@ -42,11 +42,11 @@ resource "azurerm_monitor_scheduled_query_rules_alert" "alarm_availability_{{ fo
   QUERY
 
   severity    = 1
-  frequency   = 10
-  time_window = 20
+  frequency   = {{ props.availability_evaluation_frequency }}
+  time_window = {{ props.availability_evaluation_time_window }}
   trigger {
     operator  = "GreaterThanOrEqual"
-    threshold = 1
+    threshold = {{ props.availability_event_occurrences }}
   }
 
   tags = var.tags
@@ -73,11 +73,11 @@ resource "azurerm_monitor_scheduled_query_rules_alert" "alarm_time_{{ forloop.co
   QUERY
 
   severity    = 1
-  frequency   = 10
-  time_window = 20
+  frequency   = {{ props.response_time_evaluation_frequency }}
+  time_window = {{ props.response_time_evaluation_time_window }}
   trigger {
     operator  = "GreaterThanOrEqual"
-    threshold = 1
+    threshold = {{ props.response_time_event_occurrences }}
   }
 
   tags = var.tags

@@ -11,6 +11,12 @@ overrides:
   hosts: # Use these hosts instead of those inside the OpenApi spec
     - https://example.com
   endpoints:
-    /services/{service_id}:
-      availability_threshold: 0.99 # Default, it is a percentage
-      response_time_threshold: 1 # Default, it is seconds
+    /api/v1/services/{service_id}:
+      availability_threshold: 0.95 # Default: 99%
+      availability_evaluation_frequency: 30 # Default: 10
+      availability_evaluation_time_window: 50 # Default: 20
+      availability_event_occurrences: 3 # Default: 1
+      response_time_threshold: 2 # Default: 1
+      response_time_evaluation_frequency: 35 # Default: 10
+      response_time_evaluation_time_window: 55 # Default: 20
+      response_time_event_occurrences: 5 # Default: 1

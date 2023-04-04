@@ -14,9 +14,12 @@ def create_azure_terraform_builder(**args: Optional[Any]) -> Optional[Builder]:
         "resource_type": str,
         "location": str,
         "timespan": str,
+        "evaluation_frequency": int,
+        "evaluation_time_window": int,
+        "event_occurrences": int,
         "data_source_id": str,
         "action_groups_ids": list,
-        })
+    })
     inputs["dashboard_builder"] = create_azure_raw_builder(**args)
     return AzDashboardBuilder(**inputs)
 
@@ -28,8 +31,11 @@ def create_azure_raw_builder(**args: Optional[Any]) -> Optional[Builder]:
         "resource_type": str,
         "location": str,
         "timespan": str,
+        "evaluation_frequency": int,
+        "evaluation_time_window": int,
+        "event_occurrences": int,
         "resources": list,
-        })
+    })
     return AzDashboardRawBuilder(**inputs)
 
 
@@ -37,7 +43,7 @@ def create_base_builder(**args: Optional[Any]) -> Optional[Builder]:
     inputs = normalize_params({"base_properties": {}} | args, {
         "template": str,
         "base_properties": dict,
-        })
+    })
     return Builder(**inputs)
 
 
