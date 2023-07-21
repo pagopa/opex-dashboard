@@ -1,5 +1,5 @@
 {% load stringify uri_to_regex %}
-let api_url = "{{ endpoint|uri_to_regex }}";
+let api_url = "{{ base_path|default:""|add:endpoint|uri_to_regex }}";
 AzureDiagnostics
 | where url_s matches regex api_url
 | extend HTTPStatus = case(

@@ -1,5 +1,5 @@
 {% load stringify uri_to_regex %}
-let api_url = "{{ endpoint|uri_to_regex }}";
+let api_url = "{{ base_path|default:""|add:endpoint|uri_to_regex }}";
 let api_hosts = datatable (name: string) {{ hosts|stringify }};
 AzureDiagnostics
 | where originalHost_s in (api_hosts)
