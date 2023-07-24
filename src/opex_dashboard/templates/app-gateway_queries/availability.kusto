@@ -1,9 +1,9 @@
-{% load stringify uri_to_regex %}
+{% load add_str stringify uri_to_regex %}
 let api_hosts = datatable (name: string) {{ hosts|stringify }};
 let threshold = {{ threshold|default:"0.99" }};
 AzureDiagnostics
 | where originalHost_s in (api_hosts)
-| where requestUri_s matches regex "{{ base_path|default:""|add:endpoint|uri_to_regex }}"
+| where requestUri_s matches regex "{{ base_path|default:""|add_str:endpoint|uri_to_regex }}"
 | summarize
   Total=count(),
   Success=count(httpStatus_d < 500) by bin(TimeGenerated, {{ timespan }})

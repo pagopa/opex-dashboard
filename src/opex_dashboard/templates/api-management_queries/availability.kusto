@@ -1,7 +1,7 @@
-{% load stringify uri_to_regex %}
+{% load add_str stringify uri_to_regex %}
 let threshold = {{ threshold|default:"0.99" }};
 AzureDiagnostics
-| where url_s matches regex "{{ base_path|default:""|add:endpoint|uri_to_regex }}"
+| where url_s matches regex "{{ base_path|default:""|add_str:endpoint|uri_to_regex }}"
 | summarize
   Total=count(),
   Success=count(responseCode_d < 500) by bin(TimeGenerated, {{ timespan }})
