@@ -17,6 +17,10 @@ jobs:
         with:
           persist-credentials: false
           fetch-depth: 0
+      # from https://github.com/actions/setup-python/commits/main
+      - uses: actions/setup-python@61a6322f88396a6271a6ee3565807d608ecaddd1
+        with:
+          python-version: '3.9'
       - name: Install dependencies
         # from https://github.com/VaultVulp/action-pipenv/commits/main
         uses: VaultVulp/action-pipenv@0e0abc7839b234802947bb8aa1a7c7b8b00a2ff4
