@@ -88,3 +88,42 @@ def test_produce_the_template_with_overrides(snapshot):
 
     snapshot.snapshot_dir = 'test/snapshots'  # This line is optional.
     snapshot.assert_match(prova, 'iobackend_light_overrides.txt')
+
+
+def test_produce_the_template_with_overrided_base_path(snapshot):
+    """
+    GIVEN a valid list of parameter
+    WHEN overrides are defined for and endpoint
+    THEN the template is rendered and override properties applied
+    """
+    resolver = OA3Resolver(f"{DATA_BASE_PATH}/io_backend_light.yaml")
+    builder = create_builder(
+        "azure-dashboard",
+        resolver=resolver,
+        name=NAME,
+        resource_type=RESOURCE_TYPE,
+        location=LOCATION,
+        timespan=TIMESPAN,
+        evaluation_frequency=EVALUATION_FREQUENCY,
+        evaluation_time_window=EVALUATION_TIME_WINDOW,
+        event_occurrences=EVENT_OCCURRENCES,
+        resources=[RESOURCE_ID],
+        data_source_id=DATA_SOURCE_ID,
+        action_groups_ids=ACTION_GROUPS_IDS
+    )
+
+    overrides = {"endpoints": {"/api/v1/services/{service_id}": {"availability_threshold": 0.12,
+                                                                 "availability_evaluation_frequency": 111,
+                                                                 "availability_evaluation_time_window": 222,
+                                                                 "availability_event_occurrences": 333,
+                                                                 "response_time_threshold": 0.23,
+                                                                 "response_time_evaluation_frequency": 444,
+                                                                 "response_time_evaluation_time_window": 555,
+                                                                 "response_time_event_occurrences": 666,
+                                                                 }},
+                 "base_path": "basepath_override"
+                 }
+    prova = builder.produce(overrides)
+
+    snapshot.snapshot_dir = 'test/snapshots'  # This line is optional.
+    snapshot.assert_match(prova, 'iobackend_light_overrides_base_path.txt')
