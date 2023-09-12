@@ -122,7 +122,7 @@ def test_produce_the_template_with_overrided_base_path(snapshot):
                                                                  "response_time_event_occurrences": 666,
                                                                  }},
                  "base_path": "basepath_override"
-                                                                 }
+                 }
     prova = builder.produce(overrides)
 
     snapshot.snapshot_dir = 'test/snapshots'  # This line is optional.
