@@ -17,31 +17,23 @@ jobs:
         with:
           persist-credentials: false
           fetch-depth: 0
-      - name: Install dependencies
-        # from https://github.com/VaultVulp/action-pipenv/commits/main
-        uses: VaultVulp/action-pipenv@0e0abc7839b234802947bb8aa1a7c7b8b00a2ff4
+      # from https://github.com/palewire/install-python-pipenv-pipfile/commits/main
+      - name: Install Python, pipenv and Pipfile packages
+        uses: palewire/install-python-pipenv-pipfile@fae3f6a0c5e68b98df1a416a3bf3f567db461251
         with:
-          command: install -d
+          python-version: '3.9'
       - name: Install library
-        # from https://github.com/VaultVulp/action-pipenv/commits/main
-        uses: VaultVulp/action-pipenv@0e0abc7839b234802947bb8aa1a7c7b8b00a2ff4
-        with:
-          command: run install_local
+        run: |
+          pipenv run install_local
       - name: Run tests
-        # from https://github.com/VaultVulp/action-pipenv/commits/main
-        uses: VaultVulp/action-pipenv@0e0abc7839b234802947bb8aa1a7c7b8b00a2ff4
-        with:
-          command: run coverage run -m pytest
+        run: |
+          pipenv run coverage run -m pytest
       - name: Generate report
-        # from https://github.com/VaultVulp/action-pipenv/commits/main
-        uses: VaultVulp/action-pipenv@0e0abc7839b234802947bb8aa1a7c7b8b00a2ff4
-        with:
-          command: run coverage report
+        run: |
+          pipenv run coverage report
       - name: Generate HTML report
-        # from https://github.com/VaultVulp/action-pipenv/commits/main
-        uses: VaultVulp/action-pipenv@0e0abc7839b234802947bb8aa1a7c7b8b00a2ff4
-        with:
-          command: run coverage html
+        run: |
+          pipenv run coverage html
       - name: Upload HTML report
         # from https://github.com/actions/upload-artifact/commits/main
         uses: actions/upload-artifact@83fd05a356d7e2593de66fc9913b3002723633cb
