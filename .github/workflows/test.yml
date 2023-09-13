@@ -22,9 +22,6 @@ jobs:
         uses: palewire/install-python-pipenv-pipfile@fae3f6a0c5e68b98df1a416a3bf3f567db461251
         with:
           python-version: '3.9'
-      - name: Install exceptiongroup
-        run: |
-          pip install exceptiongroup
       - name: Install library
         run: |
           pipenv run install_local
