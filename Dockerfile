@@ -1,5 +1,5 @@
 # from https://hub.docker.com/_/python
-FROM python:3.11.2-alpine3.17@sha256:1c66f5282876229c87851cde3a1c7eb8939f212cdf398201f86f5416c7907656 AS build
+FROM python:3.12.0-alpine3.17@sha256:d3f52543a68f2c98642a2efe3055d1c586d488b6d45e9dabea21c087b732f7f7 AS build
 
 ARG user=nonroot
 
