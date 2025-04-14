@@ -79,7 +79,7 @@
                 },
                 {
                   "name": "PartSubTitle",
-                  "value": "{{ base_path|default:""|add_str:endpoint }}",
+                  "value": "{{props.method}} {{ base_path|default:""|add_str:props.path }}",
                   "isOptional": true
                 },
                 {
@@ -202,7 +202,7 @@
                 },
                 {
                   "name": "PartSubTitle",
-                  "value": "{{ base_path|default:""|add_str:endpoint }}",
+                  "value": "{{props.method}} {{ base_path|default:""|add_str:props.path }}",
                   "isOptional": true
                 },
                 {
@@ -341,7 +341,7 @@
                 },
                 {
                   "name": "PartSubTitle",
-                  "value": "{{ base_path|default:""|add_str:endpoint }}",
+                  "value": "{{props.method}} {{ base_path|default:""|add_str:props.path }}",
                   "isOptional": true
                 },
                 {
