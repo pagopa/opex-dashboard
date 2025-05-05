@@ -35,8 +35,8 @@ jobs:
         run: |
           pipenv run coverage html
       - name: Upload HTML report
-        # from https://github.com/actions/upload-artifact/commits/main
-        uses: actions/upload-artifact@83fd05a356d7e2593de66fc9913b3002723633cb
+        # from https://github.com/actions/upload-artifact/commits/v4.6.2/
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: coverage_html
           path: htmlcov
