@@ -63,9 +63,10 @@ class AzDashboardRawBuilder(Builder):
                 path = sub("/+", "/", f"{url.path}/{p[1:]}")
                 # self._properties["endpoints"][path] = endpoint_default_values
                 for method in paths[p].keys():
-                    endpoint_path = f"{method.upper()} {path}"
-                    endpoint_default_values.update({"method": method.upper(), "path": path})
-                    self._properties["endpoints"][endpoint_path] = endpoint_default_values.copy()
+                    if method != "parameters":
+                        endpoint_path = f"{method.upper()} {path}"
+                        endpoint_default_values.update({"method": method.upper(), "path": path})
+                        self._properties["endpoints"][endpoint_path] = endpoint_default_values.copy()
 
     def produce(self, values: Dict[str, Any] = {}) -> str:
         """Render the template by merging base properties with given and extracted values from OA3 spec
