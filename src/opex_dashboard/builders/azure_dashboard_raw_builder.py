@@ -5,7 +5,9 @@ from urllib.parse import urlparse
 from opex_dashboard.builders.base import Builder
 from opex_dashboard.resolver import OA3Resolver
 
-
+VALID_HTTP_METHODS = {
+    "get", "put", "post", "delete", "options", "head", "patch", "trace"
+}
 class AzDashboardRawBuilder(Builder):
     _oa3_spec: Dict[str, Any]
 
@@ -63,7 +65,7 @@ class AzDashboardRawBuilder(Builder):
                 path = sub("/+", "/", f"{url.path}/{p[1:]}")
                 # self._properties["endpoints"][path] = endpoint_default_values
                 for method in paths[p].keys():
-                    if method != "parameters":
+                    if method.lower() in VALID_HTTP_METHODS:
                         endpoint_path = f"{method.upper()} {path}"
                         endpoint_default_values.update({"method": method.upper(), "path": path})
                         self._properties["endpoints"][endpoint_path] = endpoint_default_values.copy()
