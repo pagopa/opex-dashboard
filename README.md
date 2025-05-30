@@ -234,7 +234,7 @@ To overrides endpoint's settings add this snippet tou your config:
 ```yaml
 overrides:
   endpoints:
-    /onboarding/info:              # This is the endpoint in the OpenApi spec
+    GET /onboarding/info:              # This is the endpoint in the OpenApi spec
       availability_threshold: 0.95 # Default: 99%
       availability_evaluation_frequency: 30 # Default: 10
       availability_evaluation_time_window: 50 # Default: 20

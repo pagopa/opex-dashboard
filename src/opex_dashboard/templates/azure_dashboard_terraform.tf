@@ -31,7 +31,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert" "alarm_availability_{{ pr
   }
 
   data_source_id          = "{{ data_source_id }}"
-  description             = "Availability for {{ props.method }} {{base_path|default:""|add_str:props.path}} is less than or equal to 99% - ${local.dashboard_base_addr}${azurerm_portal_dashboard.this.id}"
+  description             = "Availability for {{ props.method }} {{base_path|default:""|add_str:props.path}} is less than or equal to {{ props.availability_threshold }}% - ${local.dashboard_base_addr}${azurerm_portal_dashboard.this.id}"
   enabled                 = true
   auto_mitigation_enabled = false
 
@@ -62,7 +62,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert" "alarm_time_{{ forloop.co
   }
 
   data_source_id          = "{{ data_source_id }}"
-  description             = "Response time for {{ props.method }} {{base_path|default:""|add_str:props.path}} is less than or equal to 1s - ${local.dashboard_base_addr}${azurerm_portal_dashboard.this.id}"
+  description             = "Response time for {{ props.method }} {{base_path|default:""|add_str:props.path}} is less than or equal to {{ props.response_time_threshold }}s - ${local.dashboard_base_addr}${azurerm_portal_dashboard.this.id}"
   enabled                 = true
   auto_mitigation_enabled = false
 
