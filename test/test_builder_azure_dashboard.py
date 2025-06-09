@@ -75,7 +75,7 @@ def test_produce_the_template_with_overrides(snapshot):
         action_groups_ids=ACTION_GROUPS_IDS
     )
 
-    overrides = {"endpoints": {"/api/v1/services/{service_id}": {"availability_threshold": 0.12,
+    overrides = {"endpoints": {"GET /api/v1/services/{service_id}": {"availability_threshold": 0.12,
                                                                  "availability_evaluation_frequency": 111,
                                                                  "availability_evaluation_time_window": 222,
                                                                  "availability_event_occurrences": 333,
@@ -112,7 +112,7 @@ def test_produce_the_template_with_overrided_base_path(snapshot):
         action_groups_ids=ACTION_GROUPS_IDS
     )
 
-    overrides = {"endpoints": {"/api/v1/services/{service_id}": {"availability_threshold": 0.12,
+    overrides = {"endpoints": {"GET /api/v1/services/{service_id}": {"availability_threshold": 0.12,
                                                                  "availability_evaluation_frequency": 111,
                                                                  "availability_evaluation_time_window": 222,
                                                                  "availability_event_occurrences": 333,
