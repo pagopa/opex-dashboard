@@ -35,8 +35,8 @@ class AzDashboardRawBuilder(Builder):
                 "timespan": timespan,
                 "evaluation_frequency": evaluation_frequency,
                 "evaluation_time_window": evaluation_time_window,
-                "response_time_threshold": response_time_threshold,
                 "availability_threshold": availability_threshold,
+                "response_time_threshold": response_time_threshold,
                 "event_occurrences": event_occurrences,
                 "resource_ids": resources,
             }
