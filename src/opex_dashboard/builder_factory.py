@@ -35,6 +35,8 @@ def create_azure_raw_builder(**args: Optional[Any]) -> Optional[Builder]:
         "timespan": str,
         "evaluation_frequency": int,
         "evaluation_time_window": int,
+        "availability_threshold": float,
+        "response_time_threshold": float,
         "event_occurrences": int,
         "resources": list,
     })
