@@ -123,7 +123,7 @@ timespan: 5m
 evaluation_frequency: 5
 evaluation_time_window: 30
 availability_threshold: 0.99
-response_time_threshold: 1
+response_time_threshold: 1.0
 event_occurrences: 3
 data_source: /subscriptions/uuid/resourceGroups/my-rg/providers/Microsoft.Network/applicationGateways/my-gtw
 resource_type: app-gateway
