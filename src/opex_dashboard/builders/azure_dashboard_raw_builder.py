@@ -19,6 +19,8 @@ class AzDashboardRawBuilder(Builder):
                  timespan: str,
                  evaluation_frequency: int,
                  evaluation_time_window: int,
+                 availability_threshold: float,
+                 response_time_threshold: float,
                  event_occurrences: int,
                  resources: List[str]) -> None:
         """Create an AzDashbordBuilder object
@@ -33,6 +35,8 @@ class AzDashboardRawBuilder(Builder):
                 "timespan": timespan,
                 "evaluation_frequency": evaluation_frequency,
                 "evaluation_time_window": evaluation_time_window,
+                "response_time_threshold": response_time_threshold,
+                "availability_threshold": availability_threshold,
                 "event_occurrences": event_occurrences,
                 "resource_ids": resources,
             }
@@ -42,11 +46,11 @@ class AzDashboardRawBuilder(Builder):
         """Build base properties from given parameters
         """
         endpoint_default_values = {
-            "availability_threshold": 0.99,
+            "availability_threshold": self.props()["availability_threshold"],
             "availability_evaluation_frequency":  self.props()["evaluation_frequency"],
             "availability_evaluation_time_window":  self.props()["evaluation_time_window"],
             "availability_event_occurrences": self.props()["event_occurrences"],
-            "response_time_threshold": 1,
+            "response_time_threshold": self.props()["response_time_threshold"],
             "response_time_evaluation_frequency": self.props()["evaluation_frequency"],
             "response_time_evaluation_time_window": self.props()["evaluation_time_window"],
             "response_time_event_occurrences": self.props()["event_occurrences"],
