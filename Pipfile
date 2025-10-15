@@ -6,7 +6,7 @@ name = "pypi"
 [packages]
 prance = "==23.06.21.0"
 openapi-spec-validator = "==0.6.0"
-django = "==4.2.21"
+django = "==4.2.25"
 click = "==8.1.7"
 
 [dev-packages]
