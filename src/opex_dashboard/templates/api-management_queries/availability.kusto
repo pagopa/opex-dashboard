@@ -5,7 +5,7 @@ AzureDiagnostics
 | where method_s == "{{ props.method }}"
 | summarize
   Total=count(),
-  Success=count(responseCode_d < 500) by bin(TimeGenerated, {{ timespan }})
+  Success=count(responseCode_d < 500 and responseCode_d != 0) by bin(TimeGenerated, {{ timespan }})
 | extend availability=toreal(Success) / Total
 {% if is_alarm %}
 | where availability < threshold
