@@ -19,6 +19,8 @@ class AzDashboardBuilder(Builder):
                  timespan: str,
                  evaluation_frequency: int,
                  evaluation_time_window: int,
+                 availability_threshold: float,
+                 response_time_threshold: float,
                  event_occurrences: int,
                  data_source_id: str,
                  action_groups_ids: List[str]) -> None:
@@ -34,6 +36,8 @@ class AzDashboardBuilder(Builder):
                 "timespan": timespan,
                 "evaluation_frequency": evaluation_frequency,
                 "evaluation_time_window": evaluation_time_window,
+                "availability_threshold": availability_threshold,
+                "response_time_threshold": response_time_threshold,
                 "event_occurrences": event_occurrences,
                 "data_source_id": data_source_id,
                 "action_groups_ids": action_groups_ids,
