@@ -38,7 +38,7 @@ def _build_expected_endpoints_and_ops_count_for_oas2(spec_dict):
 
     path_definitions = spec_dict.get("paths", {})
 
-    # Iterare sui path e operazioni in un ordine definito (chiavi del path, poi chiavi dell'operazione ordinate)
+    # Iterate over paths and operations in a defined order (path keys, then sorted operation keys)
     for path_key in (path_definitions.keys()):  # Ordina i path_key per coerenza
         path_item_operations = path_definitions[path_key]
 
