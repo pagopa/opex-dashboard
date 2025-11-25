@@ -1,10 +1,5 @@
-import json
 from os.path import dirname, join
 from urllib.parse import urlparse
-
-from opex_dashboard.builder_factory import create_builder
-from opex_dashboard.resolver import OA3Resolver
-from opex_dashboard.template import Template
 
 DATA_BASE_PATH = join(dirname(__file__), "data")
 NUMBER_OF_GRAPH_FOR_EACH_ENDPOINT = 3
@@ -96,7 +91,6 @@ def _build_expected_endpoints_and_ops_count_for_oas3(spec_dict):
                     total_operation_instances += 1
 
     return expected_endpoints_ordered, total_operation_instances, operations
-
 
 # def test_produce_the_template_with_host_and_base_path_options():
 #     """
@@ -283,7 +277,8 @@ def _build_expected_endpoints_and_ops_count_for_oas3(spec_dict):
 #     parts = template_dict["properties"]["lenses"]["0"]["parts"]
 #
 #     # MODIFICA: Calcola il numero totale di istanze di operazioni (server * operazioni) e gli endpoint attesi
-#     expected_endpoints_ordered, total_operation_instances, operations = _build_expected_endpoints_and_ops_count_for_oas3(
+#     expected_endpoints_ordered, total_operation_instances, operations
+#     = _build_expected_endpoints_and_ops_count_for_oas3(
 #         spec_dict)
 #
 #     assert len(parts) == total_operation_instances * NUMBER_OF_GRAPH_FOR_EACH_ENDPOINT
@@ -364,7 +359,8 @@ def _build_expected_endpoints_and_ops_count_for_oas3(spec_dict):
 #     parts = template_dict["properties"]["lenses"]["0"]["parts"]
 #
 #     # MODIFICA: Calcola il numero totale di istanze di operazioni e gli endpoint attesi
-#     expected_endpoints_ordered, total_operation_instances, operations = _build_expected_endpoints_and_ops_count_for_oas3(
+#     expected_endpoints_ordered, total_operation_instances, operations
+#     = _build_expected_endpoints_and_ops_count_for_oas3(
 #         spec_dict)
 #
 #     assert len(parts) == total_operation_instances * NUMBER_OF_GRAPH_FOR_EACH_ENDPOINT

@@ -11,4 +11,5 @@ def test_uri_to_regex():
     """
     assert uri_to_regex(f"{PATH}/{{serviceId}}") == f"{PATH}/[^/]+($|\\?)"
     assert uri_to_regex(f"{PATH}/{{serviceId}}/preferences") == f"{PATH}/[^/]+/preferences($|\\?)"
-    assert uri_to_regex(f"{PATH}/{{serviceId}}/preferences/{{preferenceId}}") == f"{PATH}/[^/]+/preferences/[^/]+($|\\?)"
+    assert uri_to_regex(
+        f"{PATH}/{{serviceId}}/preferences/{{preferenceId}}") == f"{PATH}/[^/]+/preferences/[^/]+($|\\?)"
