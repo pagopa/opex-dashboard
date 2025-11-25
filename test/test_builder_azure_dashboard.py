@@ -76,14 +76,14 @@ def test_produce_the_template_with_overrides(snapshot):
     )
 
     overrides = {"endpoints": {"GET /api/v1/services/{service_id}": {"availability_threshold": 0.12,
-                                                                 "availability_evaluation_frequency": 111,
-                                                                 "availability_evaluation_time_window": 222,
-                                                                 "availability_event_occurrences": 333,
-                                                                 "response_time_threshold": 0.23,
-                                                                 "response_time_evaluation_frequency": 444,
-                                                                 "response_time_evaluation_time_window": 555,
-                                                                 "response_time_event_occurrences": 666,
-                                                                 }}}
+                                                                     "availability_evaluation_frequency": 111,
+                                                                     "availability_evaluation_time_window": 222,
+                                                                     "availability_event_occurrences": 333,
+                                                                     "response_time_threshold": 0.23,
+                                                                     "response_time_evaluation_frequency": 444,
+                                                                     "response_time_evaluation_time_window": 555,
+                                                                     "response_time_event_occurrences": 666,
+                                                                     }}}
     prova = builder.produce(overrides)
 
     snapshot.snapshot_dir = 'test/snapshots'  # This line is optional.
@@ -113,14 +113,14 @@ def test_produce_the_template_with_overrided_base_path(snapshot):
     )
 
     overrides = {"endpoints": {"GET /api/v1/services/{service_id}": {"availability_threshold": 0.12,
-                                                                 "availability_evaluation_frequency": 111,
-                                                                 "availability_evaluation_time_window": 222,
-                                                                 "availability_event_occurrences": 333,
-                                                                 "response_time_threshold": 0.23,
-                                                                 "response_time_evaluation_frequency": 444,
-                                                                 "response_time_evaluation_time_window": 555,
-                                                                 "response_time_event_occurrences": 666,
-                                                                 }},
+                                                                     "availability_evaluation_frequency": 111,
+                                                                     "availability_evaluation_time_window": 222,
+                                                                     "availability_event_occurrences": 333,
+                                                                     "response_time_threshold": 0.23,
+                                                                     "response_time_evaluation_frequency": 444,
+                                                                     "response_time_evaluation_time_window": 555,
+                                                                     "response_time_event_occurrences": 666,
+                                                                     }},
                  "base_path": "basepath_override"
                  }
     prova = builder.produce(overrides)

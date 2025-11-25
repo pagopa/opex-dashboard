@@ -8,6 +8,8 @@ from opex_dashboard.resolver import OA3Resolver
 VALID_HTTP_METHODS = {
     "get", "put", "post", "delete", "options", "head", "patch", "trace"
 }
+
+
 class AzDashboardRawBuilder(Builder):
     _oa3_spec: Dict[str, Any]
 
