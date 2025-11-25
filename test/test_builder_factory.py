@@ -15,6 +15,7 @@ EVENT_OCCURRENCES = 2
 RESPONSE_TIME_THRESHOLD = 1.0
 AVAILABILITY_THRESHOLD = 1.0
 
+
 def test_create_a_basic_builder():
     """
     GIVEN a base builder type and a template
