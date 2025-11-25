@@ -12,7 +12,8 @@ DATA_BASE_PATH = join(dirname(__file__), "data")
 EVALUATION_FREQUENCY = 10
 EVALUATION_TIME_WINDOW = 20
 EVENT_OCCURRENCES = 2
-
+RESPONSE_TIME_THRESHOLD = 1.0
+AVAILABILITY_THRESHOLD = 1.0
 
 def test_create_a_basic_builder():
     """
@@ -86,6 +87,8 @@ def test_create_an_azure_dashboard_raw_builder():
         resource_type="app-gateway",
         location="West Europe",
         timespan="5m",
+        availability_threshold=AVAILABILITY_THRESHOLD,
+        response_time_threshold=RESPONSE_TIME_THRESHOLD,
         evaluation_frequency=EVALUATION_FREQUENCY,
         evaluation_time_window=EVALUATION_TIME_WINDOW,
         event_occurrences=EVENT_OCCURRENCES,
@@ -109,6 +112,8 @@ def test_create_an_azure_dashboard_raw_builder_without_a_resolver():
             resource_type="app-gateway",
             location="West Europe",
             timespan="5m",
+            availability_threshold=AVAILABILITY_THRESHOLD,
+            response_time_threshold=RESPONSE_TIME_THRESHOLD,
             evaluation_frequency=EVALUATION_FREQUENCY,
             evaluation_time_window=EVALUATION_TIME_WINDOW,
             event_occurrences=EVENT_OCCURRENCES,
@@ -157,6 +162,8 @@ def test_create_an_azure_dashboard_raw_builder_without_a_name():
             resource_type="app-gateway",
             location="West Europe",
             timespan="5m",
+            availability_threshold=AVAILABILITY_THRESHOLD,
+            response_time_threshold=RESPONSE_TIME_THRESHOLD,
             evaluation_frequency=EVALUATION_FREQUENCY,
             evaluation_time_window=EVALUATION_TIME_WINDOW,
             event_occurrences=EVENT_OCCURRENCES,
@@ -206,6 +213,8 @@ def test_create_an_azure_dashboard_raw_builder_without_a_location():
             name="PROD-IO/IO App Availability",
             resource_type="app-gateway",
             timespan="5m",
+            availability_threshold=AVAILABILITY_THRESHOLD,
+            response_time_threshold=RESPONSE_TIME_THRESHOLD,
             evaluation_frequency=EVALUATION_FREQUENCY,
             evaluation_time_window=EVALUATION_TIME_WINDOW,
             event_occurrences=EVENT_OCCURRENCES,
@@ -255,6 +264,8 @@ def test_create_an_azure_dashboard_raw_builder_without_a_timespan():
             name="PROD-IO/IO App Availability",
             resource_type="app-gateway",
             location="West Europe",
+            availability_threshold=AVAILABILITY_THRESHOLD,
+            response_time_threshold=RESPONSE_TIME_THRESHOLD,
             evaluation_frequency=EVALUATION_FREQUENCY,
             evaluation_time_window=EVALUATION_TIME_WINDOW,
             event_occurrences=EVENT_OCCURRENCES,
@@ -305,6 +316,8 @@ def test_create_an_azure_dashboard_raw_builder_without_a_list_of_resources():
             resource_type="app-gateway",
             location="West Europe",
             timespan="5m",
+            availability_threshold=AVAILABILITY_THRESHOLD,
+            response_time_threshold=RESPONSE_TIME_THRESHOLD,
             evaluation_frequency=EVALUATION_FREQUENCY,
             evaluation_time_window=EVALUATION_TIME_WINDOW,
             event_occurrences=EVENT_OCCURRENCES,)
@@ -350,6 +363,8 @@ def test_create_an_azure_dashboard_raw_builder_without_an_evaluation_frequency()
             resource_type="app-gateway",
             location="West Europe",
             timespan="5m",
+            availability_threshold=AVAILABILITY_THRESHOLD,
+            response_time_threshold=RESPONSE_TIME_THRESHOLD,
             evaluation_time_window=EVALUATION_TIME_WINDOW,
             event_occurrences=EVENT_OCCURRENCES,
             resources=[("/subscriptions/uuid/"
@@ -399,6 +414,8 @@ def test_create_an_azure_dashboard_raw_builder_without_an_evaluation_time_window
             resource_type="app-gateway",
             location="West Europe",
             timespan="5m",
+            availability_threshold=AVAILABILITY_THRESHOLD,
+            response_time_threshold=RESPONSE_TIME_THRESHOLD,
             evaluation_frequency=EVALUATION_FREQUENCY,
             event_occurrences=EVENT_OCCURRENCES,
             resources=[("/subscriptions/uuid/"
@@ -448,6 +465,8 @@ def test_create_an_azure_dashboard_raw_builder_without_an_event_occurrences():
             resource_type="app-gateway",
             location="West Europe",
             timespan="5m",
+            availability_threshold=AVAILABILITY_THRESHOLD,
+            response_time_threshold=RESPONSE_TIME_THRESHOLD,
             evaluation_frequency=EVALUATION_FREQUENCY,
             evaluation_time_window=EVALUATION_TIME_WINDOW,
             resources=[("/subscriptions/uuid/"
