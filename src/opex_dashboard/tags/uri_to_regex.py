@@ -12,4 +12,4 @@ def uri_to_regex(value: object) -> str:
     Returns:
         str -> The serialized object
     """
-    return re.sub("{[^/]+}", "[^/]+", str(value)) + "($|?)"
+    return re.sub("{[^/]+}", "[^/]+", str(value)) + "($|\\?)"

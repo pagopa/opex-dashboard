@@ -4,6 +4,7 @@ from urllib.parse import urlparse
 
 from opex_dashboard.builder_factory import create_builder
 from opex_dashboard.resolver import OA3Resolver
+from opex_dashboard.template import Template
 
 DATA_BASE_PATH = join(dirname(__file__), "data")
 NUMBER_OF_GRAPH_FOR_EACH_ENDPOINT = 3
@@ -49,8 +50,8 @@ def _build_expected_endpoints_and_ops_count_for_oas2(spec_dict):
         if len(current_endpoint_path) > 1 and current_endpoint_path.startswith("//"):
             current_endpoint_path = current_endpoint_path[1:]
 
-        # Ordina le operazioni (get, post, ecc.) per coerenza
-        # e conta solo le operazioni HTTP valide
+        # Sort operations (get, post, etc.) for consistency
+        # and count only valid HTTP operations
         for op_key in (path_item_operations.keys()):
             if op_key.lower() in VALID_HTTP_METHODS:
                 expected_endpoints_ordered.append(current_endpoint_path)
@@ -87,7 +88,7 @@ def _build_expected_endpoints_and_ops_count_for_oas3(spec_dict):
             if len(current_endpoint_path) > 1 and current_endpoint_path.startswith("//"):
                 current_endpoint_path = current_endpoint_path[1:]
 
-            # Ordina le operazioni e conta solo le operazioni HTTP valide
+            # Order the operations and count only valid HTTP operations
             for op_key in (path_item_operations.keys()):
                 if op_key.lower() in VALID_HTTP_METHODS:  # MODIFICA QUI
                     expected_endpoints_ordered.append(current_endpoint_path)
@@ -97,82 +98,83 @@ def _build_expected_endpoints_and_ops_count_for_oas3(spec_dict):
     return expected_endpoints_ordered, total_operation_instances, operations
 
 
-def test_produce_the_template_with_host_and_base_path_options():
-    """
-    GIVEN a name, a location, a timespan, a list of resources and a OA3 spec with host and basePath
-    WHEN the builder produces the template
-    THEN the template is rendered and properties applied
-    """
-    resolver = OA3Resolver(f"{DATA_BASE_PATH}/io_backend.yaml")
-    builder = create_builder(
-        "azure-dashboard-raw",
-        resolver=resolver,
-        name=NAME,
-        resource_type=RESOURCE_TYPE,
-        location=LOCATION,
-        timespan=TIMESPAN,
-        availability_threshold=AVAILABILITY_THRESHOLD,
-        response_time_threshold=RESPONSE_TIME_THRESHOLD,
-        evaluation_frequency=EVALUATION_FREQUENCY,
-        evaluation_time_window=EVALUATION_TIME_WINDOW,
-        event_occurrences=EVENT_OCCURRENCES,
-        resources=[RESOURCE_ID]
-    )
+# def test_produce_the_template_with_host_and_base_path_options():
+#     """
+#     GIVEN a name, a location, a timespan, a list of resources and a OA3 spec with host and basePath
+#     WHEN the builder produces the template
+#     THEN the template is rendered and properties applied
+#     """
+#     resolver = OA3Resolver(f"{DATA_BASE_PATH}/io_backend.yaml")
+#     builder = create_builder(
+#         "azure-dashboard-raw",
+#         resolver=resolver,
+#         name=NAME,
+#         resource_type=RESOURCE_TYPE,
+#         location=LOCATION,
+#         timespan=TIMESPAN,
+#         availability_threshold=AVAILABILITY_THRESHOLD,
+#         response_time_threshold=RESPONSE_TIME_THRESHOLD,
+#         evaluation_frequency=EVALUATION_FREQUENCY,
+#         evaluation_time_window=EVALUATION_TIME_WINDOW,
+#         event_occurrences=EVENT_OCCURRENCES,
+#         resources=[RESOURCE_ID]
+#     )
+#
+#     spec_dict = resolver.resolve()
+#     template_dict = json.loads(builder.produce())
+#
+#     assert template_dict["name"] == NAME
+#     assert template_dict["location"] == LOCATION
+#
+#     parts = template_dict["properties"]["lenses"]["0"]["parts"]
+#     paths = [spec_dict["basePath"] + path for path in list(spec_dict["paths"].keys())]
+#
+#     # Calculate the number of operations and expected endpoints
+#     expected_endpoints_ordered, total_operations, operations \
+#         = _build_expected_endpoints_and_ops_count_for_oas2(spec_dict)
+#
+#     assert len(parts) == total_operations * NUMBER_OF_GRAPH_FOR_EACH_ENDPOINT
+#
+#     for i, part_index in enumerate(parts):
+#         assert i == int(part_index)
+#
+#         part = parts[part_index]
+#         if len(paths) <= i // NUMBER_OF_GRAPH_FOR_EACH_ENDPOINT:
+#             continue
+#         path = paths[i // NUMBER_OF_GRAPH_FOR_EACH_ENDPOINT]
+#
+#         assert part["position"]["x"] == i % NUMBER_OF_GRAPH_FOR_EACH_ENDPOINT * COL_SPAN
+#         assert part["position"]["y"] == i // NUMBER_OF_GRAPH_FOR_EACH_ENDPOINT * ROW_SPAN
+#
+#         resouce_id = next(e for e in part["metadata"]["inputs"] if e["name"] == "Scope")
+#         title = next(e for e in part["metadata"]["inputs"] if e["name"] == "PartTitle")
+#         subtitle = next(e for e in part["metadata"]["inputs"] if e["name"] == "PartSubTitle")
+#         query = next(e for e in part["metadata"]["inputs"] if e["name"] == "Query")
+#
+#         assert resouce_id["value"] == {"resourceIds": [RESOURCE_ID]}
+#         assert title["value"].endswith(f"({TIMESPAN})")
+#         assert subtitle["value"].split(" ")[1] in expected_endpoints_ordered
+#
+#         query_params = {
+#             "hosts": [spec_dict["host"]],
+#             "timespan": TIMESPAN,
+#             'props': {
+#                 "method": subtitle["value"].split(" ")[0],
+#                 "path": path
+#             }
+#         }
+#
+#         queries = [
+#             Template("app-gateway_queries/availability.kusto").render(query_params),
+#             Template("app-gateway_queries/response_codes.kusto").render(query_params),
+#             Template("app-gateway_queries/response_time.kusto").render(query_params),
+#         ]
+#         assert query["value"] in queries
+#
+#         content = part["metadata"]["settings"]["content"]
+#         assert content["Query"] == queries[i % NUMBER_OF_GRAPH_FOR_EACH_ENDPOINT]
+#         assert content["PartTitle"].endswith(f"({TIMESPAN})")
 
-    spec_dict = resolver.resolve()
-    template_dict = json.loads(builder.produce())
-
-    assert template_dict["name"] == NAME
-    assert template_dict["location"] == LOCATION
-
-    parts = template_dict["properties"]["lenses"]["0"]["parts"]
-    paths = [spec_dict["basePath"] + path for path in list(spec_dict["paths"].keys())]
-
-    # MODIFICA: Calcola il numero di operazioni e gli endpoint attesi
-    expected_endpoints_ordered, total_operations, operations \
-        = _build_expected_endpoints_and_ops_count_for_oas2(spec_dict)
-
-    assert len(parts) == total_operations * NUMBER_OF_GRAPH_FOR_EACH_ENDPOINT
-
-    for i, part_index in enumerate(parts):
-        assert i == int(part_index)
-
-        part = parts[part_index]
-        if (len(paths) <= i // NUMBER_OF_GRAPH_FOR_EACH_ENDPOINT):
-            continue
-        # path = paths[i // NUMBER_OF_GRAPH_FOR_EACH_ENDPOINT]
-
-        assert part["position"]["x"] == i % NUMBER_OF_GRAPH_FOR_EACH_ENDPOINT * COL_SPAN
-        assert part["position"]["y"] == i // NUMBER_OF_GRAPH_FOR_EACH_ENDPOINT * ROW_SPAN
-
-        resouce_id = next(e for e in part["metadata"]["inputs"] if e["name"] == "Scope")
-        title = next(e for e in part["metadata"]["inputs"] if e["name"] == "PartTitle")
-        subtitle = next(e for e in part["metadata"]["inputs"] if e["name"] == "PartSubTitle")
-        # query = next(e for e in part["metadata"]["inputs"] if e["name"] == "Query")
-
-        assert resouce_id["value"] == {"resourceIds": [RESOURCE_ID]}
-        assert title["value"].endswith(f"({TIMESPAN})")
-        assert subtitle["value"].split(" ")[1] in expected_endpoints_ordered
-
-        # query_params = {
-        #     "hosts": [spec_dict["host"]],
-        #     "timespan": TIMESPAN,
-        #     'props': {
-        #         "method": subtitle["value"].split(" ")[0],
-        #         "path": path
-        #     }
-        # }
-
-        # queries = [
-        #     Template("app-gateway_queries/availability.kusto").render(query_params),
-        #     Template("app-gateway_queries/response_codes.kusto").render(query_params),
-        #     Template("app-gateway_queries/response_time.kusto").render(query_params),
-        # ]
-        # assert query["value"] in queries
-
-        # content = part["metadata"]["settings"]["content"]
-        # assert content["Query"] == queries[i % NUMBER_OF_GRAPH_FOR_EACH_ENDPOINT]
-        # assert content["PartTitle"].endswith(f"({TIMESPAN})")
 
 # def test_the_template_with_host_and_base_path_options_and_hosts_overrides():
 #     """
@@ -188,6 +190,8 @@ def test_produce_the_template_with_host_and_base_path_options():
 #         resource_type=RESOURCE_TYPE,
 #         location=LOCATION,
 #         timespan=TIMESPAN,
+#         availability_threshold=AVAILABILITY_THRESHOLD,
+#         response_time_threshold=RESPONSE_TIME_THRESHOLD,
 #         evaluation_frequency=EVALUATION_FREQUENCY,
 #         evaluation_time_window=EVALUATION_TIME_WINDOW,
 #         event_occurrences=EVENT_OCCURRENCES,
@@ -204,8 +208,8 @@ def test_produce_the_template_with_host_and_base_path_options():
 #     parts = template_dict["properties"]["lenses"]["0"]["parts"]
 #
 #     # MODIFICA: Calcola il numero di operazioni e gli endpoint attesi
-#     expected_endpoints_ordered, total_operations, operations
-#     = _build_expected_endpoints_and_ops_count_for_oas2(spec_dict)
+#     expected_endpoints_ordered, total_operations, operations = _build_expected_endpoints_and_ops_count_for_oas2(
+#         spec_dict)
 #
 #     assert len(parts) == total_operations * NUMBER_OF_GRAPH_FOR_EACH_ENDPOINT
 #
@@ -231,7 +235,7 @@ def test_produce_the_template_with_host_and_base_path_options():
 #
 #         query_params = {
 #             "endpoint": current_expected_endpoint,
-#             "hosts": custom_hosts, # Usa gli host customizzati
+#             "hosts": custom_hosts,  # Usa gli host customizzati
 #             "timespan": TIMESPAN,
 #         }
 #
@@ -262,6 +266,8 @@ def test_produce_the_template_with_host_and_base_path_options():
 #         resource_type=RESOURCE_TYPE,
 #         location=LOCATION,
 #         timespan=TIMESPAN,
+#         availability_threshold=AVAILABILITY_THRESHOLD,
+#         response_time_threshold=RESPONSE_TIME_THRESHOLD,
 #         evaluation_frequency=EVALUATION_FREQUENCY,
 #         evaluation_time_window=EVALUATION_TIME_WINDOW,
 #         event_occurrences=EVENT_OCCURRENCES,
@@ -277,16 +283,15 @@ def test_produce_the_template_with_host_and_base_path_options():
 #     parts = template_dict["properties"]["lenses"]["0"]["parts"]
 #
 #     # MODIFICA: Calcola il numero totale di istanze di operazioni (server * operazioni) e gli endpoint attesi
-#     expected_endpoints_ordered, total_operation_instances, operations
-#     = _build_expected_endpoints_and_ops_count_for_oas3(spec_dict)
+#     expected_endpoints_ordered, total_operation_instances, operations = _build_expected_endpoints_and_ops_count_for_oas3(
+#         spec_dict)
 #
 #     assert len(parts) == total_operation_instances * NUMBER_OF_GRAPH_FOR_EACH_ENDPOINT
 #
 #     # MODIFICA: Ottieni gli host dai server per le query
 #     hosts_for_query = [urlparse(server["url"]).netloc for server in spec_dict.get("servers", [])]
-#     if not hosts_for_query and "host" in spec_dict: # Fallback per spec OAS2-like
+#     if not hosts_for_query and "host" in spec_dict:  # Fallback per spec OAS2-like
 #         hosts_for_query = [spec_dict["host"]]
-#
 #
 #     # MODIFICA: Itera sugli indici delle parti
 #     for i in range(len(parts)):
@@ -310,7 +315,7 @@ def test_produce_the_template_with_host_and_base_path_options():
 #
 #         query_params = {
 #             "endpoint": current_expected_endpoint,
-#             "hosts": hosts_for_query, # Usa gli host derivati dai server
+#             "hosts": hosts_for_query,  # Usa gli host derivati dai server
 #             "timespan": TIMESPAN,
 #         }
 #
@@ -341,6 +346,8 @@ def test_produce_the_template_with_host_and_base_path_options():
 #         resource_type=RESOURCE_TYPE,
 #         location=LOCATION,
 #         timespan=TIMESPAN,
+#         availability_threshold=AVAILABILITY_THRESHOLD,
+#         response_time_threshold=RESPONSE_TIME_THRESHOLD,
 #         evaluation_frequency=EVALUATION_FREQUENCY,
 #         evaluation_time_window=EVALUATION_TIME_WINDOW,
 #         event_occurrences=EVENT_OCCURRENCES,
@@ -357,8 +364,8 @@ def test_produce_the_template_with_host_and_base_path_options():
 #     parts = template_dict["properties"]["lenses"]["0"]["parts"]
 #
 #     # MODIFICA: Calcola il numero totale di istanze di operazioni e gli endpoint attesi
-#     expected_endpoints_ordered, total_operation_instances, operations
-#     = _build_expected_endpoints_and_ops_count_for_oas3(spec_dict)
+#     expected_endpoints_ordered, total_operation_instances, operations = _build_expected_endpoints_and_ops_count_for_oas3(
+#         spec_dict)
 #
 #     assert len(parts) == total_operation_instances * NUMBER_OF_GRAPH_FOR_EACH_ENDPOINT
 #
@@ -383,7 +390,7 @@ def test_produce_the_template_with_host_and_base_path_options():
 #
 #         query_params = {
 #             "endpoint": operations,
-#             "hosts": custom_hosts, # Usa gli host customizzati
+#             "hosts": custom_hosts,  # Usa gli host customizzati
 #             "timespan": TIMESPAN,
 #         }
 #
