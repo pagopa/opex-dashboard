@@ -1,7 +1,8 @@
 {% load add_str stringify uri_to_regex %}
 let threshold = {{ threshold|default:"1" }};
 AzureDiagnostics
-| where url_s matches regex "{{ base_path|default:""|add_str:endpoint|uri_to_regex }}"
+| where url_s matches regex "{{ base_path|default:""|add_str:props.path|uri_to_regex }}"
+| where method_s == "{{ props.method }}"
 | summarize
     watermark=threshold,
     duration_percentile_95=percentiles(todouble(DurationMs)/1000, 95) by bin(TimeGenerated, {{ timespan }})

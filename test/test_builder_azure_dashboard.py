@@ -3,6 +3,9 @@ from os.path import dirname, join
 from opex_dashboard.builder_factory import create_builder
 from opex_dashboard.resolver import OA3Resolver
 
+RESPONSE_TIME_THRESHOLD = 1.0
+AVAILABILITY_THRESHOLD = 1.0
+
 DATA_BASE_PATH = join(dirname(__file__), "data")
 NUMBER_OF_GRAPH_FOR_EACH_ENDPOINT = 3
 NAME = "PROD-IO/IO App Availability"
@@ -39,6 +42,8 @@ def test_produce_the_template_with_no_overrides(snapshot):
         resource_type=RESOURCE_TYPE,
         location=LOCATION,
         timespan=TIMESPAN,
+        availability_threshold=AVAILABILITY_THRESHOLD,
+        response_time_threshold=RESPONSE_TIME_THRESHOLD,
         evaluation_frequency=EVALUATION_FREQUENCY,
         evaluation_time_window=EVALUATION_TIME_WINDOW,
         event_occurrences=EVENT_OCCURRENCES,
@@ -67,6 +72,8 @@ def test_produce_the_template_with_overrides(snapshot):
         resource_type=RESOURCE_TYPE,
         location=LOCATION,
         timespan=TIMESPAN,
+        availability_threshold=AVAILABILITY_THRESHOLD,
+        response_time_threshold=RESPONSE_TIME_THRESHOLD,
         evaluation_frequency=EVALUATION_FREQUENCY,
         evaluation_time_window=EVALUATION_TIME_WINDOW,
         event_occurrences=EVENT_OCCURRENCES,
@@ -75,15 +82,15 @@ def test_produce_the_template_with_overrides(snapshot):
         action_groups_ids=ACTION_GROUPS_IDS
     )
 
-    overrides = {"endpoints": {"/api/v1/services/{service_id}": {"availability_threshold": 0.12,
-                                                                 "availability_evaluation_frequency": 111,
-                                                                 "availability_evaluation_time_window": 222,
-                                                                 "availability_event_occurrences": 333,
-                                                                 "response_time_threshold": 0.23,
-                                                                 "response_time_evaluation_frequency": 444,
-                                                                 "response_time_evaluation_time_window": 555,
-                                                                 "response_time_event_occurrences": 666,
-                                                                 }}}
+    overrides = {"endpoints": {"GET /api/v1/services/{service_id}": {"availability_threshold": 0.12,
+                                                                     "availability_evaluation_frequency": 111,
+                                                                     "availability_evaluation_time_window": 222,
+                                                                     "availability_event_occurrences": 333,
+                                                                     "response_time_threshold": 0.23,
+                                                                     "response_time_evaluation_frequency": 444,
+                                                                     "response_time_evaluation_time_window": 555,
+                                                                     "response_time_event_occurrences": 666,
+                                                                     }}}
     prova = builder.produce(overrides)
 
     snapshot.snapshot_dir = 'test/snapshots'  # This line is optional.
@@ -104,6 +111,8 @@ def test_produce_the_template_with_overrided_base_path(snapshot):
         resource_type=RESOURCE_TYPE,
         location=LOCATION,
         timespan=TIMESPAN,
+        availability_threshold=AVAILABILITY_THRESHOLD,
+        response_time_threshold=RESPONSE_TIME_THRESHOLD,
         evaluation_frequency=EVALUATION_FREQUENCY,
         evaluation_time_window=EVALUATION_TIME_WINDOW,
         event_occurrences=EVENT_OCCURRENCES,
@@ -112,15 +121,15 @@ def test_produce_the_template_with_overrided_base_path(snapshot):
         action_groups_ids=ACTION_GROUPS_IDS
     )
 
-    overrides = {"endpoints": {"/api/v1/services/{service_id}": {"availability_threshold": 0.12,
-                                                                 "availability_evaluation_frequency": 111,
-                                                                 "availability_evaluation_time_window": 222,
-                                                                 "availability_event_occurrences": 333,
-                                                                 "response_time_threshold": 0.23,
-                                                                 "response_time_evaluation_frequency": 444,
-                                                                 "response_time_evaluation_time_window": 555,
-                                                                 "response_time_event_occurrences": 666,
-                                                                 }},
+    overrides = {"endpoints": {"GET /api/v1/services/{service_id}": {"availability_threshold": 0.12,
+                                                                     "availability_evaluation_frequency": 111,
+                                                                     "availability_evaluation_time_window": 222,
+                                                                     "availability_event_occurrences": 333,
+                                                                     "response_time_threshold": 0.23,
+                                                                     "response_time_evaluation_frequency": 444,
+                                                                     "response_time_evaluation_time_window": 555,
+                                                                     "response_time_event_occurrences": 666,
+                                                                     }},
                  "base_path": "basepath_override"
                  }
     prova = builder.produce(overrides)
