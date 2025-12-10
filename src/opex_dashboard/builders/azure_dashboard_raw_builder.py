@@ -5,7 +5,9 @@ from urllib.parse import urlparse
 from opex_dashboard.builders.base import Builder
 from opex_dashboard.resolver import OA3Resolver
 
-
+VALID_HTTP_METHODS = {
+    "get", "put", "post", "delete", "options", "head", "patch", "trace"
+}
 class AzDashboardRawBuilder(Builder):
     _oa3_spec: Dict[str, Any]
 
@@ -17,6 +19,8 @@ class AzDashboardRawBuilder(Builder):
                  timespan: str,
                  evaluation_frequency: int,
                  evaluation_time_window: int,
+                 availability_threshold: float,
+                 response_time_threshold: float,
                  event_occurrences: int,
                  resources: List[str]) -> None:
         """Create an AzDashbordBuilder object
@@ -31,6 +35,8 @@ class AzDashboardRawBuilder(Builder):
                 "timespan": timespan,
                 "evaluation_frequency": evaluation_frequency,
                 "evaluation_time_window": evaluation_time_window,
+                "availability_threshold": availability_threshold,
+                "response_time_threshold": response_time_threshold,
                 "event_occurrences": event_occurrences,
                 "resource_ids": resources,
             }
@@ -40,11 +46,11 @@ class AzDashboardRawBuilder(Builder):
         """Build base properties from given parameters
         """
         endpoint_default_values = {
-            "availability_threshold": 0.99,
+            "availability_threshold": self.props()["availability_threshold"],
             "availability_evaluation_frequency":  self.props()["evaluation_frequency"],
             "availability_evaluation_time_window":  self.props()["evaluation_time_window"],
             "availability_event_occurrences": self.props()["event_occurrences"],
-            "response_time_threshold": 1,
+            "response_time_threshold": self.props()["response_time_threshold"],
             "response_time_evaluation_frequency": self.props()["evaluation_frequency"],
             "response_time_evaluation_time_window": self.props()["evaluation_time_window"],
             "response_time_event_occurrences": self.props()["event_occurrences"],
@@ -61,7 +67,12 @@ class AzDashboardRawBuilder(Builder):
             self._properties["hosts"].append(url.netloc)
             for p in list(paths.keys()):
                 path = sub("/+", "/", f"{url.path}/{p[1:]}")
-                self._properties["endpoints"][path] = endpoint_default_values
+                # self._properties["endpoints"][path] = endpoint_default_values
+                for method in paths[p].keys():
+                    if method.lower() in VALID_HTTP_METHODS:
+                        endpoint_path = f"{method.upper()} {path}"
+                        endpoint_default_values.update({"method": method.upper(), "path": path})
+                        self._properties["endpoints"][endpoint_path] = endpoint_default_values.copy()
 
     def produce(self, values: Dict[str, Any] = {}) -> str:
         """Render the template by merging base properties with given and extracted values from OA3 spec

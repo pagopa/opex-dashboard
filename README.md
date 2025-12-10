@@ -122,6 +122,8 @@ location: West Europe
 timespan: 5m
 evaluation_frequency: 5
 evaluation_time_window: 30
+availability_threshold: 0.99
+response_time_threshold: 1.0
 event_occurrences: 3
 data_source: /subscriptions/uuid/resourceGroups/my-rg/providers/Microsoft.Network/applicationGateways/my-gtw
 resource_type: app-gateway
@@ -234,7 +236,7 @@ To overrides endpoint's settings add this snippet tou your config:
 ```yaml
 overrides:
   endpoints:
-    /onboarding/info:              # This is the endpoint in the OpenApi spec
+    GET /onboarding/info:              # This is the endpoint in the OpenApi spec
       availability_threshold: 0.95 # Default: 99%
       availability_evaluation_frequency: 30 # Default: 10
       availability_evaluation_time_window: 50 # Default: 20

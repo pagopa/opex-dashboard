@@ -11,7 +11,7 @@ overrides:
   hosts: # Use these hosts instead of those inside the OpenApi spec
     - https://example.com
   endpoints:
-    /api/v1/services/{service_id}:
+    GET /api/v1/services/{service_id}:
       availability_threshold: 0.95 # Default: 99%
       availability_evaluation_frequency: 30 # Default: 10
       availability_evaluation_time_window: 50 # Default: 20
