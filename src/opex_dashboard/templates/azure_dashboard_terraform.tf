@@ -21,8 +21,8 @@ resource "azurerm_portal_dashboard" "this" {
 }
 
 {% for endpoint,props in endpoints.items %}
-resource "azurerm_monitor_scheduled_query_rules_alert" "alarm_availability_{{ forloop.counter0 }}" {
-  name                = replace(join("_",split("/", "${local.name}-availability @ {{base_path|default:""|add_str:endpoint}}")), "/\\{|\\}/", "")
+resource "azurerm_monitor_scheduled_query_rules_alert" "alarm_availability_{{ props.method }}_{{ forloop.counter0 }}" {
+  name                = replace(join("_",split("/", "${local.name}-availability @ {{ props.method }} {{base_path|default:""|add_str:props.path}}")), "/\\{|\\}/", "")
   resource_group_name = data.azurerm_resource_group.this.name
   location            = data.azurerm_resource_group.this.location
 
@@ -31,7 +31,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert" "alarm_availability_{{ fo
   }
 
   data_source_id          = "{{ data_source_id }}"
-  description             = "Availability for {{base_path|default:""|add_str:endpoint}} is less than or equal to 99% - ${local.dashboard_base_addr}${azurerm_portal_dashboard.this.id}"
+  description             = "Availability for {{ props.method }} {{base_path|default:""|add_str:props.path}} is less than or equal to {{ props.availability_threshold }}% - ${local.dashboard_base_addr}${azurerm_portal_dashboard.this.id}"
   enabled                 = true
   auto_mitigation_enabled = false
 
@@ -53,7 +53,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert" "alarm_availability_{{ fo
 }
 
 resource "azurerm_monitor_scheduled_query_rules_alert" "alarm_time_{{ forloop.counter0 }}" {
-  name                = replace(join("_",split("/", "${local.name}-responsetime @ {{base_path|default:""|add_str:endpoint}}")), "/\\{|\\}/", "")
+  name                = replace(join("_",split("/", "${local.name}-responsetime @ {{ props.method }} {{base_path|default:""|add_str:props.path}}")), "/\\{|\\}/", "")
   resource_group_name = data.azurerm_resource_group.this.name
   location            = data.azurerm_resource_group.this.location
 
@@ -62,7 +62,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert" "alarm_time_{{ forloop.co
   }
 
   data_source_id          = "{{ data_source_id }}"
-  description             = "Response time for {{base_path|default:""|add_str:endpoint}} is less than or equal to 1s - ${local.dashboard_base_addr}${azurerm_portal_dashboard.this.id}"
+  description             = "Response time for {{ props.method }} {{base_path|default:""|add_str:props.path}} is less than or equal to {{ props.response_time_threshold }}s - ${local.dashboard_base_addr}${azurerm_portal_dashboard.this.id}"
   enabled                 = true
   auto_mitigation_enabled = false
 
